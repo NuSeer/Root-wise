@@ -1,0 +1,209 @@
+ROOTWISE PROJECT - COMPLETE FILE STRUCTURE
+═══════════════════════════════════════════════════════════════════
+
+rootwise/
+│
+├── 📋 INDEX.md                                  ⭐ START HERE - Master index
+├── 📄 README.md                                 Complete project overview
+├── 📜 LICENSE                                   MIT License + Medical disclaimer
+├── 🚫 .gitignore                                Git ignore rules
+│
+├── 🌐 MAIN APPLICATION
+│   └── rootwise-enhanced.html                   ⭐ THE APP (150 herbs, all features)
+│
+├── 📁 DOCUMENTATION (docs/)
+│   ├── QUICK-START.md                           5-minute setup guide
+│   ├── GITHUB-UPLOAD-GUIDE.md                   Deploy to GitHub Pages
+│   ├── ENHANCED-FEATURES-GUIDE.md               All 10 features explained
+│   ├── MOBILE-APP-GUIDE.md                      React Native deployment
+│   ├── COMPLETE-150-HERBS-SUMMARY.md            Full herb list & updates
+│   └── UPDATE-SUMMARY.md                        Latest changes log
+│
+├── 📁 PROJECT MANAGEMENT (project-management/)
+│   ├── CHANGELOG.md                             Version history
+│   └── CONTRIBUTING.md                          Contribution guidelines
+│
+└── 📁 DATABASE (database/)
+    └── herbs_150_final.json                     Raw herb data (optional)
+
+
+FILE DESCRIPTIONS
+═══════════════════════════════════════════════════════════════════
+
+⭐ ESSENTIAL FILES (Start with these):
+────────────────────────────────────────────────────────────────────
+📋 INDEX.md                     This navigation guide
+📄 README.md                    Project overview, features, tech stack
+🌐 rootwise-enhanced.html       THE MAIN APP - Just open and use!
+
+📚 GETTING STARTED:
+────────────────────────────────────────────────────────────────────
+📖 QUICK-START.md               Get running in 5 minutes
+📤 GITHUB-UPLOAD-GUIDE.md       Upload to GitHub & deploy
+✨ ENHANCED-FEATURES-GUIDE.md   How to use all features
+
+🔧 DEVELOPMENT:
+────────────────────────────────────────────────────────────────────
+📝 CHANGELOG.md                 What changed in each version
+🤝 CONTRIBUTING.md              How to contribute
+🚫 .gitignore                   What Git should ignore
+
+📱 MOBILE:
+────────────────────────────────────────────────────────────────────
+📱 MOBILE-APP-GUIDE.md          Build React Native version
+
+📊 REFERENCE:
+────────────────────────────────────────────────────────────────────
+🌿 COMPLETE-150-HERBS-SUMMARY   Full herb list A-Z
+📋 UPDATE-SUMMARY.md            Latest updates explained
+🗄️ herbs_150_final.json        Raw database (JSON format)
+
+
+QUICK ACTIONS
+═══════════════════════════════════════════════════════════════════
+
+🚀 JUST WANT TO USE IT?
+   → Open: rootwise-enhanced.html
+   → That's it!
+
+📖 FIRST TIME USER?
+   → Read: INDEX.md (you are here)
+   → Then: README.md
+   → Then: QUICK-START.md
+
+🌐 WANT TO DEPLOY ONLINE?
+   → Follow: GITHUB-UPLOAD-GUIDE.md
+   → Deploy to GitHub Pages (free)
+
+📱 WANT MOBILE APP?
+   → Follow: MOBILE-APP-GUIDE.md
+   → Build with React Native
+
+🤝 WANT TO CONTRIBUTE?
+   → Read: CONTRIBUTING.md
+   → Check: CHANGELOG.md
+   → Start coding!
+
+
+FILE SIZES & STATS
+═══════════════════════════════════════════════════════════════════
+
+rootwise-enhanced.html          ~600 KB (4,768 lines)
+README.md                       ~15 KB
+INDEX.md                        ~12 KB
+All other docs                  ~50 KB combined
+
+Total project size:             ~700 KB (tiny!)
+
+
+WHAT'S IN THE MAIN APP?
+═══════════════════════════════════════════════════════════════════
+
+rootwise-enhanced.html contains:
+├── HTML Structure
+├── CSS Styling (embedded)
+├── JavaScript Functions (embedded)
+├── 150 Herb Database (embedded)
+├── All 10 Features
+├── User Authentication
+└── No external dependencies!
+
+One file does it all! ✨
+
+
+NAVIGATION PATHS
+═══════════════════════════════════════════════════════════════════
+
+PATH 1: Quick User
+INDEX.md → rootwise-enhanced.html → Start using!
+
+PATH 2: Thorough User
+INDEX.md → README.md → QUICK-START.md → rootwise-enhanced.html
+
+PATH 3: Developer
+INDEX.md → README.md → CONTRIBUTING.md → Start coding
+
+PATH 4: Deployer
+INDEX.md → GITHUB-UPLOAD-GUIDE.md → Deploy online
+
+PATH 5: Mobile Developer
+INDEX.md → MOBILE-APP-GUIDE.md → Build mobile app
+
+
+KEY FEATURES IN THE APP
+═══════════════════════════════════════════════════════════════════
+
+✅ 150 Medicinal Herbs         Complete database
+✅ Search & Filter             Find herbs instantly
+✅ Health Condition Browse     11 common conditions
+✅ Herb Comparison             Compare up to 3 herbs
+✅ Medicine Cabinet            Track what you own
+✅ Dosage Calculator           Personalized dosing
+✅ Interactions Checker        Herb-drug conflicts
+✅ Print Herb Cards            Professional cards
+✅ AI Protocol Generator       Personalized protocols
+✅ User Authentication         3 sign-in methods
+
+
+DATABASE BREAKDOWN
+═══════════════════════════════════════════════════════════════════
+
+150 herbs organized by:
+
+Digestive Aid:          29 herbs
+Immune Health:          28 herbs
+Pain Relief:            18 herbs
+Respiratory Health:     18 herbs
+Circulatory Health:     17 herbs
+Detoxification:         17 herbs
+Reproductive Health:    11 herbs
+Hormonal Balance:        9 herbs
+Fever Management:        3 herbs
+
+
+DEPLOYMENT OPTIONS
+═══════════════════════════════════════════════════════════════════
+
+Option 1: Local Use
+└── Just open rootwise-enhanced.html
+
+Option 2: GitHub Pages (Free)
+└── Follow GITHUB-UPLOAD-GUIDE.md
+
+Option 3: Netlify (Free)
+└── Drag & drop folder
+
+Option 4: Vercel (Free)
+└── Connect GitHub repo
+
+Option 5: VPS (Self-hosted)
+└── Copy to /var/www/html/
+
+
+VERSION INFO
+═══════════════════════════════════════════════════════════════════
+
+Current Version:        1.1
+Release Date:           March 27, 2026
+Total Herbs:            150 (all real, no variants)
+Lines of Code:          4,768
+Dependencies:           0 (zero!)
+Browser Support:        All modern browsers
+Mobile Support:         Yes
+Offline Support:        Yes
+License:                MIT
+
+
+CONTACT & SUPPORT
+═══════════════════════════════════════════════════════════════════
+
+Developer:      Joy Foreman
+Email:          j.l.foreman14@gmail.com
+Issues:         GitHub Issues page
+Documentation:  All files in this folder
+
+
+═══════════════════════════════════════════════════════════════════
+Built with 🌿 and ancestral wisdom
+© 2026 Joy Foreman | MIT License
+═══════════════════════════════════════════════════════════════════
