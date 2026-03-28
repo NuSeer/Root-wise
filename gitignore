@@ -1,0 +1,86 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor/IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Log Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency Directories (if you add Node.js later)
+node_modules/
+jspm_packages/
+
+# Build Outputs (if you add build process)
+dist/
+build/
+out/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+# Mobile App (if React Native added)
+mobile/node_modules/
+mobile/ios/Pods/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/.expo/
+mobile/.expo-shared/
+
+# Database Backups
+*.db
+*.sqlite
+*.sqlite3
+backups/
+
+# Documentation Drafts
+drafts/
+notes.txt
+TODO.md
+
+# Personal/Private Files
+private/
+.private/
+secrets/
+
+# Mac
+__MACOSX/
+
+# Windows
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
