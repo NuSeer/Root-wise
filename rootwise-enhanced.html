@@ -577,7 +577,7 @@
                 🏠 Home
             </button>
             <button class="tab-button" onclick="switchTab('remedies')">
-                📚 Library
+                🌿 Herbal Library
             </button>
             <button class="tab-button" onclick="switchTab('conditions')">
                 🔍 By Condition
@@ -599,6 +599,18 @@
             </button>
             <button class="tab-button" onclick="switchTab('profile')">
                 👤 Profile
+            </button>
+            <button class="tab-button" onclick="switchTab('library')">
+                📖 Books
+            </button>
+            <button class="tab-button" onclick="switchTab('learn')">
+                🎓 Learn
+            </button>
+            <button class="tab-button" onclick="switchTab('formulation')">
+                🧪 Formulation
+            </button>
+            <button class="tab-button" onclick="switchTab('herb-interactions')">
+                🔄 Herb Interactions
             </button>
         </div>
 
@@ -1092,6 +1104,343 @@
                 </div>
             </div>
         </div>
+
+        <!-- LIBRARY TAB -->
+        <div id="library-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">📚 Herbal Library</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Access comprehensive herbal medicine books and monographs. View-only access to protect content.
+                </p>
+
+                <!-- YOUR PDF BOOKS GO HERE -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                    
+                    <!-- Book 1 - REPLACE THIS WITH YOUR BOOK -->
+                    <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease;">
+                        <div style="background: var(--sage-green); color: white; width: 60px; height: 80px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem;">
+                            📕
+                        </div>
+                        <h3 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Your Book Title Here</h3>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                            Description of your book goes here. Explain what readers will learn.
+                        </p>
+                        <button class="btn-primary" onclick="openPDF('book1')">
+                            📖 Read Book
+                        </button>
+                    </div>
+
+                    <!-- Book 2 - REPLACE THIS WITH YOUR BOOK -->
+                    <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease;">
+                        <div style="background: var(--forest-medium); color: white; width: 60px; height: 80px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem;">
+                            📗
+                        </div>
+                        <h3 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Another Book Title</h3>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                            Description of your second book. What will they learn from this one?
+                        </p>
+                        <button class="btn-primary" onclick="openPDF('book2')">
+                            📖 Read Book
+                        </button>
+                    </div>
+
+                    <!-- Book 3 - REPLACE THIS WITH YOUR BOOK -->
+                    <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease;">
+                        <div style="background: var(--gold-accent); color: white; width: 60px; height: 80px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem;">
+                            📘
+                        </div>
+                        <h3 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Third Book Title</h3>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                            Description of your third book. Add as many books as you want!
+                        </p>
+                        <button class="btn-primary" onclick="openPDF('book3')">
+                            📖 Read Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Instructions for Adding Your Books -->
+                <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 12px; padding: 1.5rem; margin-top: 2rem;">
+                    <h3 style="color: #1565c0; margin-bottom: 1rem;">📝 How to Add Your Books:</h3>
+                    <ol style="color: #1565c0; line-height: 1.8;">
+                        <li>Upload your PDF to Google Drive</li>
+                        <li>Right-click → "Get link" → "Anyone with link can view"</li>
+                        <li>Copy the link (looks like: https://drive.google.com/file/d/XXXXX/view)</li>
+                        <li>Find the openPDF() function in the JavaScript below</li>
+                        <li>Replace the placeholder URLs with your Google Drive links</li>
+                        <li>Update the book titles and descriptions above</li>
+                    </ol>
+                </div>
+
+                <!-- PDF Viewer Modal (Hidden until book clicked) -->
+                <div id="pdf-viewer-modal" class="modal" style="display: none;" onclick="closePDFViewer(event)">
+                    <div class="modal-content" style="max-width: 90%; width: 1200px; height: 90vh;" onclick="event.stopPropagation()">
+                        <button class="close-modal" onclick="closePDFViewer()">×</button>
+                        <h2 id="pdf-title" style="margin-bottom: 1rem;">Book Title</h2>
+                        <iframe 
+                            id="pdf-iframe" 
+                            style="width: 100%; height: calc(100% - 80px); border: none; border-radius: 8px;"
+                            oncontextmenu="return false;">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEARN TAB -->
+        <div id="learn-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🎓 Learn Herbalism</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Educational videos, tutorials, and resources to deepen your herbal knowledge.
+                </p>
+
+                <!-- Video Section -->
+                <div style="margin-bottom: 3rem;">
+                    <h3 style="color: var(--forest-dark); margin-bottom: 1.5rem; border-bottom: 2px solid var(--mint-light); padding-bottom: 0.5rem;">
+                        📹 Video Tutorials
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                        
+                        <!-- Video 1 - REPLACE WITH YOUR VIDEO -->
+                        <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; overflow: hidden;">
+                            <!-- REPLACE 'VIDEO_ID_HERE' with your YouTube video ID -->
+                            <!-- Example: If your video is https://youtube.com/watch?v=ABC123 use ABC123 -->
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                <iframe 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Video Title Here</h4>
+                                <p style="color: #666; font-size: 0.9rem;">Description of what this video teaches.</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 2 - REPLACE WITH YOUR VIDEO -->
+                        <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; overflow: hidden;">
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                <iframe 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Second Video Title</h4>
+                                <p style="color: #666; font-size: 0.9rem;">Description of this video's content.</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 3 - REPLACE WITH YOUR VIDEO -->
+                        <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; overflow: hidden;">
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                <iframe 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Third Video Title</h4>
+                                <p style="color: #666; font-size: 0.9rem;">What viewers will learn from this.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions for Adding Videos -->
+                <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: #2e7d32; margin-bottom: 1rem;">📝 How to Add Your Videos:</h3>
+                    <ol style="color: #2e7d32; line-height: 1.8;">
+                        <li>Upload your video to YouTube or Vimeo</li>
+                        <li>Get the video ID from the URL:
+                            <ul style="margin-top: 0.5rem;">
+                                <li>YouTube: https://youtube.com/watch?v=<strong>ABC123</strong> → use ABC123</li>
+                                <li>Vimeo: https://vimeo.com/<strong>123456789</strong> → use 123456789</li>
+                            </ul>
+                        </li>
+                        <li>Find the video iframe sections above</li>
+                        <li>Replace 'VIDEO_ID_HERE' with your actual video ID</li>
+                        <li>Update video titles and descriptions</li>
+                        <li>Add as many videos as you want by copying the video div blocks</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULATION BUILDER TAB -->
+        <div id="formulation-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🧪 Herbal Formulation Builder</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Create custom herbal blends with precise ratios. Build teas, tinctures, and capsule formulas.
+                </p>
+
+                <!-- Current Formula Being Built -->
+                <div style="background: var(--cream); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--forest-dark); margin: 0;">Current Formula</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" onclick="clearFormula()" style="font-size: 0.9rem;">
+                                🗑️ Clear
+                            </button>
+                            <button class="btn-primary" onclick="saveFormula()" style="font-size: 0.9rem;">
+                                💾 Save Formula
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Formula Name Input -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Formula Name:</label>
+                        <input 
+                            type="text" 
+                            id="formula-name" 
+                            placeholder="e.g., Sleep Support Blend, Immune Boost Tea..."
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <!-- Herbs in Formula -->
+                    <div id="formula-herbs-container" style="min-height: 100px;">
+                        <p style="color: #999; text-align: center; padding: 2rem;" id="empty-formula-message">
+                            Add herbs to your formula using the selector below
+                        </p>
+                    </div>
+
+                    <!-- Total Percentage Display -->
+                    <div style="background: white; border: 2px solid var(--sage-green); border-radius: 8px; padding: 1rem; margin-top: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; color: var(--forest-dark);">Total Percentage:</span>
+                            <span id="formula-total-percentage" style="font-size: 1.5rem; font-weight: 700; color: var(--sage-green);">0%</span>
+                        </div>
+                        <div style="margin-top: 0.5rem; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden;">
+                            <div id="formula-progress-bar" style="height: 100%; background: var(--sage-green); width: 0%; transition: width 0.3s ease;"></div>
+                        </div>
+                        <p id="formula-validation-message" style="font-size: 0.85rem; color: #666; margin: 0.5rem 0 0 0; text-align: center;"></p>
+                    </div>
+                </div>
+
+                <!-- Add Herb to Formula -->
+                <div style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h4 style="color: var(--forest-dark); margin-bottom: 1rem;">Add Herb to Formula</h4>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Select Herb:</label>
+                            <select 
+                                id="herb-selector" 
+                                style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                            >
+                                <option value="">-- Choose an herb --</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Percentage:</label>
+                            <input 
+                                type="number" 
+                                id="herb-percentage" 
+                                min="1" 
+                                max="100" 
+                                value="25"
+                                style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                            >
+                        </div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button class="btn-primary" onclick="addHerbToFormula()" style="padding: 0.75rem 1.5rem;">
+                                ➕ Add Herb
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Formulas Library -->
+                <div style="background: white; border: 2px solid var(--sage-green); border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: var(--forest-dark); margin-bottom: 1rem;">📋 Saved Formulas</h3>
+                    <div id="saved-formulas-container">
+                        <p style="color: #999; text-align: center; padding: 2rem;">
+                            No saved formulas yet. Create and save your first formula above!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HERB-TO-HERB INTERACTIONS TAB -->
+        <div id="herb-interactions-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🔄 Herb-to-Herb Interactions Checker</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Check if herbs can be safely combined. Identifies contraindicated combinations, cautions, and beneficial synergies.
+                </p>
+
+                <!-- Herb Selection -->
+                <div style="background: var(--cream); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <h3 style="color: var(--forest-dark); margin-bottom: 1.5rem;">Select Herbs to Check</h3>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Add Herb:</label>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <select 
+                                id="interaction-herb-selector" 
+                                style="flex: 1; min-width: 250px; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                            >
+                                <option value="">-- Choose an herb --</option>
+                            </select>
+                            <button class="btn-primary" onclick="addHerbToInteractionCheck()" style="padding: 0.75rem 1.5rem;">
+                                ➕ Add to Check
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Selected Herbs List -->
+                    <div id="interaction-herbs-list" style="min-height: 80px;">
+                        <p style="color: #999; text-align: center; padding: 2rem;" id="empty-interaction-message">
+                            Add 2 or more herbs to check for interactions
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button class="btn-primary" onclick="checkHerbInteractions()" style="flex: 1;">
+                            🔍 Check Interactions
+                        </button>
+                        <button class="btn-secondary" onclick="clearInteractionCheck()">
+                            🗑️ Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interaction Results -->
+                <div id="interaction-results-container" style="display: none;">
+                    <!-- Results will be inserted here -->
+                </div>
+
+                <!-- Information Panel -->
+                <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="color: #1565c0; margin-bottom: 1rem;">ℹ️ About Herb Interactions</h3>
+                    <div style="color: #555; line-height: 1.8;">
+                        <p style="margin-bottom: 1rem;"><strong>What we check for:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                            <li><span style="color: #f44336;">🔴 AVOID:</span> Dangerous combinations - do not combine</li>
+                            <li><span style="color: #ff9800;">🟠 CAUTION:</span> Use carefully, may have issues or need supervision</li>
+                            <li><span style="color: #4caf50;">🟢 SYNERGY:</span> Work well together - enhanced benefits</li>
+                        </ul>
+                        <p style="margin: 0; font-size: 0.9rem; font-style: italic;">
+                            Note: This tool covers known interactions. Always consult a qualified herbalist or healthcare provider before combining herbs, especially if taking medications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -1114,6 +1463,20 @@
                 oninput="filterSelectorHerbs()"
             >
             <div id="selector-list" style="max-height: 400px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <!-- PREPARATION METHODS MODAL -->
+    <div id="preparation-methods-modal" class="modal" onclick="closePreparationMethodsModal(event)">
+        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closePreparationMethodsModal()">×</button>
+            <h2 style="font-family: 'Crimson Pro', serif; color: var(--forest-dark); margin-bottom: 1rem;">
+                📖 Herbal Preparation Methods Guide
+            </h2>
+            <p style="color: #666; margin-bottom: 2rem;">
+                Comprehensive guide to preparing herbs for medicinal use. Each method includes ratios, equipment, timing, and shelf life.
+            </p>
+            <div id="preparation-methods-content"></div>
         </div>
     </div>
 
@@ -3763,7 +4126,10 @@ const HERBAL_DATABASE = [
                 populateDosageHerbSelect();
                 updateProfileStats();
                 checkAuthStatus(); // Check if user is logged in
+                initFormulationBuilder(); // Initialize formulation builder
+                initHerbInteractions(); // Initialize herb interactions checker
                 
+                // Load profile notes
                 const savedNotes = localStorage.getItem('rootwise_notes');
                 if (savedNotes && document.getElementById('profile-notes')) {
                     document.getElementById('profile-notes').value = savedNotes;
@@ -3805,6 +4171,883 @@ const HERBAL_DATABASE = [
                 filterHerbs();
             }, 100);
         }
+
+        // PDF VIEWER FUNCTIONS FOR LIBRARY TAB
+        function openPDF(bookId) {
+            // YOUR PDF LINKS GO HERE
+            // Upload your PDFs to Google Drive, get shareable link, paste here
+            const pdfLinks = {
+                'book1': 'https://drive.google.com/file/d/YOUR_FILE_ID_1/preview',
+                'book2': 'https://drive.google.com/file/d/YOUR_FILE_ID_2/preview',
+                'book3': 'https://drive.google.com/file/d/YOUR_FILE_ID_3/preview'
+            };
+
+            const bookTitles = {
+                'book1': 'Your Book Title Here',
+                'book2': 'Another Book Title',
+                'book3': 'Third Book Title'
+            };
+
+            const pdfUrl = pdfLinks[bookId];
+            const bookTitle = bookTitles[bookId];
+
+            if (pdfUrl) {
+                document.getElementById('pdf-title').textContent = bookTitle;
+                document.getElementById('pdf-iframe').src = pdfUrl;
+                document.getElementById('pdf-viewer-modal').style.display = 'flex';
+            } else {
+                alert('PDF not configured yet. Please add your Google Drive link in the openPDF() function.');
+            }
+        }
+
+        function closePDFViewer(event) {
+            if (!event || event.target.classList.contains('modal') || event.target.classList.contains('close-modal')) {
+                document.getElementById('pdf-viewer-modal').style.display = 'none';
+                document.getElementById('pdf-iframe').src = '';
+            }
+        }
+
+        // ==========================================
+        // FORMULATION BUILDER FUNCTIONS
+        // ==========================================
+
+        let currentFormula = [];
+        let savedFormulas = JSON.parse(localStorage.getItem('rootwise_formulas')) || [];
+
+        // Initialize formulation builder
+        function initFormulationBuilder() {
+            // Populate herb selector dropdown
+            const selector = document.getElementById('herb-selector');
+            if (selector) {
+                selector.innerHTML = '<option value="">-- Choose an herb --</option>' +
+                    HERBAL_DATABASE.map(herb => `<option value="${herb.name}">${herb.name}</option>`).join('');
+            }
+            renderSavedFormulas();
+        }
+
+        // Add herb to current formula
+        function addHerbToFormula() {
+            const herbName = document.getElementById('herb-selector').value;
+            const percentage = parseInt(document.getElementById('herb-percentage').value);
+
+            if (!herbName) {
+                alert('Please select an herb');
+                return;
+            }
+
+            if (!percentage || percentage < 1 || percentage > 100) {
+                alert('Please enter a valid percentage (1-100)');
+                return;
+            }
+
+            // Check if herb already in formula
+            const existingIndex = currentFormula.findIndex(h => h.name === herbName);
+            if (existingIndex >= 0) {
+                alert('This herb is already in the formula. Remove it first to change the percentage.');
+                return;
+            }
+
+            // Check if adding would exceed 100%
+            const currentTotal = currentFormula.reduce((sum, h) => sum + h.percentage, 0);
+            if (currentTotal + percentage > 100) {
+                alert(`Cannot add ${percentage}%. Current total is ${currentTotal}%. Maximum is 100%.`);
+                return;
+            }
+
+            // Add herb to formula
+            currentFormula.push({ name: herbName, percentage: percentage });
+            
+            // Reset inputs
+            document.getElementById('herb-selector').value = '';
+            document.getElementById('herb-percentage').value = 25;
+
+            renderCurrentFormula();
+        }
+
+        // Render current formula being built
+        function renderCurrentFormula() {
+            const container = document.getElementById('formula-herbs-container');
+            const emptyMessage = document.getElementById('empty-formula-message');
+
+            if (currentFormula.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;" id="empty-formula-message">Add herbs to your formula using the selector below</p>';
+                updateFormulaTotal();
+                return;
+            }
+
+            if (emptyMessage) emptyMessage.style.display = 'none';
+
+            container.innerHTML = currentFormula.map((herb, index) => `
+                <div style="background: white; border: 2px solid var(--mint-light); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="flex: 1;">
+                        <h4 style="color: var(--forest-dark); margin: 0 0 0.25rem 0;">🌿 ${herb.name}</h4>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="color: #666; font-size: 0.9rem;">Percentage:</span>
+                            <input 
+                                type="range" 
+                                min="1" 
+                                max="100" 
+                                value="${herb.percentage}"
+                                style="flex: 1; max-width: 200px;"
+                                oninput="updateHerbPercentage(${index}, this.value)"
+                            >
+                            <span style="font-weight: 700; color: var(--sage-green); min-width: 50px;">${herb.percentage}%</span>
+                        </div>
+                    </div>
+                    <button 
+                        class="btn-secondary" 
+                        onclick="removeHerbFromFormula(${index})"
+                        style="background: #f44336; color: white; padding: 0.5rem 1rem;">
+                        ✕ Remove
+                    </button>
+                </div>
+            `).join('');
+
+            updateFormulaTotal();
+        }
+
+        // Update herb percentage with slider
+        function updateHerbPercentage(index, newPercentage) {
+            const oldPercentage = currentFormula[index].percentage;
+            const otherHerbsTotal = currentFormula.reduce((sum, h, i) => i !== index ? sum + h.percentage : sum, 0);
+            
+            if (otherHerbsTotal + parseInt(newPercentage) > 100) {
+                alert(`Cannot set to ${newPercentage}%. Other herbs total ${otherHerbsTotal}%. Maximum is 100%.`);
+                renderCurrentFormula();
+                return;
+            }
+
+            currentFormula[index].percentage = parseInt(newPercentage);
+            renderCurrentFormula();
+        }
+
+        // Remove herb from formula
+        function removeHerbFromFormula(index) {
+            currentFormula.splice(index, 1);
+            renderCurrentFormula();
+        }
+
+        // Update formula total percentage
+        function updateFormulaTotal() {
+            const total = currentFormula.reduce((sum, h) => sum + h.percentage, 0);
+            const totalElement = document.getElementById('formula-total-percentage');
+            const progressBar = document.getElementById('formula-progress-bar');
+            const validationMessage = document.getElementById('formula-validation-message');
+
+            if (totalElement) totalElement.textContent = `${total}%`;
+            if (progressBar) progressBar.style.width = `${total}%`;
+
+            if (validationMessage) {
+                if (total === 0) {
+                    validationMessage.textContent = '';
+                    progressBar.style.background = '#e0e0e0';
+                } else if (total < 100) {
+                    validationMessage.textContent = `Need ${100 - total}% more to complete formula`;
+                    validationMessage.style.color = '#ff9800';
+                    progressBar.style.background = '#ff9800';
+                } else if (total === 100) {
+                    validationMessage.textContent = '✓ Formula is complete and ready to save!';
+                    validationMessage.style.color = '#4caf50';
+                    progressBar.style.background = '#4caf50';
+                } else {
+                    validationMessage.textContent = `⚠️ Total exceeds 100% by ${total - 100}%`;
+                    validationMessage.style.color = '#f44336';
+                    progressBar.style.background = '#f44336';
+                }
+            }
+        }
+
+        // Clear current formula
+        function clearFormula() {
+            if (currentFormula.length === 0) return;
+            if (confirm('Clear current formula?')) {
+                currentFormula = [];
+                document.getElementById('formula-name').value = '';
+                renderCurrentFormula();
+            }
+        }
+
+        // Save formula
+        function saveFormula() {
+            const formulaName = document.getElementById('formula-name').value.trim();
+            const total = currentFormula.reduce((sum, h) => sum + h.percentage, 0);
+
+            if (!formulaName) {
+                alert('Please enter a formula name');
+                return;
+            }
+
+            if (currentFormula.length === 0) {
+                alert('Please add at least one herb to the formula');
+                return;
+            }
+
+            if (total !== 100) {
+                if (!confirm(`Formula total is ${total}%. Save anyway?`)) {
+                    return;
+                }
+            }
+
+            const formula = {
+                id: Date.now(),
+                name: formulaName,
+                herbs: [...currentFormula],
+                total: total,
+                createdAt: new Date().toISOString()
+            };
+
+            savedFormulas.push(formula);
+            localStorage.setItem('rootwise_formulas', JSON.stringify(savedFormulas));
+
+            alert(`Formula "${formulaName}" saved!`);
+            clearFormula();
+            renderSavedFormulas();
+        }
+
+        // Render saved formulas
+        function renderSavedFormulas() {
+            const container = document.getElementById('saved-formulas-container');
+            if (!container) return;
+
+            if (savedFormulas.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;">No saved formulas yet. Create and save your first formula above!</p>';
+                return;
+            }
+
+            container.innerHTML = savedFormulas.map(formula => `
+                <div style="background: var(--cream); border: 2px solid var(--sage-green); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div>
+                            <h4 style="color: var(--forest-dark); margin: 0 0 0.5rem 0;">🧪 ${formula.name}</h4>
+                            <p style="color: #666; font-size: 0.85rem; margin: 0;">
+                                Created: ${new Date(formula.createdAt).toLocaleDateString()}
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-secondary" onclick="loadFormula(${formula.id})" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                📝 Load
+                            </button>
+                            <button class="btn-secondary" onclick="printFormula(${formula.id})" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                🖨️ Print
+                            </button>
+                            <button class="btn-secondary" onclick="deleteFormula(${formula.id})" style="font-size: 0.85rem; padding: 0.5rem 1rem; background: #f44336; color: white;">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <div style="background: white; border-radius: 8px; padding: 1rem;">
+                        ${formula.herbs.map(herb => `
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0;">
+                                <span style="color: var(--forest-dark);">🌿 ${herb.name}</span>
+                                <span style="font-weight: 700; color: var(--sage-green);">${herb.percentage}%</span>
+                            </div>
+                        `).join('')}
+                        <div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0 0; font-weight: 700;">
+                            <span style="color: var(--forest-dark);">Total:</span>
+                            <span style="color: ${formula.total === 100 ? '#4caf50' : '#ff9800'};">${formula.total}%</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load saved formula into builder
+        function loadFormula(formulaId) {
+            const formula = savedFormulas.find(f => f.id === formulaId);
+            if (!formula) return;
+
+            if (currentFormula.length > 0) {
+                if (!confirm('This will replace your current formula. Continue?')) {
+                    return;
+                }
+            }
+
+            currentFormula = [...formula.herbs];
+            document.getElementById('formula-name').value = formula.name + ' (copy)';
+            renderCurrentFormula();
+            
+            // Switch to formulation tab if not already there
+            switchTab('formulation');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Delete formula
+        function deleteFormula(formulaId) {
+            const formula = savedFormulas.find(f => f.id === formulaId);
+            if (!formula) return;
+
+            if (confirm(`Delete formula "${formula.name}"?`)) {
+                savedFormulas = savedFormulas.filter(f => f.id !== formulaId);
+                localStorage.setItem('rootwise_formulas', JSON.stringify(savedFormulas));
+                renderSavedFormulas();
+            }
+        }
+
+        // Print formula
+        function printFormula(formulaId) {
+            const formula = savedFormulas.find(f => f.id === formulaId);
+            if (!formula) return;
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${formula.name} - Formula Card</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 2rem; }
+                        h1 { color: #1a3a26; border-bottom: 3px solid #6b9478; padding-bottom: 0.5rem; }
+                        .herb-list { margin: 2rem 0; }
+                        .herb-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid #ddd; }
+                        .total { font-weight: bold; font-size: 1.2rem; margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #1a3a26; }
+                        .footer { margin-top: 2rem; font-size: 0.9rem; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>🧪 ${formula.name}</h1>
+                    <p><strong>Created:</strong> ${new Date(formula.createdAt).toLocaleDateString()}</p>
+                    <div class="herb-list">
+                        <h3>Formula Composition:</h3>
+                        ${formula.herbs.map(herb => `
+                            <div class="herb-item">
+                                <span>🌿 ${herb.name}</span>
+                                <span><strong>${herb.percentage}%</strong></span>
+                            </div>
+                        `).join('')}
+                        <div class="total">
+                            <div class="herb-item">
+                                <span>TOTAL:</span>
+                                <span>${formula.total}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <p><strong>Preparation Instructions:</strong></p>
+                        <p>Mix herbs according to the percentages above. For tea blends, use 1-2 teaspoons per cup of hot water, steep 5-10 minutes. For tinctures, follow standard extraction ratios.</p>
+                        <p style="margin-top: 1rem;"><em>Created with Rootwise Herbal Formulation Builder</em></p>
+                        <p style="margin-top: 1rem; font-size: 0.8rem;"><strong>Disclaimer:</strong> Consult a qualified healthcare practitioner before using herbal formulas. This is for educational purposes only.</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // END FORMULATION BUILDER FUNCTIONS
+        // ==========================================
+
+        // ==========================================
+        // PREPARATION METHODS LIBRARY
+        // ==========================================
+
+        const PREPARATION_METHODS = {
+            'tea': {
+                name: 'Tea / Infusion',
+                icon: '☕',
+                bestFor: 'Flowers, leaves, light aerial parts',
+                ratio: '1-2 tsp dried herb per 8 oz water',
+                instructions: [
+                    'Boil water and let cool slightly (190-200°F)',
+                    'Place herbs in teapot or cup',
+                    'Pour hot water over herbs',
+                    'Cover and steep 5-15 minutes',
+                    'Strain and drink warm',
+                    'Sweeten with honey if desired'
+                ],
+                equipment: ['Teapot or cup', 'Strainer', 'Kettle'],
+                time: '5-15 minutes',
+                shelfLife: 'Drink fresh, or refrigerate up to 24 hours',
+                tips: 'Longer steeping = stronger taste and more constituents. Cover to preserve volatile oils.',
+                examples: 'Chamomile, Peppermint, Lavender, Lemon Balm'
+            },
+            'decoction': {
+                name: 'Decoction',
+                icon: '🍲',
+                bestFor: 'Roots, bark, hard woody parts',
+                ratio: '1-2 tbsp herb per 2 cups water',
+                instructions: [
+                    'Place herbs and cold water in pot',
+                    'Bring to a boil',
+                    'Reduce heat and simmer 20-45 minutes',
+                    'Liquid should reduce by about half',
+                    'Strain while hot',
+                    'Drink warm or cool'
+                ],
+                equipment: ['Pot with lid', 'Strainer', 'Stove'],
+                time: '30-60 minutes',
+                shelfLife: 'Refrigerate up to 3 days',
+                tips: 'Low simmer, not rolling boil. Harder roots need longer simmering (30-45 min).',
+                examples: 'Burdock Root, Dandelion Root, Ginger, Licorice Root'
+            },
+            'tincture': {
+                name: 'Alcohol Tincture',
+                icon: '🧴',
+                bestFor: 'Most herbs, long-term storage',
+                ratio: '1:5 ratio (1 part herb to 5 parts liquid), 40-60% alcohol',
+                instructions: [
+                    'Chop or grind dried herbs',
+                    'Place in glass jar',
+                    'Cover with alcohol (vodka, brandy, or grain alcohol)',
+                    'Seal jar tightly',
+                    'Shake daily for 4-6 weeks',
+                    'Strain through cheesecloth',
+                    'Store in dark glass dropper bottles'
+                ],
+                equipment: ['Glass jars', 'Cheesecloth', 'Dark dropper bottles', 'Label'],
+                time: '4-6 weeks (plus prep time)',
+                shelfLife: '3-5 years if stored properly',
+                tips: 'Use fresh herbs for 1:2 ratio. Use dried for 1:5. Higher alcohol for resins, lower for flowers.',
+                examples: 'Echinacea, St. John\'s Wort, Valerian, Calendula'
+            },
+            'glycerite': {
+                name: 'Glycerite (Alcohol-Free)',
+                icon: '🍯',
+                bestFor: 'Children, alcohol-sensitive individuals',
+                ratio: '1:4 ratio (1 part herb to 4 parts liquid), 75% glycerin + 25% water',
+                instructions: [
+                    'Chop herbs finely',
+                    'Place in glass jar',
+                    'Mix vegetable glycerin with water (3:1 ratio)',
+                    'Pour over herbs until covered',
+                    'Seal and shake daily for 4-6 weeks',
+                    'Strain and bottle',
+                    'Label with date'
+                ],
+                equipment: ['Glass jars', 'Food-grade vegetable glycerin', 'Cheesecloth', 'Bottles'],
+                time: '4-6 weeks',
+                shelfLife: '1-3 years',
+                tips: 'Glycerin is sweet - good for children. Less effective than alcohol for some constituents.',
+                examples: 'Chamomile, Lemon Balm, Elderberry, Hawthorn'
+            },
+            'salve': {
+                name: 'Salve / Ointment',
+                icon: '🧴',
+                bestFor: 'Topical application, skin issues',
+                ratio: '1 cup infused oil + 1-2 oz beeswax',
+                instructions: [
+                    'Make herb-infused oil first (see Oil Infusion)',
+                    'Gently heat infused oil in double boiler',
+                    'Add beeswax (more wax = firmer salve)',
+                    'Stir until beeswax melts completely',
+                    'Test consistency (drop on cold plate)',
+                    'Pour into tins or jars while liquid',
+                    'Let cool and solidify'
+                ],
+                equipment: ['Double boiler', 'Beeswax', 'Tins or small jars', 'Stirrer'],
+                time: '30 minutes (after infused oil is ready)',
+                shelfLife: '1-2 years if stored cool',
+                tips: 'Add vitamin E oil to extend shelf life. Can add essential oils for scent.',
+                examples: 'Calendula, Comfrey, Plantain, Arnica'
+            },
+            'oil': {
+                name: 'Oil Infusion',
+                icon: '🫒',
+                bestFor: 'Topical use, massage, salve-making',
+                ratio: '1 part dried herb to 5 parts oil',
+                instructions: [
+                    'Fill jar 1/3-1/2 with dried herbs',
+                    'Cover completely with carrier oil',
+                    'Stir to remove air bubbles',
+                    'Seal jar',
+                    'Place in warm sunny spot for 2-6 weeks',
+                    'Shake every few days',
+                    'Strain through cheesecloth',
+                    'Store in dark bottles'
+                ],
+                equipment: ['Glass jar', 'Carrier oil (olive, jojoba, sweet almond)', 'Cheesecloth', 'Dark bottles'],
+                time: '2-6 weeks',
+                shelfLife: '6-12 months',
+                tips: 'Use DRIED herbs only (fresh herbs can cause mold). Olive oil is most common. Can speed with double boiler method (low heat 2-3 hours).',
+                examples: 'St. John\'s Wort, Arnica, Calendula, Lavender'
+            },
+            'poultice': {
+                name: 'Poultice',
+                icon: '🌱',
+                bestFor: 'Direct external application, injuries',
+                ratio: 'Enough herb + water to make paste',
+                instructions: [
+                    'Chop or crush fresh/dried herbs',
+                    'Add small amount of hot water to make paste',
+                    'Or mash fresh herbs directly',
+                    'Apply thick layer to affected area',
+                    'Cover with clean cloth',
+                    'Secure with bandage',
+                    'Leave on 20 min to 2 hours',
+                    'Remove and rinse'
+                ],
+                equipment: ['Clean cloth or gauze', 'Bandage', 'Bowl for mixing'],
+                time: '10-15 min prep, 20 min - 2 hours application',
+                shelfLife: 'Use immediately, do not store',
+                tips: 'Fresh herbs are best. Can heat herbs before applying for deeper penetration. Change every few hours.',
+                examples: 'Comfrey, Plantain, Yarrow, Chickweed'
+            },
+            'capsules': {
+                name: 'Capsules',
+                icon: '💊',
+                bestFor: 'Convenience, bad-tasting herbs',
+                ratio: 'Size 00 capsule holds ~500mg powder',
+                instructions: [
+                    'Grind dried herbs to fine powder (coffee grinder)',
+                    'Separate empty capsules',
+                    'Fill both halves with powder',
+                    'Press together firmly',
+                    'Store in labeled bottle',
+                    'Typical dose: 2-4 capsules 2-3x daily'
+                ],
+                equipment: ['Herb grinder or coffee grinder', 'Empty vegetable capsules', 'Capsule filling tray (optional)', 'Storage bottle'],
+                time: '15-30 minutes for a batch',
+                shelfLife: '6-12 months in airtight container',
+                tips: 'Size 00 is standard. Use "00" or "0" size. Can mix multiple herb powders. Label clearly with contents and date.',
+                examples: 'Any powdered herb - Turmeric, Ashwagandha, Milk Thistle'
+            }
+        };
+
+        function showPreparationMethods() {
+            const modal = document.getElementById('preparation-methods-modal');
+            const content = document.getElementById('preparation-methods-content');
+            
+            content.innerHTML = Object.entries(PREPARATION_METHODS).map(([key, method]) => `
+                <div style="background: var(--cream); border-left: 4px solid var(--sage-green); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <h3 style="color: var(--forest-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 2rem;">${method.icon}</span>
+                        ${method.name}
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; background: white; padding: 1rem; border-radius: 8px;">
+                        <div>
+                            <strong style="color: var(--sage-green);">Best For:</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #555; font-size: 0.9rem;">${method.bestFor}</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--sage-green);">Ratio:</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #555; font-size: 0.9rem;">${method.ratio}</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--sage-green);">Time:</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #555; font-size: 0.9rem;">${method.time}</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--sage-green);">Shelf Life:</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #555; font-size: 0.9rem;">${method.shelfLife}</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--forest-dark); margin-bottom: 0.75rem;">📋 Instructions:</h4>
+                        <ol style="margin: 0; padding-left: 1.5rem; color: #555; line-height: 1.8;">
+                            ${method.instructions.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+
+                    <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">🔧 Equipment Needed:</h4>
+                        <p style="margin: 0; color: #555;">${method.equipment.join(', ')}</p>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <h4 style="color: #1565c0; margin-bottom: 0.5rem;">💡 Tips:</h4>
+                        <p style="margin: 0; color: #555;">${method.tips}</p>
+                    </div>
+
+                    <div style="background: #f1f8e9; padding: 1rem; border-radius: 8px;">
+                        <h4 style="color: #558b2f; margin-bottom: 0.5rem;">🌿 Examples:</h4>
+                        <p style="margin: 0; color: #555;">${method.examples}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function closePreparationMethodsModal(event) {
+            if (!event || event.target.id === 'preparation-methods-modal' || event.target.classList.contains('close-modal')) {
+                document.getElementById('preparation-methods-modal').classList.remove('active');
+            }
+        }
+
+        // END PREPARATION METHODS LIBRARY
+        // ==========================================
+
+        // ==========================================
+        // HERB-TO-HERB INTERACTIONS CHECKER
+        // ==========================================
+
+        // Herb Interaction Database
+        // Format: {herbs: ['Herb1', 'Herb2'], type: 'avoid'|'caution'|'synergy', explanation: '...'}
+        const HERB_INTERACTIONS = [
+            // AVOID COMBINATIONS (Dangerous)
+            {herbs: ['St. John\'s Wort', 'Ashwagandha'], type: 'avoid', explanation: 'Both affect serotonin - risk of serotonin syndrome. Do not combine.'},
+            {herbs: ['Ginseng (Asian/Korean)', 'Licorice Root'], type: 'avoid', explanation: 'Both raise blood pressure. Combination may cause dangerous hypertension.'},
+            {herbs: ['Black Cohosh', 'Blue Cohosh'], type: 'avoid', explanation: 'Both are uterine stimulants. Combination too strong, especially in pregnancy.'},
+            {herbs: ['Valerian Root', 'Kava Kava'], type: 'avoid', explanation: 'Both are sedatives. Excessive sedation, risk of liver toxicity when combined.'},
+            {herbs: ['Yohimbe', 'Ginseng (Asian/Korean)'], type: 'avoid', explanation: 'Both stimulate nervous system. May cause anxiety, rapid heartbeat, high blood pressure.'},
+            
+            // CAUTION COMBINATIONS (Use carefully)
+            {herbs: ['Ashwagandha', 'Ginseng (Asian/Korean)'], type: 'caution', explanation: 'Both are adaptogens but work differently. May overstimulate thyroid. Monitor carefully.'},
+            {herbs: ['Echinacea', 'St. John\'s Wort'], type: 'caution', explanation: 'Both affect immune system. Long-term use together not recommended. Use short-term only.'},
+            {herbs: ['Garlic', 'Ginger'], type: 'caution', explanation: 'Both thin blood. Increased bleeding risk. Use lower doses if combining.'},
+            {herbs: ['Turmeric', 'Ginger'], type: 'caution', explanation: 'Both thin blood and may irritate stomach. Monitor for bleeding, reduce doses if needed.'},
+            {herbs: ['Licorice Root', 'Hawthorn Berry'], type: 'caution', explanation: 'Licorice may affect heart rhythm. Use together only under supervision if heart issues present.'},
+            {herbs: ['Valerian Root', 'Passionflower'], type: 'caution', explanation: 'Both are sedatives. May cause excessive drowsiness. Start with low doses.'},
+            {herbs: ['Milk Thistle', 'Dandelion Root'], type: 'caution', explanation: 'Both support liver. Generally safe but may overstimulate bile production. Monitor digestion.'},
+            
+            // SYNERGY COMBINATIONS (Work well together)
+            {herbs: ['Chamomile', 'Lavender'], type: 'synergy', explanation: 'Both are calming. Excellent for sleep and anxiety. Enhanced relaxation effects.'},
+            {herbs: ['Echinacea', 'Elderberry'], type: 'synergy', explanation: 'Both boost immune system. Great combination for colds and flu.'},
+            {herbs: ['Peppermint', 'Ginger'], type: 'synergy', explanation: 'Both aid digestion. Excellent for nausea and upset stomach.'},
+            {herbs: ['Turmeric', 'Black Pepper'], type: 'synergy', explanation: 'Black pepper increases turmeric absorption by 2000%. Always combine for best results.'},
+            {herbs: ['Milk Thistle', 'Dandelion Root'], type: 'synergy', explanation: 'Both support liver detoxification. Work synergistically for liver health.'},
+            {herbs: ['Hawthorn Berry', 'Garlic'], type: 'synergy', explanation: 'Both support cardiovascular health. Complementary effects on heart and circulation.'},
+            {herbs: ['Valerian Root', 'Lemon Balm'], type: 'synergy', explanation: 'Both promote relaxation. Great combination for sleep without excess sedation.'},
+            {herbs: ['Passionflower', 'Chamomile'], type: 'synergy', explanation: 'Both calm nervous system. Excellent for anxiety and restlessness.'},
+            {herbs: ['Raspberry Leaf', 'Nettles'], type: 'synergy', explanation: 'Both are nutritive tonics. Excellent combination for women\'s health and pregnancy support.'},
+            {herbs: ['Ashwagandha', 'Holy Basil (Tulsi)'], type: 'synergy', explanation: 'Both are adaptogens. Work together to balance stress response and support energy.'},
+            {herbs: ['Calendula', 'Comfrey'], type: 'synergy', explanation: 'Both heal wounds and skin. Excellent combination for topical healing salves.'},
+            {herbs: ['Elderberry', 'Ginger'], type: 'synergy', explanation: 'Elderberry fights virus, ginger reduces inflammation. Great combination for colds.'},
+            {herbs: ['Lemon Balm', 'Chamomile'], type: 'synergy', explanation: 'Both are gentle nervines. Perfect for children or sensitive individuals.'},
+            {herbs: ['Ginkgo Biloba', 'Gotu Kola'], type: 'synergy', explanation: 'Both support cognitive function and circulation. Enhanced mental clarity.'},
+            {herbs: ['Burdock Root', 'Dandelion Root'], type: 'synergy', explanation: 'Both are detoxifying and support liver. Traditional blood-purifying combination.'},
+            
+            // More cautions
+            {herbs: ['St. John\'s Wort', 'Kava Kava'], type: 'caution', explanation: 'Both affect mood and liver. Potential for liver stress. Monitor liver function.'},
+            {herbs: ['Ginseng (Asian/Korean)', 'Valerian Root'], type: 'caution', explanation: 'Ginseng stimulates, Valerian sedates. Opposing actions may cancel each other out.'},
+            {herbs: ['Licorice Root', 'Nettles'], type: 'caution', explanation: 'Licorice may increase potassium loss. Nettles provide potassium. Use together only short-term.'},
+        ];
+
+        function initHerbInteractions() {
+            const selector = document.getElementById('interaction-herb-selector');
+            if (selector) {
+                selector.innerHTML = '<option value="">-- Choose an herb --</option>' +
+                    HERBAL_DATABASE.map(herb => `<option value="${herb.name}">${herb.name}</option>`).join('');
+            }
+        }
+
+        function addHerbToInteractionCheck() {
+            const herbName = document.getElementById('interaction-herb-selector').value;
+            
+            if (!herbName) {
+                alert('Please select an herb');
+                return;
+            }
+
+            if (selectedInteractionHerbs.includes(herbName)) {
+                alert('This herb is already added');
+                return;
+            }
+
+            selectedInteractionHerbs.push(herbName);
+            document.getElementById('interaction-herb-selector').value = '';
+            renderSelectedInteractionHerbs();
+        }
+
+        function renderSelectedInteractionHerbs() {
+            const container = document.getElementById('interaction-herbs-list');
+            const emptyMessage = document.getElementById('empty-interaction-message');
+
+            if (selectedInteractionHerbs.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;" id="empty-interaction-message">Add 2 or more herbs to check for interactions</p>';
+                return;
+            }
+
+            if (emptyMessage) emptyMessage.style.display = 'none';
+
+            container.innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                    ${selectedInteractionHerbs.map((herb, index) => `
+                        <div style="background: white; border: 2px solid var(--sage-green); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="color: var(--forest-dark); font-weight: 600;">🌿 ${herb}</span>
+                            <button 
+                                onclick="removeInteractionHerb(${index})"
+                                style="background: #f44336; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
+                                ✕
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function removeInteractionHerb(index) {
+            selectedInteractionHerbs.splice(index, 1);
+            renderSelectedInteractionHerbs();
+            document.getElementById('interaction-results-container').style.display = 'none';
+        }
+
+        function clearInteractionCheck() {
+            selectedInteractionHerbs = [];
+            renderSelectedInteractionHerbs();
+            document.getElementById('interaction-results-container').style.display = 'none';
+        }
+
+        function checkHerbInteractions() {
+            if (selectedInteractionHerbs.length < 2) {
+                alert('Please add at least 2 herbs to check for interactions');
+                return;
+            }
+
+            const results = {
+                avoid: [],
+                caution: [],
+                synergy: [],
+                noInteraction: []
+            };
+
+            // Check all combinations
+            for (let i = 0; i < selectedInteractionHerbs.length; i++) {
+                for (let j = i + 1; j < selectedInteractionHerbs.length; j++) {
+                    const herb1 = selectedInteractionHerbs[i];
+                    const herb2 = selectedInteractionHerbs[j];
+                    
+                    const interaction = findInteraction(herb1, herb2);
+                    
+                    if (interaction) {
+                        results[interaction.type].push({
+                            herbs: [herb1, herb2],
+                            explanation: interaction.explanation
+                        });
+                    } else {
+                        results.noInteraction.push([herb1, herb2]);
+                    }
+                }
+            }
+
+            renderInteractionResults(results);
+        }
+
+        function findInteraction(herb1, herb2) {
+            return HERB_INTERACTIONS.find(interaction => 
+                (interaction.herbs.includes(herb1) && interaction.herbs.includes(herb2))
+            );
+        }
+
+        function renderInteractionResults(results) {
+            const container = document.getElementById('interaction-results-container');
+            
+            const hasAvoid = results.avoid.length > 0;
+            const hasCaution = results.caution.length > 0;
+            const hasSynergy = results.synergy.length > 0;
+            const hasNoInteraction = results.noInteraction.length > 0;
+
+            let html = '';
+
+            // AVOID section (red)
+            if (hasAvoid) {
+                html += `
+                    <div style="background: #ffebee; border: 3px solid #f44336; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                        <h3 style="color: #c62828; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 2rem;">🔴</span>
+                            AVOID - Dangerous Combinations
+                        </h3>
+                        <p style="color: #d32f2f; font-weight: 600; margin-bottom: 1.5rem;">
+                            ⚠️ Do NOT combine these herbs together
+                        </p>
+                        ${results.avoid.map(item => `
+                            <div style="background: white; border-left: 4px solid #f44336; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+                                <h4 style="color: #c62828; margin-bottom: 0.5rem;">
+                                    ${item.herbs.join(' + ')}
+                                </h4>
+                                <p style="color: #555; margin: 0;">${item.explanation}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // CAUTION section (orange)
+            if (hasCaution) {
+                html += `
+                    <div style="background: #fff3e0; border: 3px solid #ff9800; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                        <h3 style="color: #e65100; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 2rem;">🟠</span>
+                            CAUTION - Use Carefully
+                        </h3>
+                        <p style="color: #ef6c00; font-weight: 600; margin-bottom: 1.5rem;">
+                            ⚠️ These combinations may have issues - use with supervision or lower doses
+                        </p>
+                        ${results.caution.map(item => `
+                            <div style="background: white; border-left: 4px solid #ff9800; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+                                <h4 style="color: #e65100; margin-bottom: 0.5rem;">
+                                    ${item.herbs.join(' + ')}
+                                </h4>
+                                <p style="color: #555; margin: 0;">${item.explanation}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // SYNERGY section (green)
+            if (hasSynergy) {
+                html += `
+                    <div style="background: #e8f5e9; border: 3px solid #4caf50; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                        <h3 style="color: #2e7d32; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 2rem;">🟢</span>
+                            SYNERGY - Excellent Combinations
+                        </h3>
+                        <p style="color: #388e3c; font-weight: 600; margin-bottom: 1.5rem;">
+                            ✓ These herbs work well together - enhanced benefits!
+                        </p>
+                        ${results.synergy.map(item => `
+                            <div style="background: white; border-left: 4px solid #4caf50; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+                                <h4 style="color: #2e7d32; margin-bottom: 0.5rem;">
+                                    ${item.herbs.join(' + ')}
+                                </h4>
+                                <p style="color: #555; margin: 0;">${item.explanation}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // NO INTERACTION section (gray)
+            if (hasNoInteraction) {
+                html += `
+                    <div style="background: #f5f5f5; border: 2px solid #9e9e9e; border-radius: 12px; padding: 2rem;">
+                        <h3 style="color: #616161; margin-bottom: 1rem;">
+                            ℹ️ No Known Interactions
+                        </h3>
+                        <p style="color: #757575; margin-bottom: 1rem;">
+                            These combinations have no documented interactions in our database. This doesn't guarantee safety - always start with lower doses and consult a practitioner.
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            ${results.noInteraction.map(pair => `
+                                <span style="background: white; border: 1px solid #bdbdbd; border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.9rem; color: #555;">
+                                    ${pair.join(' + ')}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Summary at top
+            const totalCombinations = results.avoid.length + results.caution.length + results.synergy.length + results.noInteraction.length;
+            const summaryHtml = `
+                <div style="background: var(--cream); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+                    <h3 style="color: var(--forest-dark); margin-bottom: 1rem;">Interaction Check Results</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">
+                        Checked ${selectedInteractionHerbs.length} herbs (${totalCombinations} combinations)
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                        ${hasAvoid ? `<div style="text-align: center;"><div style="font-size: 2rem; font-weight: 700; color: #f44336;">${results.avoid.length}</div><div style="font-size: 0.9rem; color: #666;">Avoid</div></div>` : ''}
+                        ${hasCaution ? `<div style="text-align: center;"><div style="font-size: 2rem; font-weight: 700; color: #ff9800;">${results.caution.length}</div><div style="font-size: 0.9rem; color: #666;">Caution</div></div>` : ''}
+                        ${hasSynergy ? `<div style="text-align: center;"><div style="font-size: 2rem; font-weight: 700; color: #4caf50;">${results.synergy.length}</div><div style="font-size: 0.9rem; color: #666;">Synergy</div></div>` : ''}
+                        ${hasNoInteraction ? `<div style="text-align: center;"><div style="font-size: 2rem; font-weight: 700; color: #9e9e9e;">${results.noInteraction.length}</div><div style="font-size: 0.9rem; color: #666;">No Known</div></div>` : ''}
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = summaryHtml + html;
+            container.style.display = 'block';
+
+            // Scroll to results
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // END HERB-TO-HERB INTERACTIONS
+        // ==========================================
 
         // FEATURE 2: Render conditions grid
         // Render category filter buttons for Library tab
@@ -3941,6 +5184,121 @@ const HERBAL_DATABASE = [
             showHerbDetail(herb);
         }
 
+        // PREGNANCY & PEDIATRIC SAFETY DATABASE
+        const PREGNANCY_PEDIATRIC_SAFETY = {
+            // Format: herbName: {pregnancy, nursing, pediatric, notes}
+            // pregnancy: 'safe' | 'caution' | 'avoid'
+            // nursing: 'safe' | 'caution' | 'avoid'
+            // pediatric: {age0to2, age3to5, age6to12, age13plus, dosing}
+            
+            // Common safe herbs
+            'Chamomile': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'caution', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe', dosing: 'Reduce to 1/4 adult dose under age 6'}, notes: 'Generally safe, avoid large amounts in pregnancy'},
+            'Ginger': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe', dosing: '1/4 dose ages 3-5, 1/2 dose ages 6-12'}, notes: 'Safe for nausea in pregnancy, small amounts only'},
+            'Peppermint': {pregnancy: 'safe', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe', dosing: 'Avoid menthol in infants, 1/2 dose ages 6-12'}, notes: 'May reduce milk supply in large amounts'},
+            'Lavender': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'safe', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe', dosing: 'Topical use safe for all ages'}, notes: 'Safe for aromatherapy and topical use'},
+            'Calendula': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'safe', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe', dosing: 'Topical use safe for all ages'}, notes: 'Avoid internal use in pregnancy, topical use OK'},
+            'Echinacea': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe', dosing: '1/4 dose ages 3-5, 1/2 dose ages 6-12'}, notes: 'Short-term use only, consult practitioner'},
+            'Elderberry': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe', dosing: 'Cooked/prepared only, 1/2 dose ages 3-12'}, notes: 'Only cooked berries, never raw'},
+            'Turmeric': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe', dosing: 'Culinary amounts safe, medicinal doses ages 6+'}, notes: 'Culinary use safe, avoid therapeutic doses in pregnancy'},
+            'Garlic': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe', dosing: 'Culinary amounts safe for all ages'}, notes: 'Food amounts safe, large medicinal doses may affect clotting'},
+            
+            // Herbs to avoid in pregnancy
+            'Black Cohosh': {pregnancy: 'avoid', nursing: 'avoid', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'caution'}, notes: 'Contraindicated in pregnancy - may stimulate uterus'},
+            'Blue Cohosh': {pregnancy: 'avoid', nursing: 'avoid', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'avoid'}, notes: 'Dangerous in pregnancy - can cause birth defects'},
+            'Pennyroyal': {pregnancy: 'avoid', nursing: 'avoid', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'avoid'}, notes: 'Highly toxic, can cause miscarriage and liver damage'},
+            'Dong Quai': {pregnancy: 'avoid', nursing: 'avoid', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'caution'}, notes: 'Uterine stimulant, avoid in pregnancy and nursing'},
+            'Angelica Root': {pregnancy: 'avoid', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'caution', age13plus: 'caution'}, notes: 'May stimulate uterus, avoid in pregnancy'},
+            'Wormwood': {pregnancy: 'avoid', nursing: 'avoid', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'caution'}, notes: 'Contains thujone - toxic, contraindicated'},
+            
+            // Caution herbs
+            'St. John\'s Wort': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'caution', age13plus: 'caution'}, notes: 'Many drug interactions, consult practitioner'},
+            'Ashwagandha': {pregnancy: 'avoid', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'caution', age13plus: 'safe'}, notes: 'May stimulate thyroid and uterus'},
+            'Licorice Root': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'caution', age13plus: 'caution'}, notes: 'May raise blood pressure, limit use in pregnancy'},
+            'Ginseng (Asian/Korean)': {pregnancy: 'avoid', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'avoid', age13plus: 'caution'}, notes: 'Too stimulating for pregnancy and young children'},
+            'Valerian Root': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'avoid', age6to12: 'caution', age13plus: 'safe'}, notes: 'Limited safety data, use with caution'},
+            'Passionflower': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe'}, dosing: '1/2 adult dose under age 12'}, 
+            'Raspberry Leaf': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'safe', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe'}, notes: 'Safe in 2nd/3rd trimester, avoid 1st trimester'},
+            'Milk Thistle': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe'}, notes: 'Limited safety data in pregnancy'},
+            'Hawthorn Berry': {pregnancy: 'caution', nursing: 'safe', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'safe', age13plus: 'safe'}, notes: 'Consult practitioner if on heart medications'},
+            'Dandelion Root': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'caution', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe'}, notes: 'Food herb, generally safe'},
+            'Nettles': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'caution', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe'}, notes: 'Nutritive herb, safe in pregnancy'},
+            'Lemon Balm': {pregnancy: 'safe', nursing: 'safe', pediatric: {age0to2: 'caution', age3to5: 'safe', age6to12: 'safe', age13plus: 'safe'}, notes: 'Gentle, safe for all ages in moderate amounts'},
+            
+            // Default for herbs not in database
+            'default': {pregnancy: 'caution', nursing: 'caution', pediatric: {age0to2: 'avoid', age3to5: 'caution', age6to12: 'caution', age13plus: 'caution'}, notes: 'No specific safety data available - consult healthcare provider'}
+        };
+
+        function getPregnancyPediatricSafety(herb) {
+            const safety = PREGNANCY_PEDIATRIC_SAFETY[herb.name] || PREGNANCY_PEDIATRIC_SAFETY['default'];
+            
+            const pregnancyIcon = safety.pregnancy === 'safe' ? '✅' : safety.pregnancy === 'caution' ? '⚠️' : '❌';
+            const nursingIcon = safety.nursing === 'safe' ? '✅' : safety.nursing === 'caution' ? '⚠️' : '❌';
+            
+            const pregnancyColor = safety.pregnancy === 'safe' ? '#4caf50' : safety.pregnancy === 'caution' ? '#ff9800' : '#f44336';
+            const nursingColor = safety.nursing === 'safe' ? '#4caf50' : safety.nursing === 'caution' ? '#ff9800' : '#f44336';
+            
+            const pregnancyBg = safety.pregnancy === 'safe' ? '#e8f5e9' : safety.pregnancy === 'caution' ? '#fff3e0' : '#ffebee';
+            const nursingBg = safety.nursing === 'safe' ? '#e8f5e9' : safety.nursing === 'caution' ? '#fff3e0' : '#ffebee';
+            
+            return `
+                <div style="margin-bottom: 1.5rem; background: #f5f5f5; border-radius: 12px; padding: 1.5rem;">
+                    <h4 style="color: var(--forest-dark); margin-bottom: 1rem; font-size: 1.2rem;">👶 Pregnancy & Pediatric Safety</h4>
+                    
+                    <!-- Pregnancy Safety -->
+                    <div style="background: ${pregnancyBg}; border: 2px solid ${pregnancyColor}; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-size: 1.5rem; margin-right: 0.5rem;">${pregnancyIcon}</span>
+                            <strong style="color: ${pregnancyColor}; font-size: 1.1rem;">Pregnancy: ${safety.pregnancy.toUpperCase()}</strong>
+                        </div>
+                        ${safety.notes ? `<p style="color: #555; font-size: 0.9rem; margin: 0;">${safety.notes}</p>` : ''}
+                    </div>
+                    
+                    <!-- Nursing Safety -->
+                    <div style="background: ${nursingBg}; border: 2px solid ${nursingColor}; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center;">
+                            <span style="font-size: 1.5rem; margin-right: 0.5rem;">${nursingIcon}</span>
+                            <strong style="color: ${nursingColor}; font-size: 1.1rem;">Nursing/Lactation: ${safety.nursing.toUpperCase()}</strong>
+                        </div>
+                    </div>
+                    
+                    <!-- Pediatric Safety by Age Group -->
+                    <div style="background: white; border: 2px solid #2196f3; border-radius: 8px; padding: 1rem;">
+                        <h5 style="color: #1565c0; margin-bottom: 0.75rem;">Pediatric Safety by Age:</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
+                            ${getPediatricBadge('0-2 years', safety.pediatric.age0to2)}
+                            ${getPediatricBadge('3-5 years', safety.pediatric.age3to5)}
+                            ${getPediatricBadge('6-12 years', safety.pediatric.age6to12)}
+                            ${getPediatricBadge('13+ years', safety.pediatric.age13plus)}
+                        </div>
+                        ${safety.pediatric.dosing ? `
+                            <div style="margin-top: 0.75rem; padding: 0.75rem; background: #e3f2fd; border-radius: 6px;">
+                                <strong style="color: #1565c0; font-size: 0.9rem;">Pediatric Dosing:</strong>
+                                <p style="color: #555; font-size: 0.85rem; margin: 0.25rem 0 0 0;">${safety.pediatric.dosing}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 1rem; font-style: italic;">
+                        ⚠️ Always consult a qualified healthcare provider before using herbs during pregnancy, nursing, or with children.
+                    </p>
+                </div>
+            `;
+        }
+
+        function getPediatricBadge(ageGroup, safety) {
+            const icon = safety === 'safe' ? '✅' : safety === 'caution' ? '⚠️' : '❌';
+            const color = safety === 'safe' ? '#4caf50' : safety === 'caution' ? '#ff9800' : '#f44336';
+            const bg = safety === 'safe' ? '#e8f5e9' : safety === 'caution' ? '#fff3e0' : '#ffebee';
+            
+            return `
+                <div style="background: ${bg}; border: 1px solid ${color}; border-radius: 6px; padding: 0.5rem; text-align: center;">
+                    <div style="font-size: 1.2rem;">${icon}</div>
+                    <div style="font-size: 0.75rem; font-weight: 600; color: ${color}; margin-top: 0.25rem;">${ageGroup}</div>
+                    <div style="font-size: 0.7rem; color: #666; text-transform: capitalize;">${safety}</div>
+                </div>
+            `;
+        }
+
         function showHerbDetail(herb) {
             const modal = document.getElementById('herb-modal');
             const modalBody = document.getElementById('modal-body');
@@ -3998,6 +5356,9 @@ const HERBAL_DATABASE = [
                     </div>
                 ` : ''}
 
+                <!-- PREGNANCY & PEDIATRIC SAFETY SECTION -->
+                ${getPregnancyPediatricSafety(herb)}
+
                 <div style="margin-bottom: 1.5rem; padding: 1rem; background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px;">
                     <h4 style="color: #1565c0; margin-bottom: 0.5rem;">ℹ️ Important:</h4>
                     <ul style="margin-left: 1.5rem; color: #555; font-size: 0.9rem;">
@@ -4017,6 +5378,9 @@ const HERBAL_DATABASE = [
                     </button>
                     <button class="btn-secondary" onclick="printHerbCard();">
                         🖨️ Print Card
+                    </button>
+                    <button class="btn-secondary" onclick="showPreparationMethods();">
+                        📖 Preparation Guide
                     </button>
                 </div>
             `;
