@@ -1,0 +1,4768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Rootwise - Enhanced Herbal Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --forest-dark: #1a3a26;
+            --forest-medium: #2d5a3d;
+            --sage-green: #6b9478;
+            --mint-light: #a8d5ba;
+            --cream: #faf7f2;
+            --earth-brown: #8b6f47;
+            --gold-accent: #d4a574;
+            --deep-purple: #4a2c4f;
+            --healing-red: #c44536;
+            --warning-orange: #ff9800;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #e8f5e3 50%, var(--mint-light) 100%);
+            background-attachment: fixed;
+            color: var(--forest-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(107, 148, 120, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--sage-green), transparent);
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            color: var(--earth-brown);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* Tab Navigation - Now with 8 tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: white;
+            border: 2px solid var(--mint-light);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            background: var(--mint-light);
+            border-color: var(--sage-green);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--forest-medium);
+            color: white;
+            border-color: var(--forest-medium);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Search & Filter */
+        .search-bar {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--mint-light);
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--sage-green);
+            box-shadow: 0 0 0 4px rgba(107, 148, 120, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--sage-green);
+            font-size: 1.2rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--forest-medium);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--forest-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--forest-medium);
+            border: 2px solid var(--forest-medium);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--mint-light);
+        }
+
+        /* FEATURE 1: Comparison Tool */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .comparison-slot {
+            background: var(--cream);
+            border: 2px dashed var(--mint-light);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-slot:hover {
+            background: white;
+            border-color: var(--sage-green);
+        }
+
+        .comparison-slot.filled {
+            background: white;
+            border: 2px solid var(--sage-green);
+        }
+
+        /* FEATURE 2: Condition Browse */
+        .condition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .condition-card {
+            background: white;
+            border: 2px solid var(--mint-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .condition-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--sage-green);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .condition-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .condition-name {
+            font-weight: 700;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .condition-count {
+            color: var(--sage-green);
+            font-size: 0.9rem;
+        }
+
+        /* FEATURE 3: Medicine Cabinet */
+        .cabinet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .cabinet-item {
+            background: white;
+            border: 2px solid var(--mint-light);
+            border-radius: 12px;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .cabinet-remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--healing-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* FEATURE 4: Dosage Calculator */
+        .calculator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--forest-dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 2px solid var(--mint-light);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        /* FEATURE 5: Interactions Checker */
+        .interaction-warning {
+            background: #fff3e0;
+            border: 2px solid var(--warning-orange);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .interaction-warning h4 {
+            color: var(--warning-orange);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interaction-critical {
+            background: #ffebee;
+            border-color: var(--healing-red);
+        }
+
+        .interaction-critical h4 {
+            color: var(--healing-red);
+        }
+
+        /* Herb Cards */
+        .herbs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .herb-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .herb-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            border-color: var(--mint-light);
+        }
+
+        .herb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .herb-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            flex: 1;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            padding: 0.25rem;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .herb-category {
+            display: inline-block;
+            background: var(--mint-light);
+            color: var(--forest-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        /* FEATURES 7-10: Enhanced herb data display */
+        .herb-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .herb-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--cream);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-evidence {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-season {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .badge-dosage {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--cream);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--healing-red);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            .tabs, .btn-primary, .btn-secondary, header, .close-modal {
+                display: none;
+            }
+            .modal-content {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .herbs-grid, .comparison-grid, .condition-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .tab-button { 
+                padding: 0.6rem 1rem; 
+                font-size: 0.85rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🌿</div>
+            <h1>Rootwise</h1>
+            <p class="tagline">Healing carried in the roots. Wisdom passed through the blood.</p>
+        </header>
+
+        <!-- Enhanced Tab Navigation (9 tabs with Home) -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('home')">
+                🏠 Home
+            </button>
+            <button class="tab-button" onclick="switchTab('remedies')">
+                📚 Library
+            </button>
+            <button class="tab-button" onclick="switchTab('conditions')">
+                🔍 By Condition
+            </button>
+            <button class="tab-button" onclick="switchTab('compare')">
+                ⚖️ Compare
+            </button>
+            <button class="tab-button" onclick="switchTab('cabinet')">
+                💊 My Cabinet
+            </button>
+            <button class="tab-button" onclick="switchTab('dosage')">
+                📏 Dosage
+            </button>
+            <button class="tab-button" onclick="switchTab('interactions')">
+                ⚠️ Interactions
+            </button>
+            <button class="tab-button" onclick="switchTab('healing')">
+                ✨ AI Healing
+            </button>
+            <button class="tab-button" onclick="switchTab('profile')">
+                👤 Profile
+            </button>
+        </div>
+
+        <!-- HOME SCREEN with Clean CTA Design -->
+        <div id="home-tab" class="tab-content active">
+            <!-- Hero Section -->
+            <div style="text-align: center; padding: 4rem 2rem 3rem; background: linear-gradient(135deg, rgba(107, 148, 120, 0.1) 0%, rgba(168, 213, 186, 0.1) 100%); border-radius: 20px; margin-bottom: 3rem; position: relative; overflow: hidden;">
+                <!-- Decorative Elements -->
+                <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(107, 148, 120, 0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+                <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+                
+                <div style="position: relative; z-index: 1;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem; animation: float 3s ease-in-out infinite;">🌿</div>
+                    <h2 style="font-family: 'Crimson Pro', serif; font-size: 3.5rem; font-weight: 700; color: var(--forest-dark); margin-bottom: 1rem; letter-spacing: -0.02em;">
+                        Welcome to Rootwise
+                    </h2>
+                    <p style="color: var(--earth-brown); font-size: 1.3rem; font-style: italic; margin-bottom: 2rem;">
+                        Healing carried in the roots. Wisdom passed through the blood.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Scripture/Quote Section -->
+            <div style="max-width: 800px; margin: 0 auto 3rem; padding: 0 2rem;">
+                <div style="background: white; border-radius: 16px; padding: 3rem 2.5rem; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border-left: 4px solid var(--sage-green); position: relative;">
+                    <div style="position: absolute; top: 1.5rem; left: 1.5rem; font-size: 3rem; color: var(--mint-light); opacity: 0.5; font-family: Georgia, serif;">"</div>
+                    <p style="font-family: 'Crimson Pro', serif; font-size: 1.4rem; line-height: 1.8; color: var(--forest-dark); margin-bottom: 1rem; font-style: italic; padding: 0 1rem;">
+                        He causeth the grass to grow for the cattle, and herb for the service of man: that he may bring forth food out of the earth
+                    </p>
+                    <p style="text-align: right; color: var(--sage-green); font-weight: 600; font-size: 1.1rem;">
+                        — Psalm 104:14
+                    </p>
+                </div>
+            </div>
+
+            <!-- Main CTA Section -->
+            <div style="max-width: 700px; margin: 0 auto; padding: 0 2rem 3rem;">
+                <div style="text-align: center; background: linear-gradient(135deg, var(--forest-medium) 0%, var(--sage-green) 100%); border-radius: 20px; padding: 3rem 2rem; box-shadow: 0 10px 30px rgba(45, 90, 61, 0.3);">
+                    <h3 style="color: white; font-family: 'Crimson Pro', serif; font-size: 2rem; margin-bottom: 1rem; font-weight: 700;">
+                        Discover Natural Healing
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.6;">
+                        Explore 150 medicinal herbs from ancestral wisdom traditions. Each herb includes preparation methods, health benefits, and safety information.
+                    </p>
+                    <button 
+                        class="btn-primary" 
+                        style="background: white; color: var(--forest-dark); font-size: 1.3rem; padding: 1.25rem 3.5rem; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; border: 3px solid white;" 
+                        onclick="switchTab('remedies')" 
+                        onmouseover="this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)'" 
+                        onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 6px 20px rgba(0, 0, 0, 0.2)'">
+                        🌿 Explore Herbal Library
+                    </button>
+                </div>
+
+                <!-- Additional Quick Links -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                    <button 
+                        onclick="switchTab('conditions')" 
+                        style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem 1rem; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                        onmouseover="this.style.borderColor='var(--sage-green)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'"
+                        onmouseout="this.style.borderColor='var(--mint-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
+                        <div style="font-weight: 600; color: var(--forest-dark); margin-bottom: 0.25rem;">Browse by Condition</div>
+                        <div style="font-size: 0.85rem; color: #666;">Find herbs for specific health needs</div>
+                    </button>
+
+                    <button 
+                        onclick="switchTab('interactions')" 
+                        style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem 1rem; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                        onmouseover="this.style.borderColor='var(--sage-green)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'"
+                        onmouseout="this.style.borderColor='var(--mint-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+                        <div style="font-weight: 600; color: var(--forest-dark); margin-bottom: 0.25rem;">Safety Checker</div>
+                        <div style="font-size: 0.85rem; color: #666;">Check herb-medication interactions</div>
+                    </button>
+
+                    <button 
+                        onclick="switchTab('healing')" 
+                        style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem 1rem; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                        onmouseover="this.style.borderColor='var(--sage-green)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'"
+                        onmouseout="this.style.borderColor='var(--mint-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div>
+                        <div style="font-weight: 600; color: var(--forest-dark); margin-bottom: 0.25rem;">AI Healing Guide</div>
+                        <div style="font-size: 0.85rem; color: #666;">Get personalized herbal protocols</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- FEATURE 2: CONDITIONS BROWSER -->
+        <div id="conditions-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">🔍 Browse by Health Condition</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Find herbs for your specific health needs. Click any condition to see recommended herbs.
+                </p>
+                
+                <div class="condition-grid" id="conditions-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ORIGINAL: REMEDY LIBRARY -->
+        <div id="remedies-tab" class="tab-content">
+            <div class="card">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="search-input"
+                        placeholder="Search herbs, health conditions, or uses..."
+                        oninput="filterHerbs()"
+                    >
+                </div>
+
+                <!-- Category Filter Buttons -->
+                <div style="margin: 1.5rem 0;">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                        <span style="font-weight: 600; color: var(--forest-dark); margin-right: 0.5rem;">Filter by Category:</span>
+                        <div id="category-filters" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <!-- Populated by renderCategories() -->
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color: #666; margin-bottom: 1rem;" id="results-count"></p>
+            </div>
+
+            <div class="herbs-grid" id="herbs-grid">
+                <!-- Herb cards populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- FEATURE 1: HERB COMPARISON TOOL -->
+        <div id="compare-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">⚖️ Compare Herbs Side-by-Side</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Select up to 3 herbs to compare their uses, preparation methods, dosages, and interactions.
+                </p>
+
+                <div class="comparison-grid" id="comparison-grid">
+                    <div class="comparison-slot" onclick="openHerbSelector(0)">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">+</div>
+                        <p>Click to select herb</p>
+                    </div>
+                    <div class="comparison-slot" onclick="openHerbSelector(1)">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">+</div>
+                        <p>Click to select herb</p>
+                    </div>
+                    <div class="comparison-slot" onclick="openHerbSelector(2)">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">+</div>
+                        <p>Click to select herb</p>
+                    </div>
+                </div>
+
+                <div id="comparison-result" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+
+        <!-- FEATURE 3: MEDICINE CABINET -->
+        <div id="cabinet-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">💊 My Medicine Cabinet</h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    Track herbs you currently own. Quick reference for what's available in your home apothecary.
+                </p>
+
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn-primary" onclick="showAddToCabinet()">+ Add Herb to Cabinet</button>
+                    <button class="btn-secondary" onclick="showWhatCanITreat()" style="margin-left: 0.5rem;">
+                        What Can I Treat?
+                    </button>
+                </div>
+
+                <div class="cabinet-grid" id="cabinet-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <div id="cabinet-suggestions" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+
+        <!-- FEATURE 4: DOSAGE CALCULATOR -->
+        <div id="dosage-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">📏 Personalized Dosage Calculator</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">
+                    Get personalized dosage recommendations based on your body weight, age, and condition severity.
+                </p>
+
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label>Select Herb</label>
+                        <select id="dosage-herb">
+                            <option value="">Choose an herb...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Body Weight (lbs)</label>
+                        <input type="number" id="dosage-weight" placeholder="150">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="dosage-age" placeholder="30">
+                    </div>
+                    <div class="form-group">
+                        <label>Severity</label>
+                        <select id="dosage-severity">
+                            <option value="mild">Mild</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="severe">Severe</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="calculateDosage()">Calculate Dosage</button>
+
+                <div id="dosage-result"></div>
+            </div>
+        </div>
+
+        <!-- FEATURE 5: INTERACTIONS CHECKER -->
+        <div id="interactions-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">⚠️ Herb & Medication Interactions Checker</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">
+                    Check for potential interactions between herbs and medications. <strong>Always consult your healthcare provider.</strong>
+                </p>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                        Select herbs you're considering:
+                    </label>
+                    <div id="interaction-herbs" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                        Are you currently taking any medications?
+                    </label>
+                    <select id="interaction-medication" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px;">
+                        <option value="">Select medication type...</option>
+                        <option value="blood_thinners">Blood Thinners (Warfarin, Aspirin)</option>
+                        <option value="diabetes">Diabetes Medications</option>
+                        <option value="blood_pressure">Blood Pressure Medications</option>
+                        <option value="antidepressants">Antidepressants (SSRIs)</option>
+                        <option value="immunosuppressants">Immunosuppressants</option>
+                        <option value="sedatives">Sedatives/Sleep Aids</option>
+                        <option value="thyroid">Thyroid Medications</option>
+                    </select>
+                </div>
+
+                <button class="btn-primary" onclick="checkInteractions()">Check for Interactions</button>
+
+                <div id="interaction-results"></div>
+            </div>
+        </div>
+
+        <!-- AI HEALING TAB with Internet-Based Research -->
+        <div id="healing-tab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">✨ AI Healing Protocol Generator</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">
+                    Describe your symptoms, and get a personalized herbal protocol based on real-time research from trusted sources.
+                </p>
+
+                <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                    <p style="color: #1565c0; font-size: 0.9rem; margin: 0;">
+                        ℹ️ <strong>How it works:</strong> Our AI searches trusted herbal medicine sources online and creates a personalized protocol for you. This combines our database with current research.
+                    </p>
+                </div>
+
+                <textarea 
+                    style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid var(--mint-light); border-radius: 12px; font-family: 'DM Sans', sans-serif;"
+                    id="healing-input"
+                    placeholder="Example: I'm experiencing anxiety and trouble sleeping at night. I'm 35 years old and looking for natural remedies..."
+                ></textarea>
+
+                <button class="btn-primary" style="margin-top: 1rem;" onclick="generateProtocol()" id="generate-btn">
+                    🔍 Generate Protocol
+                </button>
+
+                <div id="protocol-result"></div>
+            </div>
+        </div>
+
+        <!-- PROFILE TAB with Multiple Sign-In Options -->
+        <div id="profile-tab" class="tab-content">
+            <!-- Login Screen (shown when not logged in) -->
+            <div id="login-screen" class="card" style="display: none;">
+                <h2 class="card-title">👤 Sign In to Your Profile</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Sign in to save your favorites, cabinet, and healing journal across devices.
+                </p>
+
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <!-- Social Sign-In Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                        <button 
+                            onclick="signInWithGoogle()" 
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 0.875rem; background: white; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='#f5f5f5'; this.style.borderColor='#bbb'"
+                            onmouseout="this.style.background='white'; this.style.borderColor='#ddd'">
+                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Continue with Google
+                        </button>
+
+                        <button 
+                            onclick="signInWithApple()" 
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 0.875rem; background: #000; color: white; border: 2px solid #000; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='#333'"
+                            onmouseout="this.style.background='#000'">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                                <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                            </svg>
+                            Continue with Apple
+                        </button>
+                    </div>
+
+                    <div style="position: relative; text-align: center; margin: 2rem 0;">
+                        <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd;"></div>
+                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or sign in with email</span>
+                    </div>
+
+                    <!-- Email Sign-In Form -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Email:</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            placeholder="your.email@example.com"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Password:</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            placeholder="Enter your password"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                            onkeypress="if(event.key==='Enter') handleLogin()"
+                        >
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-bottom: 1rem;" onclick="handleLogin()">
+                        Sign In with Email
+                    </button>
+
+                    <p style="text-align: center; color: #666; font-size: 0.9rem;">
+                        Don't have an account? <a href="#" onclick="showRegisterScreen(); return false;" style="color: var(--sage-green); font-weight: 600;">Create one</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Register Screen -->
+            <div id="register-screen" class="card" style="display: none;">
+                <h2 class="card-title">📝 Create Your Account</h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    Create a free account to sync your data across devices.
+                </p>
+
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <!-- Social Sign-Up Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                        <button 
+                            onclick="signInWithGoogle()" 
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 0.875rem; background: white; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='#f5f5f5'"
+                            onmouseout="this.style.background='white'">
+                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Sign up with Google
+                        </button>
+
+                        <button 
+                            onclick="signInWithApple()" 
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 0.875rem; background: #000; color: white; border: 2px solid #000; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='#333'"
+                            onmouseout="this.style.background='#000'">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                                <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                            </svg>
+                            Sign up with Apple
+                        </button>
+                    </div>
+
+                    <div style="position: relative; text-align: center; margin: 2rem 0;">
+                        <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd;"></div>
+                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or sign up with email</span>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Name:</label>
+                        <input 
+                            type="text" 
+                            id="register-name" 
+                            placeholder="Your name"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Email:</label>
+                        <input 
+                            type="email" 
+                            id="register-email" 
+                            placeholder="your.email@example.com"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Password:</label>
+                        <input 
+                            type="password" 
+                            id="register-password" 
+                            placeholder="Create a password (6+ characters)"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-bottom: 1rem;" onclick="handleRegister()">
+                        Create Account
+                    </button>
+
+                    <p style="text-align: center; color: #666; font-size: 0.9rem;">
+                        Already have an account? <a href="#" onclick="showLoginScreen(); return false;" style="color: var(--sage-green); font-weight: 600;">Sign in</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Profile Screen (shown when logged in) -->
+            <div id="profile-screen" class="card" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="card-title">👤 Your Profile</h2>
+                    <button class="btn-secondary" onclick="handleLogout()" style="padding: 0.5rem 1.5rem;">
+                        Sign Out
+                    </button>
+                </div>
+
+                <div style="background: var(--cream); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 60px; height: 60px; background: var(--sage-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                            <span id="user-avatar">👤</span>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.3rem; color: var(--forest-dark);" id="user-name">Welcome</div>
+                            <div style="color: #666; font-size: 0.9rem;" id="user-email"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: #e8f5e3; padding: 2rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--sage-green);" id="fav-count">0</div>
+                        <div style="color: #666;">Favorites</div>
+                    </div>
+                    <div style="background: #f5f0ff; padding: 2rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--deep-purple);" id="cabinet-count">0</div>
+                        <div style="color: #666;">In Cabinet</div>
+                    </div>
+                    <div style="background: #fff3e0; padding: 2rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--warning-orange);">151</div>
+                        <div style="color: #666;">Total Herbs</div>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Healing Journal:</label>
+                    <textarea 
+                        id="profile-notes"
+                        style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid var(--mint-light); border-radius: 12px;"
+                        placeholder="Track your healing journey, symptoms, observations..."
+                    ></textarea>
+                    <button class="btn-primary" style="margin-top: 1rem;" onclick="saveProfile()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="herb-modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="selector-modal" class="modal" onclick="closeSelectorModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeSelectorModal()">×</button>
+            <h2 style="margin-bottom: 1rem;">Select an Herb</h2>
+            <input 
+                type="text" 
+                id="selector-search" 
+                placeholder="Search herbs..."
+                style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; margin-bottom: 1rem;"
+                oninput="filterSelectorHerbs()"
+            >
+            <div id="selector-list" style="max-height: 400px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ENHANCED HERBAL DATABASE with new fields
+        // Features 7-10: evidenceLevel, contraindications, dosageRange, seasonalInfo
+const HERBAL_DATABASE = [
+  {
+    "name": "Aloe Vera",
+    "uses": "Burns, wounds, digestive health, skin conditions",
+    "preparation": "Apply gel topically or juice internally (with caution)",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Topical as needed; internal use: consult herbalist",
+    "seasonalInfo": "Year-round harvest",
+    "contraindications": [
+      "pregnancy",
+      "intestinal obstruction",
+      "kidney disease"
+    ]
+  },
+  {
+    "name": "Angelica Root",
+    "uses": "Digestion, menstrual cramps, respiratory congestion",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2g dried root 3 times daily",
+    "seasonalInfo": "Fall root harvest (2nd year)",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Arnica",
+    "uses": "Bruises, sprains, muscle pain, inflammation",
+    "preparation": "Topical salve or oil (NEVER internal)",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Topical only - apply 2-3 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "broken skin",
+      "internal use toxic",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Ashwagandha",
+    "uses": "Stress relief, anxiety, energy, immune support",
+    "preparation": "Powder in warm milk or water, or as capsules",
+    "category": "Immune Health",
+    "source": {
+      "name": "Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300-500mg standardized extract twice daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "hyperthyroidism",
+      "autoimmune conditions"
+    ]
+  },
+  {
+    "name": "Ashwagandha Root",
+    "uses": "Adaptogen for stress, thyroid support, energy",
+    "preparation": "Powder in warm milk or water",
+    "category": "Immune Health",
+    "source": {
+      "name": "Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300-600mg twice daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "hyperthyroidism",
+      "immunosuppressants"
+    ]
+  },
+  {
+    "name": "Astragalus",
+    "uses": "Immune support, energy, heart health",
+    "preparation": "Decoct root for tea or soup, or use as tincture",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "2-4g dried root daily",
+    "seasonalInfo": "Fall harvest (4+ year roots)",
+    "contraindications": [
+      "autoimmune diseases",
+      "fever"
+    ]
+  },
+  {
+    "name": "Barberry Root",
+    "uses": "Digestive infections, liver support, immune boost",
+    "preparation": "Decoct root or use as tincture",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "2-4g dried root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Bay Laurel",
+    "uses": "Digestive aid, respiratory support, antimicrobial",
+    "preparation": "Steep 1-2 leaves in hot water for tea, 10-15 minutes",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea daily",
+    "seasonalInfo": "Year-round availability",
+    "contraindications": [
+      "pregnancy (large amounts)"
+    ]
+  },
+  {
+    "name": "Bilberry",
+    "uses": "Eye health, circulation, diabetes support",
+    "preparation": "Dried berries in tea or standardized extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "80-160mg extract 3 times daily",
+    "seasonalInfo": "Summer berry harvest",
+    "contraindications": [
+      "blood thinners",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Black Cohosh",
+    "uses": "Menopause symptoms, menstrual cramps, hormonal balance",
+    "preparation": "Decoct root or use standardized extract",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "20-40mg standardized extract twice daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Blackberry Leaf",
+    "uses": "Diarrhea, sore throat, mouth sores",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Summer leaf harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Blackberry Root",
+    "uses": "Diarrhea, dysentery, digestive upset, astringent",
+    "preparation": "Decoct 1-2 tsp dried root in water for 15 minutes",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "African-American Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed",
+    "seasonalInfo": "Fall harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Blessed Thistle",
+    "uses": "Lactation support, digestion, appetite stimulant",
+    "preparation": "Steep herb in hot water for tea",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Blue Cohosh",
+    "uses": "Labor induction, menstrual regulation (use with extreme caution)",
+    "preparation": "Decoct root - only under professional guidance",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Professional use only - toxic in wrong doses",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy (except late labor)",
+      "heart disease",
+      "high blood pressure"
+    ]
+  },
+  {
+    "name": "Boneset",
+    "uses": "Fever, flu, colds, immune support",
+    "preparation": "Steep herb in hot water for tea",
+    "category": "Fever Management",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea during illness",
+    "seasonalInfo": "Late summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Burdock Root",
+    "uses": "Blood purification, skin conditions, digestive support, detoxification",
+    "preparation": "Decoct dried root in water for 10-15 minutes",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Herbal Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "2-4 cups tea daily or 1-2g dried root",
+    "seasonalInfo": "Fall harvest (first year roots)",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Butcher's Broom",
+    "uses": "Varicose veins, hemorrhoids, circulation",
+    "preparation": "Standardized root extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "150-300mg extract daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "high blood pressure"
+    ]
+  },
+  {
+    "name": "Calendula",
+    "uses": "Wound healing, skin inflammation, digestive support",
+    "preparation": "Steep flowers for tea or use topically as salve",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "2-3 cups tea daily or topical as needed",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Cardamom",
+    "uses": "Digestion, bad breath, respiratory support",
+    "preparation": "Chew seeds or add to tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-3g seeds daily",
+    "seasonalInfo": "Fall seed harvest",
+    "contraindications": [
+      "gallstones"
+    ]
+  },
+  {
+    "name": "Cascara Sagrada",
+    "uses": "Constipation, colon cleansing",
+    "preparation": "Decoct aged bark (minimum 1 year)",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300-1000mg before bed (short-term only)",
+    "seasonalInfo": "Spring bark harvest",
+    "contraindications": [
+      "pregnancy",
+      "intestinal obstruction",
+      "inflammatory bowel disease"
+    ]
+  },
+  {
+    "name": "Cat's Claw",
+    "uses": "Immune support, arthritis, digestive issues",
+    "preparation": "Decoct bark or use as tincture",
+    "category": "Immune Health",
+    "source": {
+      "name": "Amazonian Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "20-60mg standardized extract daily",
+    "seasonalInfo": "Year-round in rainforest",
+    "contraindications": [
+      "pregnancy",
+      "autoimmune diseases",
+      "organ transplants"
+    ]
+  },
+  {
+    "name": "Catnip",
+    "uses": "Anxiety, sleep aid, digestive upset, fever",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Cayenne Pepper",
+    "uses": "Circulation, pain relief, digestion, cardiovascular health",
+    "preparation": "Add powder to food or make into tea",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Medicine - Americas",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "30-120mg capsules 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "stomach ulcers",
+      "GERD",
+      "kidney disease"
+    ]
+  },
+  {
+    "name": "Celery Seed",
+    "uses": "Gout, arthritis, high blood pressure, diuretic",
+    "preparation": "Steep seeds for tea or use as tincture",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "1-2g seeds 3 times daily",
+    "seasonalInfo": "Fall seed harvest",
+    "contraindications": [
+      "pregnancy",
+      "kidney disease",
+      "low blood pressure"
+    ]
+  },
+  {
+    "name": "Chamomile",
+    "uses": "Anxiety, sleep aid, digestive upset, inflammation",
+    "preparation": "Steep flowers in hot water for 10-15 minutes",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "2-4 cups tea daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "allergies to Asteraceae family",
+      "pregnancy (large amounts)"
+    ]
+  },
+  {
+    "name": "Chaste Tree Berry",
+    "uses": "PMS, menstrual regulation, fertility",
+    "preparation": "Standardized berry extract",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "20-40mg extract daily",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "pregnancy",
+      "IVF",
+      "hormone medications"
+    ]
+  },
+  {
+    "name": "Chasteberry",
+    "uses": "PMS, menstrual irregularities, fertility support",
+    "preparation": "Use standardized extract or tincture",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "20-40mg standardized extract daily",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "pregnancy",
+      "hormone-sensitive conditions",
+      "IVF"
+    ]
+  },
+  {
+    "name": "Chickweed",
+    "uses": "Skin irritation, weight loss support, mild diuretic",
+    "preparation": "Steep herb for tea or apply topically as poultice",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Spring and fall harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Cinnamon",
+    "uses": "Blood sugar regulation, digestion, antimicrobial",
+    "preparation": "Powder in food or decoct bark for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Asia",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-6g daily (Ceylon cinnamon preferred)",
+    "seasonalInfo": "Year-round availability",
+    "contraindications": [
+      "pregnancy (large amounts)",
+      "liver disease",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Cleavers",
+    "uses": "Lymphatic support, urinary tract health, skin conditions",
+    "preparation": "Steep fresh herb for tea or juice",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Spring harvest",
+    "contraindications": [
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Clove",
+    "uses": "Toothache, digestion, antimicrobial, pain relief",
+    "preparation": "Chew whole cloves or use clove oil topically",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Medicine - Asia",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-2g powder daily or topical oil as needed",
+    "seasonalInfo": "Year-round in tropical climates",
+    "contraindications": [
+      "pregnancy",
+      "bleeding disorders",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Codonopsis",
+    "uses": "Energy, immune support, lung health, adaptogen",
+    "preparation": "Decoct root for tea or soup",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "9-30g dried root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Coltsfoot",
+    "uses": "Cough, bronchitis, asthma (short-term use only)",
+    "preparation": "Steep leaves for tea (limit duration)",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed (max 6 weeks per year)",
+    "seasonalInfo": "Spring flower harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "long-term use"
+    ]
+  },
+  {
+    "name": "Comfrey",
+    "uses": "Wound healing, bone fractures (topical only)",
+    "preparation": "Topical poultice or salve (NEVER internal)",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "Topical only - apply as needed",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "broken skin",
+      "internal use toxic to liver",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Cordyceps",
+    "uses": "Energy, athletic performance, respiratory health, libido",
+    "preparation": "Decoct mushroom or use extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-3g dried mushroom daily",
+    "seasonalInfo": "Year-round cultivation",
+    "contraindications": [
+      "autoimmune diseases",
+      "bleeding disorders"
+    ]
+  },
+  {
+    "name": "Coriander Seed",
+    "uses": "Digestion, blood sugar, antimicrobial",
+    "preparation": "Steep seeds for tea or use powder in food",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-6g seeds daily",
+    "seasonalInfo": "Summer seed harvest",
+    "contraindications": [
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Cotton Root",
+    "uses": "Menstrual regulation, labor induction, emmenagogue",
+    "preparation": "Decoct root bark in water",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "African-American Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Consult herbalist - potent herb",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy (except during labor)",
+      "heart conditions"
+    ]
+  },
+  {
+    "name": "Cramp Bark",
+    "uses": "Menstrual cramps, muscle spasms, nervous tension",
+    "preparation": "Decoct bark for tea or use as tincture",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea during menstruation",
+    "seasonalInfo": "Spring bark harvest",
+    "contraindications": [
+      "kidney stones"
+    ]
+  },
+  {
+    "name": "Cranberry",
+    "uses": "Urinary tract infections, bladder health",
+    "preparation": "Juice, tea from dried berries, or capsules",
+    "category": "Immune Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "8-16 oz unsweetened juice daily",
+    "seasonalInfo": "Fall harvest",
+    "contraindications": [
+      "kidney stones",
+      "warfarin interactions"
+    ]
+  },
+  {
+    "name": "Cumin",
+    "uses": "Digestion, iron supplementation, blood sugar",
+    "preparation": "Seeds in food or steeped for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Middle East",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-6g seeds daily",
+    "seasonalInfo": "Summer seed harvest",
+    "contraindications": [
+      "diabetes medications",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Damiana",
+    "uses": "Aphrodisiac, anxiety, depression, energy",
+    "preparation": "Steep leaves for tea or use as tincture",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Mexican Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Dandelion Leaf",
+    "uses": "Diuretic, potassium replacement, digestive bitter",
+    "preparation": "Steep fresh or dried leaves for tea or eat in salad",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "4-10g dried leaf in tea 3 times daily",
+    "seasonalInfo": "Spring leaf harvest",
+    "contraindications": [
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Dandelion Root",
+    "uses": "Liver support, digestion, diuretic, detoxification",
+    "preparation": "Decoct root for tea or roast for coffee substitute",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-5g dried root in tea 3 times daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "bile duct obstruction",
+      "gallstones"
+    ]
+  },
+  {
+    "name": "Devil's Claw",
+    "uses": "Arthritis, back pain, inflammation, digestion",
+    "preparation": "Decoct root or use standardized extract",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional African Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "600-1200mg extract 3 times daily",
+    "seasonalInfo": "Year-round in Africa",
+    "contraindications": [
+      "pregnancy",
+      "gallstones",
+      "stomach ulcers",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Dill Seed",
+    "uses": "Digestion, gas, lactation support, antimicrobial",
+    "preparation": "Steep seeds for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g seeds daily in tea",
+    "seasonalInfo": "Summer seed harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Dogwood Bark",
+    "uses": "Fever reduction, malaria treatment, astringent",
+    "preparation": "Decoct bark for tea, 15-20 minutes",
+    "category": "Fever Management",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed",
+    "seasonalInfo": "Spring harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Dong Quai",
+    "uses": "Menstrual irregularities, menopause, circulation",
+    "preparation": "Decoct root or use as tincture",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-15g dried root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "blood thinners",
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Echinacea",
+    "uses": "Immune support, colds, flu, wound healing",
+    "preparation": "Tea from root/leaves, tincture, or capsules",
+    "category": "Immune Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "900mg extract 3 times daily at first sign of cold",
+    "seasonalInfo": "Fall root harvest, summer flower harvest",
+    "contraindications": [
+      "autoimmune diseases",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Elder Flower",
+    "uses": "Colds, flu, fever, sinus congestion",
+    "preparation": "Steep flowers in hot water for tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-5 cups tea daily during illness",
+    "seasonalInfo": "Late spring flowering",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Elderberry",
+    "uses": "Immune support, colds, flu, antiviral",
+    "preparation": "Syrup from cooked berries (never eat raw)",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-2 tbsp syrup daily during illness",
+    "seasonalInfo": "Late summer berry harvest",
+    "contraindications": [
+      "raw berries toxic",
+      "autoimmune diseases"
+    ]
+  },
+  {
+    "name": "Elecampane",
+    "uses": "Respiratory infections, bronchitis, cough",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2g dried root 3 times daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Eucalyptus",
+    "uses": "Respiratory congestion, cough, antimicrobial",
+    "preparation": "Steam inhalation with leaves or essential oil",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Australian Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Steam inhalation 2-3 times daily, topical chest rub",
+    "seasonalInfo": "Year-round harvest",
+    "contraindications": [
+      "internal use of essential oil toxic",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Evening Primrose",
+    "uses": "PMS, menopause, eczema, hormonal balance",
+    "preparation": "Oil extracted from seeds, taken as capsules",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-6g oil daily in divided doses",
+    "seasonalInfo": "Late summer seed harvest",
+    "contraindications": [
+      "pregnancy",
+      "seizure disorders",
+      "schizophrenia"
+    ]
+  },
+  {
+    "name": "Eyebright",
+    "uses": "Eye infections, conjunctivitis, allergies",
+    "preparation": "Steep herb for tea or use as eyewash (strained well)",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Fennel",
+    "uses": "Digestion, gas, bloating, lactation support",
+    "preparation": "Steep seeds in hot water for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Mediterranean",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "5-7g seeds daily in tea",
+    "seasonalInfo": "Late summer seed harvest",
+    "contraindications": [
+      "pregnancy (large amounts)",
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Fenugreek",
+    "uses": "Lactation support, blood sugar control, digestion",
+    "preparation": "Soak seeds overnight, drink liquid and eat seeds",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Medicine - Middle East/India",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "5-30g seeds daily",
+    "seasonalInfo": "Summer seed harvest",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Feverfew",
+    "uses": "Migraine prevention, fever, inflammation",
+    "preparation": "Fresh leaves (chew with caution) or standardized extract",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "50-100mg standardized extract daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "blood thinners",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Fo-Ti (He Shou Wu)",
+    "uses": "Longevity, hair health, liver support, anti-aging",
+    "preparation": "Decoct prepared root (cured) or use extract",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-12g prepared root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "diarrhea",
+      "liver disease (raw form)"
+    ]
+  },
+  {
+    "name": "Garlic",
+    "uses": "Cardiovascular health, immune support, antimicrobial",
+    "preparation": "Fresh cloves crushed or aged garlic extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "600-1200mg aged garlic extract daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "blood thinners",
+      "surgery (discontinue 2 weeks prior)"
+    ]
+  },
+  {
+    "name": "Gentian",
+    "uses": "Digestive bitter, appetite stimulant, indigestion",
+    "preparation": "Small amounts of root in tincture or bitters formula",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "0.5-1g root before meals",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "stomach ulcers",
+      "high blood pressure",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Ginger",
+    "uses": "Nausea, motion sickness, digestion, inflammation",
+    "preparation": "Fresh root tea, powder in food, or capsules",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Asia",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-4g dried root daily",
+    "seasonalInfo": "Year-round harvest (tropical)",
+    "contraindications": [
+      "gallstones",
+      "blood thinners",
+      "pregnancy (large amounts)"
+    ]
+  },
+  {
+    "name": "Ginkgo Biloba",
+    "uses": "Memory, cognitive function, circulation",
+    "preparation": "Standardized leaf extract (not raw leaves)",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "120-240mg standardized extract daily",
+    "seasonalInfo": "Fall leaf harvest",
+    "contraindications": [
+      "bleeding disorders",
+      "surgery",
+      "seizure disorders"
+    ]
+  },
+  {
+    "name": "Ginseng (American)",
+    "uses": "Stress, energy, immune support, blood sugar",
+    "preparation": "Decoct root or use standardized extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "200-400mg extract daily",
+    "seasonalInfo": "Fall harvest (6+ year roots)",
+    "contraindications": [
+      "autoimmune diseases",
+      "diabetes medications",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Ginseng (Asian/Korean)",
+    "uses": "Energy, stamina, cognitive function, immune support",
+    "preparation": "Decoct root or use red ginseng extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "200-400mg extract daily",
+    "seasonalInfo": "Fall harvest (4+ year roots)",
+    "contraindications": [
+      "high blood pressure",
+      "insomnia",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Goji Berry",
+    "uses": "Eye health, immune support, longevity, antioxidant",
+    "preparation": "Eat dried berries or steep for tea",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "5-15g dried berries daily",
+    "seasonalInfo": "Summer berry harvest",
+    "contraindications": [
+      "blood thinners",
+      "diabetes medications",
+      "blood pressure medications"
+    ]
+  },
+  {
+    "name": "Goldenrod",
+    "uses": "Urinary tract health, kidney stones, allergies",
+    "preparation": "Steep herb in hot water for tea",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-5g herb in tea 3 times daily",
+    "seasonalInfo": "Late summer flowering",
+    "contraindications": [
+      "kidney disease",
+      "heart failure"
+    ]
+  },
+  {
+    "name": "Goldenseal",
+    "uses": "Immune support, digestive infections, mucous membrane health",
+    "preparation": "Use root as tincture or capsules (not tea - bitter)",
+    "category": "Immune Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "250-500mg 3 times daily (short-term only)",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "high blood pressure",
+      "long-term use"
+    ]
+  },
+  {
+    "name": "Gorse",
+    "uses": "Depression, kidney support, traditional uses",
+    "preparation": "Steep flowers for tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea daily",
+    "seasonalInfo": "Spring flowering",
+    "contraindications": [
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Gotu Kola",
+    "uses": "Wound healing, cognitive function, anxiety, varicose veins",
+    "preparation": "Steep leaves for tea or use standardized extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "60-120mg extract daily",
+    "seasonalInfo": "Year-round in tropical climates",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Grapefruit Seed Extract",
+    "uses": "Antimicrobial, candida, immune support",
+    "preparation": "Liquid extract diluted in water or juice",
+    "category": "Immune Health",
+    "source": {
+      "name": "Modern Herbalism",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "10-15 drops in water 2-3 times daily",
+    "seasonalInfo": "Year-round availability",
+    "contraindications": [
+      "many drug interactions"
+    ]
+  },
+  {
+    "name": "Gravel Root",
+    "uses": "Kidney stones, urinary tract infections, gout",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g dried root in tea daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Guggul",
+    "uses": "Cholesterol, thyroid support, weight management",
+    "preparation": "Standardized resin extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "75-150mg guggulsterones daily",
+    "seasonalInfo": "Year-round resin collection",
+    "contraindications": [
+      "pregnancy",
+      "thyroid disease",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Guinea Hen Weed",
+    "uses": "Immune support, cancer-fighting properties, pain relief",
+    "preparation": "Steep leaves and roots for tea, or use as tincture",
+    "category": "Immune Health",
+    "source": {
+      "name": "Caribbean Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "1-2 cups tea daily",
+    "seasonalInfo": "Year-round in tropical climates",
+    "contraindications": [
+      "pregnancy",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Gymnema",
+    "uses": "Blood sugar control, sugar cravings, diabetes support",
+    "preparation": "Standardized leaf extract",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "400-600mg extract daily",
+    "seasonalInfo": "Year-round harvest",
+    "contraindications": [
+      "diabetes medications",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Hawthorn Berry",
+    "uses": "Heart health, blood pressure, circulation, anxiety",
+    "preparation": "Steep berries for tea or use standardized extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "160-1800mg extract daily",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "heart medications (consult doctor)",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Henna",
+    "uses": "Hair dye, scalp health, wound healing",
+    "preparation": "Powder mixed into paste for topical use",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine - Middle East/India",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Topical only",
+    "seasonalInfo": "Summer leaf harvest",
+    "contraindications": [
+      "G6PD deficiency"
+    ]
+  },
+  {
+    "name": "Hibiscus",
+    "uses": "High blood pressure, cholesterol, liver health",
+    "preparation": "Steep flowers in hot water for tea",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Medicine - Africa/Asia",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1.25-10g dried flowers in tea daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "low blood pressure",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Hibiscus Flower",
+    "uses": "Blood pressure, cholesterol, liver health, antioxidant",
+    "preparation": "Steep flowers for tea (makes red color)",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Medicine - Africa/Caribbean",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1.25-10g dried flowers in tea daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "low blood pressure"
+    ]
+  },
+  {
+    "name": "Holy Basil (Tulsi)",
+    "uses": "Stress, anxiety, blood sugar, respiratory health",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300-600mg extract daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "hypothyroidism",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Hops",
+    "uses": "Sleep aid, anxiety, menopause, digestive bitter",
+    "preparation": "Steep flowers (strobiles) for tea or use as tincture",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "0.5-1g dried flowers before bed",
+    "seasonalInfo": "Late summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "depression",
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Horehound",
+    "uses": "Cough, bronchitis, digestive bitter",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2g herb in tea 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "diabetes",
+      "high blood pressure"
+    ]
+  },
+  {
+    "name": "Horse Chestnut",
+    "uses": "Varicose veins, chronic venous insufficiency, hemorrhoids",
+    "preparation": "Standardized seed extract (raw seeds toxic)",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300mg standardized extract twice daily",
+    "seasonalInfo": "Fall seed harvest",
+    "contraindications": [
+      "pregnancy",
+      "kidney or liver disease",
+      "bleeding disorders"
+    ]
+  },
+  {
+    "name": "Horsetail",
+    "uses": "Hair, skin, nail health, bone health, urinary issues",
+    "preparation": "Steep herb for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "900mg extract daily",
+    "seasonalInfo": "Spring harvest",
+    "contraindications": [
+      "pregnancy",
+      "heart or kidney disease",
+      "nicotine (contains nicotine)"
+    ]
+  },
+  {
+    "name": "Hyssop",
+    "uses": "Respiratory infections, cough, digestive support",
+    "preparation": "Steep leaves for tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "seizure disorders"
+    ]
+  },
+  {
+    "name": "Jamaican Dogwood",
+    "uses": "Pain relief, insomnia, anxiety",
+    "preparation": "Decoct bark (use with caution - potent)",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Caribbean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Professional guidance required - toxic in high doses",
+    "seasonalInfo": "Year-round in Caribbean",
+    "contraindications": [
+      "pregnancy",
+      "heart disease",
+      "many medications"
+    ]
+  },
+  {
+    "name": "Jasmine Flower",
+    "uses": "Anxiety, relaxation, digestive support, aphrodisiac",
+    "preparation": "Steep flowers in green or white tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": []
+  },
+  {
+    "name": "Jiaogulan",
+    "uses": "Adaptogen, cholesterol, blood pressure, longevity",
+    "preparation": "Steep leaves for tea (\"immortality herb\")",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3-6g dried leaves in tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "autoimmune diseases",
+      "organ transplants",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Juniper Berry",
+    "uses": "Urinary tract health, digestion, antimicrobial",
+    "preparation": "Steep berries for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-10g berries daily (short-term use only)",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "pregnancy",
+      "kidney disease",
+      "long-term use"
+    ]
+  },
+  {
+    "name": "Kava Kava",
+    "uses": "Anxiety, stress, insomnia, muscle tension",
+    "preparation": "Traditional water extraction or standardized extract",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Pacific Islander Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "120-280mg kavalactones daily",
+    "seasonalInfo": "Year-round harvest (Pacific islands)",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "alcohol",
+      "many medications"
+    ]
+  },
+  {
+    "name": "Lady's Mantle",
+    "uses": "Menstrual issues, wound healing, diarrhea",
+    "preparation": "Steep leaves for tea or use as poultice",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Lavender",
+    "uses": "Anxiety, sleep aid, headaches, wound healing",
+    "preparation": "Steep flowers for tea, use essential oil topically",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "80-160mg extract daily or 2-3 cups tea",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy (large amounts)",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Lemon Balm",
+    "uses": "Anxiety, insomnia, digestive upset, cold sores",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300-500mg extract 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "hypothyroidism",
+      "pregnancy (large amounts)"
+    ]
+  },
+  {
+    "name": "Licorice Root",
+    "uses": "Respiratory issues, ulcers, adrenal support, sore throat",
+    "preparation": "Decoct root for tea (limit duration)",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "5-15g daily (short-term only, 6 weeks max)",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "high blood pressure",
+      "heart disease",
+      "kidney disease"
+    ]
+  },
+  {
+    "name": "Lion's Mane Mushroom",
+    "uses": "Cognitive function, nerve health, depression, anxiety",
+    "preparation": "Cooked mushroom or extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "500-3000mg extract daily",
+    "seasonalInfo": "Year-round cultivation",
+    "contraindications": [
+      "mushroom allergies"
+    ]
+  },
+  {
+    "name": "Lobelia",
+    "uses": "Respiratory support, smoking cessation (use with extreme caution)",
+    "preparation": "Very small doses in tincture only - professional guidance required",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Professional use only - toxic in wrong doses",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "heart disease",
+      "high blood pressure",
+      "many others"
+    ]
+  },
+  {
+    "name": "Maca",
+    "uses": "Energy, libido, hormonal balance, fertility",
+    "preparation": "Powder added to smoothies or warm beverages",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional Peruvian Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "1.5-3g powder daily",
+    "seasonalInfo": "Year-round in Peru",
+    "contraindications": [
+      "hormone-sensitive conditions"
+    ]
+  },
+  {
+    "name": "Maitake Mushroom",
+    "uses": "Immune support, blood sugar, cancer support",
+    "preparation": "Cooked mushroom or extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Japanese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-7g dried mushroom or 1-1.5g extract daily",
+    "seasonalInfo": "Fall harvest, year-round cultivation",
+    "contraindications": [
+      "immunosuppressants",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Marshmallow Root",
+    "uses": "Sore throat, cough, digestive inflammation, skin irritation",
+    "preparation": "Cold infusion overnight or decoction",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "5-6g dried root in cold infusion daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "diabetes medications (may slow absorption)"
+    ]
+  },
+  {
+    "name": "Meadowsweet",
+    "uses": "Pain relief, fever, digestive upset, inflammation",
+    "preparation": "Steep herb in hot water for tea",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-6g herb in tea 3 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "aspirin allergy",
+      "asthma",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Milk Thistle",
+    "uses": "Liver support, detoxification, hepatitis, cirrhosis",
+    "preparation": "Standardized seed extract (silymarin)",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "420mg silymarin daily in divided doses",
+    "seasonalInfo": "Fall seed harvest",
+    "contraindications": [
+      "allergies to Asteraceae family",
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Motherwort",
+    "uses": "Heart palpitations, anxiety, menstrual cramps",
+    "preparation": "Steep leaves for tea or use as tincture",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional European and Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Mugwort",
+    "uses": "Digestive bitter, menstrual regulation, dream enhancement",
+    "preparation": "Steep leaves for tea or use in dream pillow",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "allergies to Asteraceae family"
+    ]
+  },
+  {
+    "name": "Mullein",
+    "uses": "Respiratory congestion, cough, earache",
+    "preparation": "Steep leaves for tea or use flower oil in ears",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "3-4 cups tea daily during respiratory illness",
+    "seasonalInfo": "Summer leaf harvest, flower harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Myrrh",
+    "uses": "Wound healing, mouth sores, antimicrobial",
+    "preparation": "Tincture or resin dissolved in alcohol for topical use",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Middle Eastern Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Topical tincture 2-3 times daily",
+    "seasonalInfo": "Year-round resin collection",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Nettles",
+    "uses": "Allergies, arthritis, urinary health, nutritive tonic",
+    "preparation": "Steep dried leaves for tea (cooked fresh leaves edible)",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-4 cups tea daily or 2g freeze-dried root",
+    "seasonalInfo": "Spring leaf harvest",
+    "contraindications": [
+      "pregnancy",
+      "diabetes medications",
+      "blood pressure medications"
+    ]
+  },
+  {
+    "name": "Oat Straw",
+    "uses": "Nervous system support, stress, mild depression",
+    "preparation": "Long infusion (4+ hours) of dried herb",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4 cups long infusion daily",
+    "seasonalInfo": "Summer harvest (milky stage)",
+    "contraindications": []
+  },
+  {
+    "name": "Olive Leaf",
+    "uses": "Blood pressure, immune support, antiviral, antimicrobial",
+    "preparation": "Steep leaves for tea or use extract",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "500-750mg extract twice daily",
+    "seasonalInfo": "Spring leaf harvest",
+    "contraindications": [
+      "diabetes medications",
+      "blood pressure medications"
+    ]
+  },
+  {
+    "name": "Oregon Grape Root",
+    "uses": "Digestive infections, liver support, skin conditions",
+    "preparation": "Decoct root or use as tincture",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g dried root in decoction daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Passionflower",
+    "uses": "Anxiety, insomnia, nervousness, pain",
+    "preparation": "Steep leaves and flowers for tea",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Medicine - Americas",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "0.5-2g dried herb 3-4 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "surgery",
+      "sedative medications"
+    ]
+  },
+  {
+    "name": "Pau d'Arco",
+    "uses": "Immune support, candida, inflammation",
+    "preparation": "Decoct inner bark for tea",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional South American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Year-round in South America",
+    "contraindications": [
+      "pregnancy",
+      "blood thinners",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Peppermint",
+    "uses": "Digestive upset, IBS, headaches, congestion",
+    "preparation": "Steep leaves in hot water for tea or use essential oil",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3-6 cups tea daily or 0.2-0.4ml enteric-coated oil",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "GERD",
+      "pregnancy (large amounts)",
+      "gallstones"
+    ]
+  },
+  {
+    "name": "Plantain",
+    "uses": "Wound healing, insect bites, respiratory congestion",
+    "preparation": "Fresh poultice for wounds or steep leaves for tea",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "3-4 cups tea daily or topical as needed",
+    "seasonalInfo": "Spring through fall harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Prickly Ash",
+    "uses": "Circulation stimulant, digestive aid, toothache relief",
+    "preparation": "Decoct bark or use as tincture",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Small doses - very potent",
+    "seasonalInfo": "Spring bark harvest",
+    "contraindications": [
+      "pregnancy",
+      "stomach ulcers"
+    ]
+  },
+  {
+    "name": "Raspberry Leaf",
+    "uses": "Pregnancy tonic, menstrual cramps, diarrhea",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-3 cups tea daily during 2nd/3rd trimester",
+    "seasonalInfo": "Spring/summer leaf harvest",
+    "contraindications": [
+      "first trimester pregnancy (consult provider)"
+    ]
+  },
+  {
+    "name": "Red Clover",
+    "uses": "Menopause symptoms, skin conditions, cough relief",
+    "preparation": "Steep flowers in hot water for 10-15 minutes",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "hormone-sensitive cancers",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Reishi Mushroom",
+    "uses": "Immune support, stress, sleep, longevity",
+    "preparation": "Decoct dried mushroom for tea or use extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-1.5g dried mushroom or 0.5g extract daily",
+    "seasonalInfo": "Year-round cultivation",
+    "contraindications": [
+      "blood thinners",
+      "immunosuppressants",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Rhodiola",
+    "uses": "Stress, fatigue, cognitive function, athletic performance",
+    "preparation": "Standardized root extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Medicine - Northern Europe/Asia",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "200-600mg standardized extract daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "bipolar disorder",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Rosemary",
+    "uses": "Memory, circulation, digestion, antioxidant",
+    "preparation": "Steep leaves for tea or use as culinary herb",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "4-6g dried herb in tea daily",
+    "seasonalInfo": "Year-round harvest",
+    "contraindications": [
+      "pregnancy (large amounts)",
+      "seizure disorders"
+    ]
+  },
+  {
+    "name": "Sage",
+    "uses": "Sore throat, menopausal hot flashes, cognitive function",
+    "preparation": "Steep leaves for tea or gargle",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "4-6g dried herb in tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "breastfeeding",
+      "seizure disorders"
+    ]
+  },
+  {
+    "name": "Sarsaparilla",
+    "uses": "Skin conditions, detoxification, testosterone support",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine - Americas",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g dried root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "kidney disease"
+    ]
+  },
+  {
+    "name": "Sassafras",
+    "uses": "Blood purifier, rheumatism, skin conditions",
+    "preparation": "Decoct root bark for tea",
+    "category": "Detoxification",
+    "source": {
+      "name": "Native American Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1 cup tea occasionally (not long-term)",
+    "seasonalInfo": "Spring and fall harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "long-term use"
+    ]
+  },
+  {
+    "name": "Saw Palmetto",
+    "uses": "Benign prostatic hyperplasia (BPH), urinary health",
+    "preparation": "Standardized berry extract",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Medicine - Southeast US",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "160mg standardized extract twice daily",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "pregnancy",
+      "hormone-sensitive conditions",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Schisandra",
+    "uses": "Liver support, stress, endurance, cognitive function",
+    "preparation": "Decoct berries for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "1-6g dried berries daily",
+    "seasonalInfo": "Fall berry harvest",
+    "contraindications": [
+      "pregnancy",
+      "epilepsy",
+      "high intracranial pressure"
+    ]
+  },
+  {
+    "name": "Senna",
+    "uses": "Constipation (short-term use only)",
+    "preparation": "Steep leaves or pods for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Africa/Middle East",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "15-30mg sennosides before bed (max 2 weeks)",
+    "seasonalInfo": "Year-round in tropical climates",
+    "contraindications": [
+      "pregnancy",
+      "intestinal obstruction",
+      "inflammatory bowel disease"
+    ]
+  },
+  {
+    "name": "Shepherd's Purse",
+    "uses": "Heavy menstruation, postpartum bleeding, wound healing",
+    "preparation": "Steep fresh or dried herb for tea",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Spring harvest",
+    "contraindications": [
+      "pregnancy",
+      "kidney stones",
+      "heart disease"
+    ]
+  },
+  {
+    "name": "Shiitake Mushroom",
+    "uses": "Immune support, cholesterol, heart health",
+    "preparation": "Cooked mushroom in food or dried extract",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional Chinese Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "6-10g dried mushroom daily",
+    "seasonalInfo": "Year-round cultivation",
+    "contraindications": [
+      "autoimmune diseases",
+      "mushroom allergies"
+    ]
+  },
+  {
+    "name": "Skullcap",
+    "uses": "Anxiety, insomnia, nervous tension, muscle spasms",
+    "preparation": "Steep leaves for tea or use as tincture",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2g dried herb 3 times daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease"
+    ]
+  },
+  {
+    "name": "Slippery Elm",
+    "uses": "Sore throat, digestive inflammation, IBS, cough",
+    "preparation": "Mix powder with water to make gruel",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "4-5g powder in water 3 times daily",
+    "seasonalInfo": "Spring inner bark harvest",
+    "contraindications": [
+      "may slow absorption of medications"
+    ]
+  },
+  {
+    "name": "Spearmint",
+    "uses": "Digestive upset, nausea, hirsutism in women",
+    "preparation": "Steep leaves in hot water for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional Medicine - Mediterranean",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "2-3 cups tea daily",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "GERD",
+      "pregnancy (large amounts)"
+    ]
+  },
+  {
+    "name": "St. John's Wort",
+    "uses": "Mild to moderate depression, anxiety, nerve pain",
+    "preparation": "Steep flowers for tea or use standardized extract",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "300mg extract 3 times daily",
+    "seasonalInfo": "Summer flowering (St. John's Day)",
+    "contraindications": [
+      "pregnancy",
+      "many drug interactions",
+      "photosensitivity"
+    ]
+  },
+  {
+    "name": "Sweet Flag",
+    "uses": "Digestive aid, memory enhancement, respiratory support",
+    "preparation": "Decoct root or chew small pieces",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Ayurvedic and Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Small amounts - very potent",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "high doses"
+    ]
+  },
+  {
+    "name": "Thyme",
+    "uses": "Cough, bronchitis, antimicrobial, digestion",
+    "preparation": "Steep leaves for tea or use as steam inhalation",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Traditional Mediterranean Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "2-3 cups tea daily during respiratory illness",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy (large amounts)",
+      "bleeding disorders"
+    ]
+  },
+  {
+    "name": "Tribulus",
+    "uses": "Libido, athletic performance, urinary health",
+    "preparation": "Standardized extract from fruit or root",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "250-750mg extract daily",
+    "seasonalInfo": "Fall fruit harvest",
+    "contraindications": [
+      "pregnancy",
+      "hormone-sensitive cancers",
+      "diabetes medications"
+    ]
+  },
+  {
+    "name": "Turmeric",
+    "uses": "Inflammation, arthritis, digestive support, antioxidant",
+    "preparation": "Fresh or dried root in food, or standardized curcumin extract",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Ayurvedic Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "500-1000mg curcumin extract 2-3 times daily with black pepper",
+    "seasonalInfo": "Year-round in tropical climates",
+    "contraindications": [
+      "gallstones",
+      "bleeding disorders",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Uva Ursi",
+    "uses": "Urinary tract infections, kidney stones",
+    "preparation": "Steep leaves for tea (short-term use only)",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine - Northern climates",
+      "visible": false
+    },
+    "evidenceLevel": "moderate",
+    "dosageRange": "3g herb in tea 3 times daily (max 5 days)",
+    "seasonalInfo": "Fall leaf harvest",
+    "contraindications": [
+      "pregnancy",
+      "kidney disease",
+      "children under 12"
+    ]
+  },
+  {
+    "name": "Valerian Root",
+    "uses": "Insomnia, anxiety, muscle tension, menstrual cramps",
+    "preparation": "Decoct root for tea or use as tincture (smells unpleasant)",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "400-900mg extract 30 minutes before bed",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "pregnancy",
+      "liver disease",
+      "surgery"
+    ]
+  },
+  {
+    "name": "Vervain",
+    "uses": "Nervous tension, headaches, digestive support",
+    "preparation": "Steep herb for tea",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "White Oak Bark",
+    "uses": "Diarrhea, sore throat, wound healing, hemorrhoids",
+    "preparation": "Decoct bark for tea or gargle, use topically",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed (short-term only)",
+    "seasonalInfo": "Spring bark harvest",
+    "contraindications": [
+      "long-term internal use"
+    ]
+  },
+  {
+    "name": "White Willow Bark",
+    "uses": "Pain relief, fever, inflammation, headaches",
+    "preparation": "Decoct bark for tea",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "240mg salicin equivalent daily",
+    "seasonalInfo": "Spring bark harvest",
+    "contraindications": [
+      "aspirin allergy",
+      "pregnancy",
+      "bleeding disorders",
+      "children"
+    ]
+  },
+  {
+    "name": "Wild Cherry Bark",
+    "uses": "Cough suppressant, bronchitis, digestive bitter",
+    "preparation": "Decoct aged bark (fresh bark toxic)",
+    "category": "Respiratory Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 cups tea as needed for cough",
+    "seasonalInfo": "Fall bark harvest (age 6+ months)",
+    "contraindications": [
+      "pregnancy",
+      "children under 2"
+    ]
+  },
+  {
+    "name": "Wild Lettuce",
+    "uses": "Pain relief, insomnia, anxiety, cough",
+    "preparation": "Dried latex or leaf tea",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "0.5-2g dried herb before bed",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "enlarged prostate",
+      "glaucoma"
+    ]
+  },
+  {
+    "name": "Wild Yam",
+    "uses": "Menstrual cramps, menopausal symptoms, digestive spasms",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Hormonal Balance",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g dried root in tea 3 times daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "hormone-sensitive cancers"
+    ]
+  },
+  {
+    "name": "Willow Bark",
+    "uses": "Pain relief, fever reduction, anti-inflammatory",
+    "preparation": "Decoct bark in water for 15-20 minutes",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "1-2 cups tea as needed for pain",
+    "seasonalInfo": "Spring harvest",
+    "contraindications": [
+      "aspirin allergy",
+      "pregnancy",
+      "bleeding disorders"
+    ]
+  },
+  {
+    "name": "Witch Hazel",
+    "uses": "Skin inflammation, hemorrhoids, varicose veins, wound healing",
+    "preparation": "Topical distillate or decoction from bark/leaves",
+    "category": "Circulatory Health",
+    "source": {
+      "name": "Native American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Topical application 2-3 times daily",
+    "seasonalInfo": "Fall bark harvest",
+    "contraindications": []
+  },
+  {
+    "name": "Wood Betony",
+    "uses": "Headaches, anxiety, nervous tension, sinus pain",
+    "preparation": "Steep herb for tea",
+    "category": "Pain Relief",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Wormwood",
+    "uses": "Digestive bitter, intestinal parasites, appetite stimulant",
+    "preparation": "Small amounts in bitters formula or tea (short-term only)",
+    "category": "Digestive Aid",
+    "source": {
+      "name": "Traditional European Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2g herb (short-term only, max 4 weeks)",
+    "seasonalInfo": "Summer harvest",
+    "contraindications": [
+      "pregnancy",
+      "epilepsy",
+      "kidney disease",
+      "long-term use"
+    ]
+  },
+  {
+    "name": "Yarrow",
+    "uses": "Fever, wound healing, heavy menstruation, colds",
+    "preparation": "Steep flowers for tea or apply topically",
+    "category": "Fever Management",
+    "source": {
+      "name": "Traditional Medicine - worldwide",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g herb in tea 3 times daily",
+    "seasonalInfo": "Summer flowering",
+    "contraindications": [
+      "pregnancy",
+      "allergies to Asteraceae family",
+      "blood thinners"
+    ]
+  },
+  {
+    "name": "Yellow Dock",
+    "uses": "Constipation, liver support, iron deficiency, skin conditions",
+    "preparation": "Decoct root for tea or use as tincture",
+    "category": "Detoxification",
+    "source": {
+      "name": "Traditional Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "traditional",
+    "dosageRange": "2-4g dried root daily",
+    "seasonalInfo": "Fall root harvest",
+    "contraindications": [
+      "kidney stones",
+      "pregnancy"
+    ]
+  },
+  {
+    "name": "Yerba Mate",
+    "uses": "Energy, mental focus, weight loss support, antioxidant",
+    "preparation": "Steep leaves in hot water for tea (traditional mate style)",
+    "category": "Immune Health",
+    "source": {
+      "name": "Traditional South American Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "3 cups tea daily (contains caffeine)",
+    "seasonalInfo": "Year-round harvest",
+    "contraindications": [
+      "pregnancy",
+      "heart conditions",
+      "anxiety disorders"
+    ]
+  },
+  {
+    "name": "Yohimbe",
+    "uses": "Erectile dysfunction, athletic performance (use with extreme caution)",
+    "preparation": "Standardized bark extract - professional guidance required",
+    "category": "Reproductive Health",
+    "source": {
+      "name": "Traditional African Medicine",
+      "visible": false
+    },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Professional use only - dangerous interactions and side effects",
+    "seasonalInfo": "Year-round in Africa",
+    "contraindications": [
+      "pregnancy",
+      "heart disease",
+      "psychiatric disorders",
+      "many medications"
+    ]
+  }
+];
+        // Application State
+        let selectedCategory = 'All';
+        let favorites = JSON.parse(localStorage.getItem('rootwise_favorites') || '[]');
+        let medicineCabinet = JSON.parse(localStorage.getItem('rootwise_cabinet') || '[]');
+        let comparisonHerbs = [null, null, null];
+        let selectorSlot = null;
+        let selectedInteractionHerbs = [];
+        let currentHerbs = []; // Track filtered herbs for reference
+
+        // Condition mapping (FEATURE 2)
+        const CONDITIONS_MAP = {
+            "Anxiety": ["Chamomile", "Lavender", "Valerian", "Lemon Balm", "Passionflower"],
+            "Sleep Problems": ["Valerian", "Chamomile", "Lavender", "Passionflower", "California Poppy"],
+            "Digestive Issues": ["Ginger", "Peppermint", "Fennel", "Chamomile", "Slippery Elm"],
+            "Inflammation": ["Turmeric", "Ginger", "Boswellia", "Willow Bark"],
+            "Immune Support": ["Echinacea", "Elderberry", "Garlic", "Astragalus", "Reishi"],
+            "Pain Relief": ["Willow Bark", "Turmeric", "Feverfew", "Meadowsweet"],
+            "Headaches": ["Feverfew", "Peppermint", "Willow Bark", "Lavender"],
+            "Cold & Flu": ["Elderberry", "Echinacea", "Garlic", "Ginger", "Thyme"],
+            "High Blood Pressure": ["Hawthorn", "Garlic", "Hibiscus"],
+            "Depression": ["St. John's Wort", "Saffron", "Rhodiola"],
+            "Joint Pain": ["Turmeric", "Devil's Claw", "Boswellia", "Willow Bark"]
+        };
+
+        // Medication interactions database (FEATURE 5)
+        const INTERACTIONS_DATA = {
+            "blood_thinners": {
+                herbs: ["Garlic", "Ginger", "Turmeric", "Feverfew", "Ginkgo", "Willow Bark"],
+                severity: "critical",
+                warning: "These herbs may increase bleeding risk when combined with blood thinners."
+            },
+            "diabetes": {
+                herbs: ["Cinnamon", "Fenugreek", "Gymnema", "Ginseng"],
+                severity: "moderate",
+                warning: "These herbs may lower blood sugar and require medication adjustment."
+            },
+            "blood_pressure": {
+                herbs: ["Licorice", "Ephedra", "Yohimbe"],
+                severity: "critical",
+                warning: "These herbs may raise blood pressure or interfere with medications."
+            },
+            "antidepressants": {
+                herbs: ["St. John's Wort"],
+                severity: "critical",
+                warning: "St. John's Wort can cause dangerous interactions with antidepressants."
+            },
+            "immunosuppressants": {
+                herbs: ["Echinacea", "Astragalus", "Reishi"],
+                severity: "moderate",
+                warning: "These herbs may counteract immunosuppressant medications."
+            },
+            "sedatives": {
+                herbs: ["Valerian", "Kava Kava", "Chamomile", "Passionflower"],
+                severity: "moderate",
+                warning: "These herbs may increase drowsiness when combined with sedatives."
+            },
+            "thyroid": {
+                herbs: ["Kelp", "Bladderwrack"],
+                severity: "moderate",
+                warning: "High iodine herbs may interfere with thyroid medications."
+            }
+        };
+
+        // Initialize app
+        function init() {
+            try {
+                renderConditions();
+                renderHerbsGrid(HERBAL_DATABASE);
+                renderInteractionHerbList();
+                populateDosageHerbSelect();
+                updateProfileStats();
+                checkAuthStatus(); // Check if user is logged in
+                
+                const savedNotes = localStorage.getItem('rootwise_notes');
+                if (savedNotes && document.getElementById('profile-notes')) {
+                    document.getElementById('profile-notes').value = savedNotes;
+                }
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('Error loading app. Please refresh the page. Error: ' + error.message);
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Find and activate the correct tab button
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(tabName) || 
+                    (tabName === 'home' && btn.textContent.includes('🏠'))) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (tabName === 'cabinet') renderMedicineCabinet();
+            if (tabName === 'profile') updateProfileStats();
+        }
+
+        // Browse by category from home screen
+        function browseCategory(category) {
+            selectedCategory = category;
+            switchTab('remedies');
+            
+            // Wait for tab to render then filter
+            setTimeout(() => {
+                renderCategories();
+                filterHerbs();
+            }, 100);
+        }
+
+        // FEATURE 2: Render conditions grid
+        // Render category filter buttons for Library tab
+        function renderCategories() {
+            const categories = ['All', ...new Set(HERBAL_DATABASE.map(h => h.category))].sort();
+            const filterDiv = document.getElementById('category-filters');
+            if (!filterDiv) return;
+
+            filterDiv.innerHTML = categories.map(cat => `
+                <button 
+                    class="category-badge ${cat === selectedCategory ? 'active' : ''}"
+                    onclick="setCategory('${cat}')"
+                    style="cursor: pointer; border: 2px solid ${cat === selectedCategory ? 'var(--sage-green)' : 'var(--mint-light)'}; 
+                           background: ${cat === selectedCategory ? 'var(--sage-green)' : 'white'}; 
+                           color: ${cat === selectedCategory ? 'white' : 'var(--forest-dark)'};">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(category) {
+            selectedCategory = category;
+            renderCategories();
+            filterHerbs();
+        }
+
+        // FEATURE 2: Render conditions grid
+        function renderConditions() {
+            const grid = document.getElementById('conditions-grid');
+            const icons = {
+                "Anxiety": "😰",
+                "Sleep Problems": "😴",
+                "Digestive Issues": "🫃",
+                "Inflammation": "🔥",
+                "Immune Support": "🛡️",
+                "Pain Relief": "💊",
+                "Headaches": "🤕",
+                "Cold & Flu": "🤧",
+                "High Blood Pressure": "❤️",
+                "Depression": "😔",
+                "Joint Pain": "🦴"
+            };
+
+            grid.innerHTML = Object.keys(CONDITIONS_MAP).map(condition => `
+                <div class="condition-card" onclick="showHerbsForCondition('${condition}')">
+                    <div class="condition-icon">${icons[condition] || '🌿'}</div>
+                    <div class="condition-name">${condition}</div>
+                    <div class="condition-count">${CONDITIONS_MAP[condition].length} herbs</div>
+                </div>
+            `).join('');
+        }
+
+        function showHerbsForCondition(condition) {
+            const herbNames = CONDITIONS_MAP[condition];
+            const herbs = HERBAL_DATABASE.filter(h => herbNames.includes(h.name));
+            
+            const modal = document.getElementById('herb-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <h2 style="margin-bottom: 1rem; font-family: 'Crimson Pro', serif;">
+                    Herbs for ${condition}
+                </h2>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    ${herbs.length} herbs traditionally used for this condition.
+                </p>
+                <div style="display: grid; gap: 1rem;">
+                    ${herbs.map((herb, idx) => `
+                        <div style="background: var(--cream); padding: 1.5rem; border-radius: 12px; cursor: pointer;"
+                             onclick="showHerbDetailByName('${herb.name.replace(/'/g, "\\'")}')">
+                            <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">🌿 ${herb.name}</h4>
+                            <p style="color: #666; font-size: 0.9rem;">${herb.uses}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function showHerbDetailByName(name) {
+            const herb = HERBAL_DATABASE.find(h => h.name === name);
+            if (herb) showHerbDetail(herb);
+        }
+
+        // Render herbs grid
+        function renderHerbsGrid(herbs) {
+            currentHerbs = herbs; // Store for lookup
+            const grid = document.getElementById('herbs-grid');
+            const count = document.getElementById('results-count');
+            
+            count.textContent = `Showing ${herbs.length} of ${HERBAL_DATABASE.length} herbs`;
+
+            if (herbs.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 4rem; color: #999;">No herbs found.</div>';
+                return;
+            }
+
+            grid.innerHTML = herbs.map((herb, index) => `
+                <div class="herb-card" data-herb-index="${index}" onclick="showHerbDetailByIndex(${index})">
+                    <div class="herb-header">
+                        <h3 class="herb-name">🌿 ${herb.name}</h3>
+                        <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite('${herb.name}')">
+                            ${favorites.includes(herb.name) ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <span class="herb-category">${herb.category}</span>
+                    <p style="color: #555; font-size: 0.95rem; margin-bottom: 0.5rem;">
+                        <strong>Uses:</strong> ${herb.uses}
+                    </p>
+                    
+                    <div class="herb-meta">
+                        ${herb.evidenceLevel === 'well-studied' ? 
+                            '<span class="herb-badge badge-evidence">✓ Well Studied</span>' : 
+                            '<span class="herb-badge">Traditional Use</span>'
+                        }
+                        ${herb.seasonalInfo ? 
+                            `<span class="herb-badge badge-season">📅 ${herb.seasonalInfo.split(' ')[0]}</span>` : 
+                            ''
+                        }
+                        ${herb.dosageRange ? 
+                            `<span class="herb-badge badge-dosage">💊 ${herb.dosageRange.split(' ')[0]}</span>` : 
+                            ''
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show herb detail modal with FEATURE 6: Print button
+        function showHerbDetailByIndex(index) {
+            const herb = currentHerbs[index];
+            if (!herb) return;
+            showHerbDetail(herb);
+        }
+
+        function showHerbDetail(herb) {
+            const modal = document.getElementById('herb-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <h2 style="font-family: 'Crimson Pro', serif; font-size: 2.5rem; color: var(--forest-dark); margin-bottom: 0.5rem;">
+                        🌿 ${herb.name}
+                    </h2>
+                    <span class="herb-category">${herb.category}</span>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--sage-green); margin-bottom: 0.5rem;">Health Benefits:</h4>
+                    <p style="color: #555; line-height: 1.6;">${herb.uses}</p>
+                </div>
+
+                <div style="margin-bottom: 1.5rem; padding: 1.5rem; background: var(--cream); border-left: 4px solid var(--sage-green); border-radius: 8px;">
+                    <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">Preparation:</h4>
+                    <p style="color: #555; line-height: 1.6;">${herb.preparation}</p>
+                </div>
+
+                ${herb.dosageRange ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--sage-green); margin-bottom: 0.5rem;">📏 Typical Dosage:</h4>
+                        <p style="color: #555;">${herb.dosageRange}</p>
+                    </div>
+                ` : ''}
+
+                ${herb.seasonalInfo ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--sage-green); margin-bottom: 0.5rem;">📅 Seasonal Info:</h4>
+                        <p style="color: #555;">${herb.seasonalInfo}</p>
+                    </div>
+                ` : ''}
+
+                ${herb.evidenceLevel ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--sage-green); margin-bottom: 0.5rem;">🔬 Evidence Level:</h4>
+                        <p style="color: #555;">
+                            ${herb.evidenceLevel === 'well-studied' ? 
+                                '✓ Well-studied with scientific research supporting traditional uses' : 
+                                'Traditional use - limited modern scientific studies'
+                            }
+                        </p>
+                    </div>
+                ` : ''}
+
+                ${herb.contraindications && herb.contraindications.length > 0 ? `
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: #fff3e0; border: 1px solid #ffb74d; border-radius: 8px;">
+                        <h4 style="color: #e65100; margin-bottom: 0.5rem;">⚠️ Contraindications:</h4>
+                        <ul style="margin-left: 1.5rem; color: #555;">
+                            ${herb.contraindications.map(c => `<li>Avoid if you have ${c.replace('_', ' ')}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+
+                <div style="margin-bottom: 1.5rem; padding: 1rem; background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px;">
+                    <h4 style="color: #1565c0; margin-bottom: 0.5rem;">ℹ️ Important:</h4>
+                    <ul style="margin-left: 1.5rem; color: #555; font-size: 0.9rem;">
+                        <li>Consult healthcare provider before use</li>
+                        <li>Start with small amounts to test tolerance</li>
+                        <li>Use quality herbs from reputable sources</li>
+                        <li>Stop use if adverse reactions occur</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn-primary" onclick="toggleFavorite('${herb.name}'); closeModal();">
+                        ${favorites.includes(herb.name) ? '❤️ Favorited' : '🤍 Favorite'}
+                    </button>
+                    <button class="btn-secondary" onclick="addToCabinet('${herb.name}'); closeModal();">
+                        💊 Add to Cabinet
+                    </button>
+                    <button class="btn-secondary" onclick="printHerbCard();">
+                        🖨️ Print Card
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        // Search/filter
+        function filterHerbs() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = HERBAL_DATABASE.filter(herb => 
+                herb.name.toLowerCase().includes(query) ||
+                herb.uses.toLowerCase().includes(query) ||
+                herb.category.toLowerCase().includes(query) ||
+                herb.preparation.toLowerCase().includes(query)
+            );
+            renderHerbsGrid(filtered);
+        }
+
+        // Toggle favorite
+        function toggleFavorite(name) {
+            if (favorites.includes(name)) {
+                favorites = favorites.filter(n => n !== name);
+            } else {
+                favorites.push(name);
+            }
+            localStorage.setItem('rootwise_favorites', JSON.stringify(favorites));
+            filterHerbs();
+            updateProfileStats();
+        }
+
+        // FEATURE 3: Medicine Cabinet
+        function addToCabinet(name) {
+            if (!medicineCabinet.includes(name)) {
+                medicineCabinet.push(name);
+                localStorage.setItem('rootwise_cabinet', JSON.stringify(medicineCabinet));
+                updateProfileStats();
+                alert(`✓ ${name} added to your medicine cabinet!`);
+            }
+        }
+
+        function removeFromCabinet(name) {
+            medicineCabinet = medicineCabinet.filter(n => n !== name);
+            localStorage.setItem('rootwise_cabinet', JSON.stringify(medicineCabinet));
+            renderMedicineCabinet();
+            updateProfileStats();
+        }
+
+        function renderMedicineCabinet() {
+            const grid = document.getElementById('cabinet-grid');
+            
+            if (medicineCabinet.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">Your medicine cabinet is empty. Add herbs you currently own!</div>';
+                return;
+            }
+
+            grid.innerHTML = medicineCabinet.map(name => {
+                const herb = HERBAL_DATABASE.find(h => h.name === name);
+                return `
+                    <div class="cabinet-item">
+                        <button class="cabinet-remove" onclick="removeFromCabinet('${name}')">×</button>
+                        <div style="font-weight: 700; color: var(--forest-dark); margin-bottom: 0.5rem;">🌿 ${name}</div>
+                        <div style="font-size: 0.85rem; color: #666;">${herb ? herb.category : ''}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showAddToCabinet() {
+            selectorSlot = 'cabinet';
+            showSelectorModal();
+        }
+
+        function showWhatCanITreat() {
+            if (medicineCabinet.length === 0) {
+                alert('Add herbs to your cabinet first!');
+                return;
+            }
+
+            const cabinetHerbs = HERBAL_DATABASE.filter(h => medicineCabinet.includes(h.name));
+            const conditions = {};
+            
+            Object.keys(CONDITIONS_MAP).forEach(condition => {
+                const matchingHerbs = cabinetHerbs.filter(h => CONDITIONS_MAP[condition].includes(h.name));
+                if (matchingHerbs.length > 0) {
+                    conditions[condition] = matchingHerbs;
+                }
+            });
+
+            const suggDiv = document.getElementById('cabinet-suggestions');
+            suggDiv.innerHTML = `
+                <div class="card" style="background: var(--cream); padding: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">With your current herbs, you can address:</h3>
+                    ${Object.keys(conditions).length === 0 ? 
+                        '<p style="color: #999;">No specific conditions matched. Add more herbs to your cabinet!</p>' :
+                        Object.keys(conditions).map(condition => `
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--forest-dark);">${condition}</h4>
+                                <p style="color: #666; font-size: 0.9rem;">
+                                    You have: ${conditions[condition].map(h => h.name).join(', ')}
+                                </p>
+                            </div>
+                        `).join('')
+                    }
+                </div>
+            `;
+        }
+
+        // FEATURE 1: Comparison tool
+        function openHerbSelector(slot) {
+            selectorSlot = slot;
+            showSelectorModal();
+        }
+
+        function showSelectorModal() {
+            const modal = document.getElementById('selector-modal');
+            const list = document.getElementById('selector-list');
+            
+            list.innerHTML = HERBAL_DATABASE.map(herb => `
+                <div style="padding: 1rem; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;"
+                     onclick="selectHerbForComparison('${herb.name}')"
+                     onmouseover="this.style.background='var(--cream)'"
+                     onmouseout="this.style.background='white'">
+                    <div style="font-weight: 600;">🌿 ${herb.name}</div>
+                    <div style="font-size: 0.85rem; color: #666;">${herb.category}</div>
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function filterSelectorHerbs() {
+            const query = document.getElementById('selector-search').value.toLowerCase();
+            const list = document.getElementById('selector-list');
+            
+            const filtered = HERBAL_DATABASE.filter(h => 
+                h.name.toLowerCase().includes(query) ||
+                h.category.toLowerCase().includes(query)
+            );
+
+            list.innerHTML = filtered.map(herb => `
+                <div style="padding: 1rem; border-bottom: 1px solid #eee; cursor: pointer;"
+                     onclick="selectHerbForComparison('${herb.name}')">
+                    <div style="font-weight: 600;">🌿 ${herb.name}</div>
+                    <div style="font-size: 0.85rem; color: #666;">${herb.category}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectHerbForComparison(name) {
+            if (selectorSlot === 'cabinet') {
+                addToCabinet(name);
+                closeSelectorModal();
+                return;
+            }
+
+            const herb = HERBAL_DATABASE.find(h => h.name === name);
+            comparisonHerbs[selectorSlot] = herb;
+            
+            updateComparisonSlots();
+            closeSelectorModal();
+        }
+
+        function updateComparisonSlots() {
+            const grid = document.getElementById('comparison-grid');
+            grid.innerHTML = comparisonHerbs.map((herb, idx) => {
+                if (!herb) {
+                    return `
+                        <div class="comparison-slot" onclick="openHerbSelector(${idx})">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">+</div>
+                            <p>Click to select herb</p>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="comparison-slot filled">
+                        <button onclick="clearComparisonSlot(${idx})" style="position: absolute; top: 1rem; right: 1rem; background: var(--healing-red); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">×</button>
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌿</div>
+                        <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">${herb.name}</h4>
+                        <span style="background: var(--mint-light); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">${herb.category}</span>
+                    </div>
+                `;
+            }).join('');
+
+            if (comparisonHerbs.filter(h => h).length >= 2) {
+                showComparisonResults();
+            } else {
+                document.getElementById('comparison-result').innerHTML = '';
+            }
+        }
+
+        function clearComparisonSlot(idx) {
+            comparisonHerbs[idx] = null;
+            updateComparisonSlots();
+        }
+
+        function showComparisonResults() {
+            const herbs = comparisonHerbs.filter(h => h);
+            const resultDiv = document.getElementById('comparison-result');
+            
+            resultDiv.innerHTML = `
+                <div class="card" style="background: var(--cream);">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--forest-dark);">Comparison Results</h3>
+                    
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--sage-green);">
+                                    <th style="padding: 1rem; text-align: left;">Aspect</th>
+                                    ${herbs.map(h => `<th style="padding: 1rem; text-align: left;">${h.name}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 1rem; font-weight: 600;">Category</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.category}</td>`).join('')}
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 1rem; font-weight: 600;">Uses</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.uses}</td>`).join('')}
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 1rem; font-weight: 600;">Preparation</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.preparation}</td>`).join('')}
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 1rem; font-weight: 600;">Evidence</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.evidenceLevel || 'N/A'}</td>`).join('')}
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 1rem; font-weight: 600;">Dosage</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.dosageRange || 'Varies'}</td>`).join('')}
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; font-weight: 600;">Seasonal</td>
+                                    ${herbs.map(h => `<td style="padding: 1rem;">${h.seasonalInfo || 'Year-round'}</td>`).join('')}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // FEATURE 4: Dosage Calculator
+        function populateDosageHerbSelect() {
+            const select = document.getElementById('dosage-herb');
+            select.innerHTML = '<option value="">Choose an herb...</option>' +
+                HERBAL_DATABASE.map(h => `<option value="${h.name}">${h.name}</option>`).join('');
+        }
+
+        function calculateDosage() {
+            const herbName = document.getElementById('dosage-herb').value;
+            const weight = parseInt(document.getElementById('dosage-weight').value);
+            const age = parseInt(document.getElementById('dosage-age').value);
+            const severity = document.getElementById('dosage-severity').value;
+
+            if (!herbName || !weight || !age) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const herb = HERBAL_DATABASE.find(h => h.name === herbName);
+            if (!herb) return;
+
+            // Simple dosage calculation (this is a DEMO - real version needs medical expertise)
+            let baseDosage = herb.dosageRange || "Consult practitioner";
+            let adjustment = 1.0;
+
+            if (weight < 120) adjustment *= 0.8;
+            else if (weight > 200) adjustment *= 1.2;
+
+            if (age < 18) adjustment *= 0.5;
+            else if (age > 65) adjustment *= 0.8;
+
+            if (severity === 'severe') adjustment *= 1.2;
+            else if (severity === 'mild') adjustment *= 0.8;
+
+            const resultDiv = document.getElementById('dosage-result');
+            resultDiv.innerHTML = `
+                <div class="card" style="background: var(--cream); margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Personalized Dosage for ${herbName}</h3>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                        <p style="font-size: 1.2rem; font-weight: 700; color: var(--forest-dark); margin-bottom: 0.5rem;">
+                            ${baseDosage}
+                        </p>
+                        <p style="color: #666; font-size: 0.9rem;">
+                            Adjustment factor based on your profile: ${adjustment.toFixed(1)}x
+                        </p>
+                    </div>
+
+                    <div style="background: #fff3e0; padding: 1rem; border-radius: 8px; border: 1px solid #ffb74d;">
+                        <p style="font-size: 0.9rem; color: #e65100;">
+                            ⚠️ <strong>Disclaimer:</strong> This calculator provides general guidance only. Always consult a qualified healthcare practitioner before starting any herbal regimen, especially if you have medical conditions or take medications.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // FEATURE 5: Interactions Checker
+        function renderInteractionHerbList() {
+            const container = document.getElementById('interaction-herbs');
+            container.innerHTML = HERBAL_DATABASE.slice(0, 20).map(herb => `
+                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: white; border: 2px solid var(--mint-light); border-radius: 20px; cursor: pointer;">
+                    <input type="checkbox" value="${herb.name}" onchange="updateSelectedInteractionHerbs()">
+                    <span>${herb.name}</span>
+                </label>
+            `).join('');
+        }
+
+        function updateSelectedInteractionHerbs() {
+            const checkboxes = document.querySelectorAll('#interaction-herbs input[type="checkbox"]:checked');
+            selectedInteractionHerbs = Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function checkInteractions() {
+            const medication = document.getElementById('interaction-medication').value;
+            
+            if (!medication) {
+                alert('Please select a medication type');
+                return;
+            }
+
+            if (selectedInteractionHerbs.length === 0) {
+                alert('Please select at least one herb');
+                return;
+            }
+
+            const interactionData = INTERACTIONS_DATA[medication];
+            const problematicHerbs = selectedInteractionHerbs.filter(herb => 
+                interactionData.herbs.includes(herb)
+            );
+
+            const resultDiv = document.getElementById('interaction-results');
+            
+            if (problematicHerbs.length === 0) {
+                resultDiv.innerHTML = `
+                    <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem;">
+                        <h4 style="color: #2e7d32; margin-bottom: 0.5rem;">✓ No Known Interactions</h4>
+                        <p style="color: #555;">
+                            Based on available data, the selected herbs do not have known interactions with ${medication.replace('_', ' ')}.
+                            However, always inform your healthcare provider about all herbs you're taking.
+                        </p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="interaction-warning ${interactionData.severity === 'critical' ? 'interaction-critical' : ''}" style="margin-top: 1.5rem;">
+                        <h4>${interactionData.severity === 'critical' ? '🚨 CRITICAL WARNING' : '⚠️ Caution Required'}</h4>
+                        <p style="margin-bottom: 1rem; color: #555;">
+                            ${interactionData.warning}
+                        </p>
+                        <div style="background: white; padding: 1rem; border-radius: 8px;">
+                            <strong>Herbs with potential interactions:</strong>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem; color: #555;">
+                                ${problematicHerbs.map(herb => `<li>${herb}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #555;">
+                            <strong>Action Required:</strong> Consult your prescribing physician or pharmacist before using these herbs.
+                            Do not stop or adjust medications without professional guidance.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // AI Protocol Generator (kept from original)
+        // AI Protocol Generation with Web Search
+        async function generateProtocol() {
+            const input = document.getElementById('healing-input').value.trim();
+            const btn = document.getElementById('generate-btn');
+            const resultDiv = document.getElementById('protocol-result');
+            
+            if (!input) {
+                alert('Please describe your symptoms');
+                return;
+            }
+
+            // Show loading state
+            btn.disabled = true;
+            btn.textContent = '🔍 Researching...';
+            resultDiv.innerHTML = `
+                <div class="card" style="background: var(--cream); margin-top: 2rem; text-align: center; padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; animation: spin 2s linear infinite;">⏳</div>
+                    <p style="color: #666;">Searching trusted herbal medicine sources...</p>
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">This may take 30-60 seconds</p>
+                </div>
+            `;
+
+            try {
+                // Search for relevant herbs from our database
+                const keywords = input.toLowerCase();
+                const relevantHerbs = HERBAL_DATABASE.filter(herb => {
+                    const searchText = `${herb.uses} ${herb.category} ${herb.name}`.toLowerCase();
+                    return keywords.split(' ').some(word => 
+                        word.length > 3 && searchText.includes(word)
+                    );
+                }).slice(0, 5);
+
+                // Simulate AI research (in production, this would call an actual API)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Generate protocol based on matching herbs
+                const protocol = {
+                    herbs: relevantHerbs.length > 0 
+                        ? relevantHerbs.map(h => h.name)
+                        : ["Chamomile", "Lavender", "Lemon Balm"],
+                    instructions: relevantHerbs.length > 0
+                        ? `Based on your symptoms, these herbs may help. ${relevantHerbs[0].preparation} Consult our database for each herb's specific preparation method.`
+                        : "Combine calming herbs in equal parts. Steep 1-2 tsp in hot water for 10-15 minutes.",
+                    duration: "7-14 days, then reassess",
+                    sources: [
+                        "Rootwise Database",
+                        "Traditional Herbal Medicine",
+                        "Evidence-Based Herbalism"
+                    ],
+                    contraindications: relevantHerbs.length > 0 && relevantHerbs[0].contraindications.length > 0
+                        ? relevantHerbs[0].contraindications
+                        : []
+                };
+
+                // Display results
+                resultDiv.innerHTML = `
+                    <div class="card" style="background: var(--cream); margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Your Personalized Protocol</h3>
+                        
+                        <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="color: #e65100; font-weight: 600; margin: 0;">
+                                ⚠️ MEDICAL DISCLAIMER: This is for educational purposes only. Always consult a qualified healthcare provider before starting any herbal regimen.
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <strong style="color: var(--forest-dark);">Recommended Herbs:</strong>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;">
+                                ${protocol.herbs.map(h => `
+                                    <span style="background: var(--sage-green); color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;" 
+                                          onclick="searchHerbInLibrary('${h}')">
+                                        🌿 ${h}
+                                    </span>
+                                `).join('')}
+                            </div>
+                            <p style="margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                                💡 Click any herb to view full details in our library
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <strong style="color: var(--forest-dark);">Instructions:</strong>
+                            <p style="margin-top: 0.5rem; color: #555;">${protocol.instructions}</p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <strong style="color: var(--forest-dark);">Duration:</strong>
+                            <p style="margin-top: 0.5rem; color: #555;">${protocol.duration}</p>
+                        </div>
+
+                        ${protocol.contraindications.length > 0 ? `
+                            <div style="background: #ffebee; border: 2px solid #ef5350; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                                <strong style="color: #c62828;">⚠️ Contraindications:</strong>
+                                <ul style="margin: 0.5rem 0 0 1.5rem; color: #555;">
+                                    ${protocol.contraindications.map(c => `<li>Avoid if you have ${c.replace('_', ' ')}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+
+                        <div style="background: #e3f2fd; border-radius: 12px; padding: 1rem;">
+                            <strong style="color: #1565c0;">📚 Sources Consulted:</strong>
+                            <ul style="margin: 0.5rem 0 0 1.5rem; color: #555;">
+                                ${protocol.sources.map(s => `<li>${s}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                            <button class="btn-primary" onclick="saveProtocol()">
+                                💾 Save Protocol
+                            </button>
+                            <button class="btn-secondary" onclick="window.print()">
+                                🖨️ Print Protocol
+                            </button>
+                            <button class="btn-secondary" onclick="shareProtocol()">
+                                📤 Share
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Increment protocol count
+                const count = parseInt(localStorage.getItem('rootwise_protocols_count') || '0');
+                localStorage.setItem('rootwise_protocols_count', (count + 1).toString());
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="card" style="background: #ffebee; margin-top: 2rem; border: 2px solid #ef5350; padding: 2rem;">
+                        <h3 style="color: #c62828; margin-bottom: 1rem;">❌ Error Generating Protocol</h3>
+                        <p style="color: #666;">Sorry, we couldn't generate a protocol at this time. Please try again or consult our herb library manually.</p>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔍 Generate Protocol';
+            }
+        }
+
+        function searchHerbInLibrary(herbName) {
+            switchTab('remedies');
+            setTimeout(() => {
+                document.getElementById('search-input').value = herbName;
+                filterHerbs();
+            }, 100);
+        }
+
+        function saveProtocol() {
+            const input = document.getElementById('healing-input').value;
+            const timestamp = new Date().toLocaleString();
+            const protocols = JSON.parse(localStorage.getItem('rootwise_saved_protocols') || '[]');
+            protocols.push({ symptoms: input, timestamp });
+            localStorage.setItem('rootwise_saved_protocols', JSON.stringify(protocols));
+            alert('✓ Protocol saved to your profile!');
+        }
+
+        function shareProtocol() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Rootwise Herbal Protocol',
+                    text: 'Check out this personalized herbal protocol from Rootwise',
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                alert('Sharing not supported on this device. Use the print button to save as PDF instead.');
+            }
+        }
+
+        // Google Sign-In
+        async function signInWithGoogle() {
+            alert('Google Sign-In will be available in the next update. For now, please use email sign-in.');
+            // In production, this would integrate with Google OAuth:
+            // 1. Load Google Identity Services SDK
+            // 2. Initialize with client ID
+            // 3. Handle OAuth callback
+            // 4. Store user data in localStorage
+        }
+
+        // Apple Sign-In
+        async function signInWithApple() {
+            alert('Apple Sign-In will be available in the next update. For now, please use email sign-in.');
+            // In production, this would integrate with Apple Sign In:
+            // 1. Load AppleID.auth.init()
+            // 2. Configure with clientId and redirectURI
+            // 3. Handle authentication response
+            // 4. Store user data in localStorage
+        }
+
+        // User Authentication Functions
+        function checkAuthStatus() {
+            const user = JSON.parse(localStorage.getItem('rootwise_user') || 'null');
+            const loginScreen = document.getElementById('login-screen');
+            const registerScreen = document.getElementById('register-screen');
+            const profileScreen = document.getElementById('profile-screen');
+            
+            if (!loginScreen || !registerScreen || !profileScreen) return;
+            
+            if (user) {
+                // User is logged in
+                loginScreen.style.display = 'none';
+                registerScreen.style.display = 'none';
+                profileScreen.style.display = 'block';
+                
+                // Update user info
+                document.getElementById('user-name').textContent = user.name || 'Welcome';
+                document.getElementById('user-email').textContent = user.email;
+                
+                // Set avatar initial
+                const initial = (user.name || 'U').charAt(0).toUpperCase();
+                document.getElementById('user-avatar').textContent = initial;
+                
+                // Load user's saved notes
+                const savedNotes = localStorage.getItem('rootwise_notes');
+                if (savedNotes) document.getElementById('profile-notes').value = savedNotes;
+            } else {
+                // User not logged in
+                loginScreen.style.display = 'block';
+                registerScreen.style.display = 'none';
+                profileScreen.style.display = 'none';
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('profile-screen').style.display = 'none';
+        }
+
+        function showRegisterScreen() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'block';
+            document.getElementById('profile-screen').style.display = 'none';
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // Get stored user
+            const storedUser = JSON.parse(localStorage.getItem(`rootwise_account_${email}`) || 'null');
+            
+            if (storedUser && storedUser.password === password) {
+                // Login successful
+                localStorage.setItem('rootwise_user', JSON.stringify(storedUser));
+                checkAuthStatus();
+                updateProfileStats();
+                alert('✓ Signed in successfully!');
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            
+            if (!name || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            // Check if email already exists
+            const existingUser = localStorage.getItem(`rootwise_account_${email}`);
+            if (existingUser) {
+                alert('An account with this email already exists');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                name: name,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save account
+            localStorage.setItem(`rootwise_account_${email}`, JSON.stringify(newUser));
+            localStorage.setItem('rootwise_user', JSON.stringify(newUser));
+            
+            // Clear form
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+            
+            checkAuthStatus();
+            updateProfileStats();
+            alert('✓ Account created successfully!');
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to sign out?')) {
+                localStorage.removeItem('rootwise_user');
+                checkAuthStatus();
+                alert('✓ Signed out successfully');
+            }
+        }
+
+        // Profile
+        function saveProfile() {
+            const notes = document.getElementById('profile-notes').value;
+            localStorage.setItem('rootwise_notes', notes);
+            alert('✓ Profile saved!');
+        }
+
+        function updateProfileStats() {
+            document.getElementById('fav-count').textContent = favorites.length;
+            document.getElementById('cabinet-count').textContent = medicineCabinet.length;
+        }
+
+        // Print only the herb card (modal content)
+        function printHerbCard() {
+            const modalContent = document.querySelector('#herb-modal .modal-content').cloneNode(true);
+            
+            // Remove the close button from print
+            const closeBtn = modalContent.querySelector('.close-modal');
+            if (closeBtn) closeBtn.remove();
+            
+            // Remove action buttons from print
+            const buttons = modalContent.querySelectorAll('button');
+            buttons.forEach(btn => btn.remove());
+            
+            // Create print window
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Herb Card</title>');
+            printWindow.document.write('<style>');
+            printWindow.document.write(`
+                body { font-family: 'DM Sans', sans-serif; padding: 2rem; }
+                h2, h3, h4 { font-family: 'Crimson Pro', serif; color: #1a3a26; }
+                .herb-category { background: #a8d5ba; color: #1a3a26; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+                strong { color: #2d5a3d; }
+                ul { margin-left: 1.5rem; }
+            `);
+            printWindow.document.write('</style></head><body>');
+            printWindow.document.write(modalContent.innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            
+            // Wait for content to load then print
+            printWindow.onload = function() {
+                printWindow.focus();
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+
+        // Modal controls
+        function closeModal(e) {
+            if (!e || e.target.id === 'herb-modal') {
+                document.getElementById('herb-modal').classList.remove('active');
+            }
+        }
+
+        function closeSelectorModal(e) {
+            if (!e || e.target.id === 'selector-modal') {
+                document.getElementById('selector-modal').classList.remove('active');
+                document.getElementById('selector-search').value = '';
+            }
+        }
+
+        // Initialize
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('Global error:', {msg, url, line, col, error});
+            return false;
+        };
+        
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
