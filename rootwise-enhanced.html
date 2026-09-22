@@ -115,6 +115,14 @@
             margin-bottom: 2rem;
             flex-wrap: wrap;
             justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 0.75rem;
+            background: rgba(250, 247, 242, 0.94);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(26, 58, 38, 0.08);
         }
 
         .tab-button {
@@ -236,6 +244,77 @@
 
         .btn-secondary:hover {
             background: var(--mint-light);
+        }
+
+        .workspace-toolbar {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid var(--mint-light);
+            border-radius: 14px;
+            padding: 1.25rem;
+            overflow: hidden;
+        }
+
+        .resource-card h4 { margin: 0.75rem 0 0.35rem; }
+        .resource-card p { color: #666; font-size: 0.92rem; }
+
+        .resource-form {
+            display: none;
+            background: var(--cream);
+            border: 2px solid var(--mint-light);
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .resource-form.active { display: block; }
+
+        .resource-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .resource-form label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+        .resource-form input, .resource-form textarea, .resource-form select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--mint-light);
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: #66756b;
+            background: var(--cream);
+            border: 2px dashed var(--mint-light);
+            border-radius: 14px;
+        }
+
+        .notice {
+            background: #fff8e7;
+            border-left: 4px solid var(--gold-accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #5d4a32;
         }
 
         /* FEATURE 1: Comparison Tool */
@@ -553,13 +632,27 @@
         /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
+            .container { padding: 0.75rem; }
+            header { padding: 1.5rem 0.5rem; margin-bottom: 1rem; }
+            .logo { font-size: 3rem; }
             .herbs-grid, .comparison-grid, .condition-grid { 
                 grid-template-columns: 1fr; 
+            }
+            .tabs {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                border-radius: 12px;
+                scrollbar-width: thin;
             }
             .tab-button { 
                 padding: 0.6rem 1rem; 
                 font-size: 0.85rem; 
+                white-space: nowrap;
+                flex: 0 0 auto;
             }
+            .card { padding: 1.25rem; border-radius: 14px; }
+            .resource-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -595,13 +688,13 @@
                 ⚠️ Interactions
             </button>
             <button class="tab-button" onclick="switchTab('healing')">
-                ✨ AI Healing
+                ✨ Guided Suggestions
             </button>
             <button class="tab-button" onclick="switchTab('profile')">
                 👤 Profile
             </button>
             <button class="tab-button" onclick="switchTab('library')">
-                📖 Books
+                📖 Resources
             </button>
             <button class="tab-button" onclick="switchTab('learn')">
                 🎓 Learn
@@ -693,8 +786,8 @@
                         onmouseover="this.style.borderColor='var(--sage-green)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'"
                         onmouseout="this.style.borderColor='var(--mint-light)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div>
-                        <div style="font-weight: 600; color: var(--forest-dark); margin-bottom: 0.25rem;">AI Healing Guide</div>
-                        <div style="font-size: 0.85rem; color: #666;">Get personalized herbal protocols</div>
+                        <div style="font-weight: 600; color: var(--forest-dark); margin-bottom: 0.25rem;">Guided Herb Search</div>
+                        <div style="font-size: 0.85rem; color: #666;">Find educational matches in the library</div>
                     </button>
                 </div>
             </div>
@@ -704,11 +797,39 @@
             <div class="card">
                 <h2 class="card-title">🔍 Browse by Health Condition</h2>
                 <p style="color: #666; margin-bottom: 2rem;">
-                    Find herbs for your specific health needs. Click any condition to see recommended herbs.
+                    Choose a health area and condition to view educational herb information.
                 </p>
-                
-                <div class="condition-grid" id="conditions-grid">
-                    <!-- Populated by JavaScript -->
+
+                <div class="resource-form" style="display:block; margin-bottom:1.5rem;">
+                    <div class="resource-form-grid">
+                        <div>
+                            <label for="condition-group">1. Select a health area</label>
+                            <select id="condition-group" onchange="updateConditionDropdown()">
+                            <option value="all">All health areas</option>
+                            <option value="digestive">Digestive</option>
+                            <option value="heart">Heart & metabolic</option>
+                            <option value="respiratory">Respiratory & immune</option>
+                            <option value="women">Women & hormonal</option>
+                            <option value="mind">Mind, sleep & energy</option>
+                            <option value="pain">Pain & movement</option>
+                            <option value="skin">Skin & circulation</option>
+                            <option value="urinary">Urinary & men's health</option>
+                            <option value="general">Other wellness areas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="condition-select">2. Select a condition</label>
+                            <select id="condition-select" onchange="toggleOtherCondition()">
+                                <option value="">Choose a condition...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="other-condition-wrap" style="display:none;margin-top:1rem;">
+                        <label for="condition-search">Type another condition or wellness goal</label>
+                        <input id="condition-search" placeholder="Example: leg cramps" onkeydown="if(event.key === 'Enter') findSelectedCondition()">
+                        <p style="font-size:.85rem;color:#6d746f;margin-top:.5rem;">Rootwise will search the herb descriptions for related words.</p>
+                    </div>
+                    <button class="btn-primary" style="margin-top:1rem;" onclick="findSelectedCondition()">Find herbs</button>
                 </div>
             </div>
         </div>
@@ -844,11 +965,14 @@
 
                 <div style="margin-bottom: 1.5rem;">
                     <label style="font-weight: 600; margin-bottom: 0.5rem; display: block;">
-                        Select herbs you're considering:
+                        Search and add herbs you're considering:
                     </label>
-                    <div id="interaction-herbs" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                        <!-- Populated dynamically -->
+                    <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+                        <input id="medication-herb-input" list="medication-herb-options" placeholder="Type or select any herb..." style="flex:1;min-width:240px;padding:.75rem;border:2px solid var(--mint-light);border-radius:8px;" onkeydown="if(event.key === 'Enter'){event.preventDefault();addMedicationCheckHerb();}">
+                        <datalist id="medication-herb-options"></datalist>
+                        <button class="btn-secondary" onclick="addMedicationCheckHerb()">+ Add herb</button>
                     </div>
+                    <div id="interaction-herbs" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem;"></div>
                 </div>
 
                 <div style="margin-bottom: 1.5rem;">
@@ -864,7 +988,9 @@
                         <option value="immunosuppressants">Immunosuppressants</option>
                         <option value="sedatives">Sedatives/Sleep Aids</option>
                         <option value="thyroid">Thyroid Medications</option>
+                        <option value="other">Other medication</option>
                     </select>
+                    <input id="interaction-medication-other" placeholder="Type the medication name if it is not listed" style="width:100%;padding:.75rem;border:2px solid var(--mint-light);border-radius:8px;margin-top:.75rem;">
                 </div>
 
                 <button class="btn-primary" onclick="checkInteractions()">Check for Interactions</button>
@@ -876,14 +1002,14 @@
         <!-- AI HEALING TAB with Internet-Based Research -->
         <div id="healing-tab" class="tab-content">
             <div class="card">
-                <h2 class="card-title">✨ AI Healing Protocol Generator</h2>
+                <h2 class="card-title">✨ Guided Herb Suggestions</h2>
                 <p style="color: #666; margin-bottom: 1.5rem;">
-                    Describe your symptoms, and get a personalized herbal protocol based on real-time research from trusted sources.
+                    Describe a wellness goal to find educational matches already contained in the Rootwise herb library.
                 </p>
 
                 <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
                     <p style="color: #1565c0; font-size: 0.9rem; margin: 0;">
-                        ℹ️ <strong>How it works:</strong> Our AI searches trusted herbal medicine sources online and creates a personalized protocol for you. This combines our database with current research.
+                        ℹ️ <strong>How it works:</strong> Rootwise matches words in your description to herb names, categories, and traditional uses in its local database. It does not search the internet or provide medical advice.
                     </p>
                 </div>
 
@@ -894,7 +1020,7 @@
                 ></textarea>
 
                 <button class="btn-primary" style="margin-top: 1rem;" onclick="generateProtocol()" id="generate-btn">
-                    🔍 Generate Protocol
+                    🔍 Find Suggestions
                 </button>
 
                 <div id="protocol-result"></div>
@@ -1210,7 +1336,7 @@
                             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                                 <iframe 
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    src="about:blank"
                                     frameborder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                     allowfullscreen>
@@ -1227,7 +1353,7 @@
                             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                                 <iframe 
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    src="about:blank"
                                     frameborder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                     allowfullscreen>
@@ -1244,7 +1370,7 @@
                             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                                 <iframe 
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                                    src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+                                    src="about:blank"
                                     frameborder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                     allowfullscreen>
@@ -1286,6 +1412,29 @@
                     Create custom herbal blends with precise ratios. Build teas, tinctures, and capsule formulas.
                 </p>
 
+                <div style="background: #eef7ef; border: 2px solid var(--mint-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 0.5rem;">Create it yourself or start with a guided draft</h3>
+                    <p style="color: #56645b; margin-bottom: 1rem;">Choose a wellness goal and preparation type. Rootwise will create an editable educational starting point using herbs already in the library.</p>
+                    <div class="resource-form-grid">
+                        <div>
+                            <label for="formula-goal" style="font-weight: 600; display: block; margin-bottom: 0.35rem;">Wellness goal</label>
+                            <select id="formula-goal" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;">
+                                <!-- Populated from CONDITIONS_MAP by initFormulationBuilder() -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="formula-type" style="font-weight: 600; display: block; margin-bottom: 0.35rem;">Preparation</label>
+                            <select id="formula-type" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;">
+                                <option value="Tea">Tea</option>
+                                <option value="Tincture">Tincture</option>
+                                <option value="Capsule">Capsule blend</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="margin-top: 1rem;" onclick="generateFormulaDraft()">✨ Create editable draft</button>
+                    <p style="font-size: 0.85rem; color: #6d746f; margin-top: 0.75rem;">Educational planning tool only. Review allergies, conditions, medications, and dosing with a qualified clinician or herbalist.</p>
+                </div>
+
                 <!-- Current Formula Being Built -->
                 <div style="background: var(--cream); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -1309,6 +1458,36 @@
                             placeholder="e.g., Sleep Support Blend, Immune Boost Tea..."
                             style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 8px; font-size: 1rem;"
                         >
+                    </div>
+
+                    <div class="resource-form-grid" style="margin-bottom:1.5rem;">
+                        <div>
+                            <label for="formula-container" style="font-weight:600;display:block;margin-bottom:.35rem;">Container or batch</label>
+                            <select id="formula-container" onchange="applyContainerPreset(); renderCurrentFormula();" style="width:100%;padding:.75rem;border:2px solid var(--mint-light);border-radius:8px;font-size:1rem;">
+                                <option value="custom">Custom amount</option>
+                                <option value="tea-jar">4 oz tea jar</option>
+                                <option value="large-jar">8 oz storage jar</option>
+                                <option value="tincture-1">1 fl oz tincture bottle</option>
+                                <option value="tincture-2">2 fl oz tincture bottle</option>
+                                <option value="capsules-60">60 capsules</option>
+                                <option value="capsules-120">120 capsules</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="formula-batch-size" style="font-weight:600;display:block;margin-bottom:.35rem;">Total amount</label>
+                            <input id="formula-batch-size" type="number" min="0.01" step="0.01" value="4" oninput="renderCurrentFormula()" style="width:100%;padding:.75rem;border:2px solid var(--mint-light);border-radius:8px;font-size:1rem;">
+                        </div>
+                        <div>
+                            <label for="formula-unit" style="font-weight:600;display:block;margin-bottom:.35rem;">Measurement</label>
+                            <select id="formula-unit" onchange="renderCurrentFormula()" style="width:100%;padding:.75rem;border:2px solid var(--mint-light);border-radius:8px;font-size:1rem;">
+                                <option value="oz">ounces (oz)</option>
+                                <option value="g">grams (g)</option>
+                                <option value="tsp">teaspoons</option>
+                                <option value="tbsp">tablespoons</option>
+                                <option value="ml">milliliters (mL)</option>
+                                <option value="capsules">capsules</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Herbs in Formula -->
@@ -4052,30 +4231,198 @@ const HERBAL_DATABASE = [
       "psychiatric disorders",
       "many medications"
     ]
+  },
+  {
+    "name": "Andrographis",
+    "uses": "Traditional support for upper respiratory infections and immune response",
+    "preparation": "Standardized extract, capsule, or very bitter tea",
+    "category": "Immune Health",
+    "source": { "name": "Ayurvedic and Traditional Chinese Medicine", "visible": false },
+    "evidenceLevel": "emerging",
+    "dosageRange": "Use product directions; consult a clinician for therapeutic use",
+    "seasonalInfo": "Harvest aerial parts before flowering",
+    "contraindications": ["pregnancy", "autoimmune conditions", "blood pressure medications"]
+  },
+  {
+    "name": "Artichoke Leaf",
+    "uses": "Digestive support, bile flow, and cholesterol support",
+    "preparation": "Leaf extract, capsule, or bitter tea",
+    "category": "Digestive Aid",
+    "source": { "name": "Traditional Mediterranean Medicine", "visible": false },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Follow standardized product directions",
+    "seasonalInfo": "Harvest leaves before flowering",
+    "contraindications": ["bile duct obstruction", "gallstones", "Asteraceae allergy"]
+  },
+  {
+    "name": "Bacopa",
+    "uses": "Memory, attention, stress support, and cognitive function",
+    "preparation": "Standardized extract, powder, or capsule",
+    "category": "Nervous System",
+    "source": { "name": "Ayurvedic Medicine", "visible": false },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Follow standardized product directions with food",
+    "seasonalInfo": "Warm-season aerial harvest",
+    "contraindications": ["pregnancy", "thyroid medication", "slow heart rate"]
+  },
+  {
+    "name": "Black Seed",
+    "uses": "Traditional immune, respiratory, metabolic, and digestive support",
+    "preparation": "Seed, culinary spice, capsule, or expressed oil",
+    "category": "Immune Health",
+    "source": { "name": "Traditional Middle Eastern Medicine", "visible": false },
+    "evidenceLevel": "emerging",
+    "dosageRange": "Culinary use or follow product directions",
+    "seasonalInfo": "Harvest mature seed pods",
+    "contraindications": ["pregnancy in medicinal amounts", "blood thinners", "diabetes medications"]
+  },
+  {
+    "name": "Boswellia",
+    "uses": "Joint comfort and inflammatory support",
+    "preparation": "Standardized resin extract or capsule",
+    "category": "Pain Relief",
+    "source": { "name": "Ayurvedic Medicine", "visible": false },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Follow standardized product directions",
+    "seasonalInfo": "Resin tapped seasonally from mature trees",
+    "contraindications": ["pregnancy", "blood thinners", "gastrointestinal sensitivity"]
+  },
+  {
+    "name": "California Poppy",
+    "uses": "Traditional support for restlessness, mild anxiety, and sleep",
+    "preparation": "Tea or tincture from aerial parts",
+    "category": "Sleep Support",
+    "source": { "name": "Native American Medicine", "visible": false },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Follow product directions; begin with a low amount",
+    "seasonalInfo": "Harvest aerial parts during flowering",
+    "contraindications": ["pregnancy", "sedatives", "driving or operating machinery"]
+  },
+  {
+    "name": "Lemon Verbena",
+    "uses": "Digestive comfort, relaxation, and sleep support",
+    "preparation": "Steep leaves as tea",
+    "category": "Digestive Aid",
+    "source": { "name": "Traditional South American Medicine", "visible": false },
+    "evidenceLevel": "traditional",
+    "dosageRange": "1-2 teaspoons dried leaf per cup",
+    "seasonalInfo": "Harvest leaves before flowering",
+    "contraindications": ["pregnancy", "kidney disease"]
+  },
+  {
+    "name": "Moringa",
+    "uses": "Nutritional support and traditional blood sugar and inflammation support",
+    "preparation": "Leaf powder, cooked leaves, tea, or capsule",
+    "category": "Nutritive Tonic",
+    "source": { "name": "Traditional African and South Asian Medicine", "visible": false },
+    "evidenceLevel": "emerging",
+    "dosageRange": "Food amounts or follow leaf-product directions",
+    "seasonalInfo": "Leaves harvested through warm seasons",
+    "contraindications": ["pregnancy (avoid root and bark)", "diabetes medications", "blood pressure medications"]
+  },
+  {
+    "name": "Neem",
+    "uses": "Traditional topical skin, oral hygiene, and antimicrobial support",
+    "preparation": "Topical oil, rinse, or professionally guided internal preparation",
+    "category": "Skin Health",
+    "source": { "name": "Ayurvedic Medicine", "visible": false },
+    "evidenceLevel": "traditional",
+    "dosageRange": "Topical use or professional guidance",
+    "seasonalInfo": "Leaves harvested year-round in tropical climates",
+    "contraindications": ["pregnancy", "children", "trying to conceive", "liver disease"]
+  },
+  {
+    "name": "Saffron",
+    "uses": "Mood, menstrual comfort, and antioxidant support",
+    "preparation": "Culinary threads or standardized extract",
+    "category": "Nervous System",
+    "source": { "name": "Traditional Persian Medicine", "visible": false },
+    "evidenceLevel": "well-studied",
+    "dosageRange": "Culinary use or follow standardized product directions",
+    "seasonalInfo": "Autumn stigma harvest",
+    "contraindications": ["pregnancy in medicinal amounts", "bipolar disorder", "blood thinners"]
   }
 ];
         // Application State
         let selectedCategory = 'All';
-        let favorites = JSON.parse(localStorage.getItem('rootwise_favorites') || '[]');
-        let medicineCabinet = JSON.parse(localStorage.getItem('rootwise_cabinet') || '[]');
+        let favorites = readStoredArray('rootwise_favorites');
+        let medicineCabinet = readStoredArray('rootwise_cabinet');
         let comparisonHerbs = [null, null, null];
         let selectorSlot = null;
         let selectedInteractionHerbs = [];
+        let selectedMedicationHerbs = [];
         let currentHerbs = []; // Track filtered herbs for reference
+        let learningResources = readStoredArray('rootwise_learning_resources');
+        let bookResources = readStoredArray('rootwise_book_resources');
+
+        function readStoredArray(key) {
+            try {
+                const value = JSON.parse(localStorage.getItem(key) || '[]');
+                return Array.isArray(value) ? value : [];
+            } catch (error) {
+                console.warn(`Could not read ${key}; resetting invalid saved data.`, error);
+                localStorage.removeItem(key);
+                return [];
+            }
+        }
 
         // Condition mapping (FEATURE 2)
         const CONDITIONS_MAP = {
-            "Anxiety": ["Chamomile", "Lavender", "Valerian", "Lemon Balm", "Passionflower"],
-            "Sleep Problems": ["Valerian", "Chamomile", "Lavender", "Passionflower", "California Poppy"],
+            "Anxiety": ["Chamomile", "Lavender", "Valerian Root", "Lemon Balm", "Passionflower", "Skullcap"],
+            "Sleep Problems": ["Valerian Root", "Chamomile", "Lavender", "Passionflower", "Hops", "California Poppy"],
             "Digestive Issues": ["Ginger", "Peppermint", "Fennel", "Chamomile", "Slippery Elm"],
-            "Inflammation": ["Turmeric", "Ginger", "Boswellia", "Willow Bark"],
-            "Immune Support": ["Echinacea", "Elderberry", "Garlic", "Astragalus", "Reishi"],
-            "Pain Relief": ["Willow Bark", "Turmeric", "Feverfew", "Meadowsweet"],
-            "Headaches": ["Feverfew", "Peppermint", "Willow Bark", "Lavender"],
+            "Inflammation": ["Turmeric", "Ginger", "Devil's Claw", "White Willow Bark", "Boswellia"],
+            "Immune Support": ["Echinacea", "Elderberry", "Garlic", "Astragalus", "Reishi Mushroom"],
+            "Pain Relief": ["White Willow Bark", "Turmeric", "Feverfew", "Meadowsweet"],
+            "Headaches": ["Feverfew", "Peppermint", "White Willow Bark", "Lavender"],
             "Cold & Flu": ["Elderberry", "Echinacea", "Garlic", "Ginger", "Thyme"],
-            "High Blood Pressure": ["Hawthorn", "Garlic", "Hibiscus"],
-            "Depression": ["St. John's Wort", "Saffron", "Rhodiola"],
-            "Joint Pain": ["Turmeric", "Devil's Claw", "Boswellia", "Willow Bark"]
+            "High Blood Pressure": ["Hawthorn Berry", "Garlic", "Hibiscus", "Olive Leaf"],
+            "High Cholesterol": ["Garlic", "Turmeric", "Guggul", "Fenugreek", "Hawthorn Berry", "Artichoke Leaf"],
+            "Blood Sugar Support": ["Cinnamon", "Fenugreek", "Gymnema", "Ginseng (American)"],
+            "Liver Support": ["Milk Thistle", "Dandelion Root", "Schisandra", "Yellow Dock"],
+            "Urinary Support": ["Cranberry", "Uva Ursi", "Goldenrod", "Juniper Berry"],
+            "Menstrual Comfort": ["Cramp Bark", "Ginger", "Chamomile", "Motherwort"],
+            "Menopause Support": ["Black Cohosh", "Red Clover", "Sage", "Chasteberry"],
+            "Respiratory Support": ["Mullein", "Elecampane", "Thyme", "Eucalyptus"],
+            "Skin Support": ["Calendula", "Aloe Vera", "Chickweed", "Witch Hazel"],
+            "Memory & Focus": ["Ginkgo Biloba", "Gotu Kola", "Lion's Mane Mushroom", "Rosemary"],
+            "Low Mood": ["St. John's Wort", "Rhodiola", "Lemon Balm", "Lavender"],
+            "Joint Pain": ["Turmeric", "Devil's Claw", "White Willow Bark", "Meadowsweet"],
+            "Acid Reflux": ["Slippery Elm", "Marshmallow Root", "Chamomile", "Meadowsweet"],
+            "Bloating & Gas": ["Fennel", "Peppermint", "Ginger", "Cardamom", "Dill Seed"],
+            "Constipation": ["Senna", "Cascara Sagrada", "Yellow Dock", "Dandelion Root"],
+            "Nausea": ["Ginger", "Peppermint", "Chamomile", "Fennel"],
+            "Appetite & Digestive Bitters": ["Gentian", "Wormwood", "Dandelion Root", "Artichoke Leaf"],
+            "Sore Throat": ["Slippery Elm", "Marshmallow Root", "Sage", "Thyme"],
+            "Cough": ["Mullein", "Wild Cherry Bark", "Thyme", "Horehound", "Elecampane"],
+            "Sinus Congestion": ["Eucalyptus", "Peppermint", "Elder Flower", "Eyebright"],
+            "Seasonal Allergies": ["Nettles", "Elder Flower", "Eyebright", "Goldenrod"],
+            "Fever Support": ["Yarrow", "Elder Flower", "Boneset", "Peppermint"],
+            "Wound & Minor Burn Care": ["Calendula", "Plantain", "Aloe Vera", "Yarrow"],
+            "Bruises & Sprains": ["Arnica", "Witch Hazel", "Comfrey"],
+            "Eczema & Itchy Skin": ["Chickweed", "Calendula", "Plantain", "Aloe Vera"],
+            "Varicose Veins": ["Horse Chestnut", "Butcher's Broom", "Witch Hazel", "Gotu Kola"],
+            "Hemorrhoid Support": ["Witch Hazel", "Horse Chestnut", "Butcher's Broom", "White Oak Bark"],
+            "Fluid Retention": ["Dandelion Leaf", "Cleavers", "Goldenrod", "Juniper Berry"],
+            "Lymphatic Support": ["Cleavers", "Calendula", "Red Clover", "Burdock Root"],
+            "Prostate Support": ["Saw Palmetto", "Nettles", "Sarsaparilla"],
+            "PMS Support": ["Chasteberry", "Cramp Bark", "Ginger", "Raspberry Leaf"],
+            "Heavy Menstrual Flow": ["Shepherd's Purse", "Yarrow", "Lady's Mantle", "Cramp Bark"],
+            "Libido & Vitality": ["Maca", "Damiana", "Tribulus", "Ginseng (Asian/Korean)"],
+            "Energy & Fatigue": ["Rhodiola", "Ginseng (American)", "Schisandra", "Cordyceps", "Yerba Mate"],
+            "Stress Resilience": ["Ashwagandha", "Rhodiola", "Holy Basil (Tulsi)", "Schisandra"],
+            "Nervous Tension": ["Skullcap", "Oat Straw", "Lemon Balm", "Passionflower"],
+            "Circulation Support": ["Hawthorn Berry", "Ginkgo Biloba", "Cayenne Pepper", "Ginger"],
+            "Vein Support": ["Horse Chestnut", "Butcher's Broom", "Gotu Kola", "Witch Hazel"],
+            "Antioxidant Support": ["Goji Berry", "Bilberry", "Hibiscus", "Rosemary"],
+            "Eye Support": ["Bilberry", "Eyebright", "Goji Berry", "Ginkgo Biloba"],
+            "Oral & Gum Care": ["Myrrh", "Sage", "Clove", "Neem"],
+            "Muscle Soreness": ["Arnica", "Turmeric", "Ginger", "Devil's Claw"],
+            "Menstrual Cycle Regularity": ["Chasteberry", "Motherwort", "Dong Quai", "Raspberry Leaf"],
+            "Cognitive Aging": ["Ginkgo Biloba", "Lion's Mane Mushroom", "Bacopa", "Gotu Kola"],
+            "Nutritional Tonic": ["Nettles", "Oat Straw", "Moringa", "Dandelion Leaf"],
+            "Hair & Scalp Support": ["Rosemary", "Nettles", "Horsetail", "Sage"],
+            "Minor Mouth Discomfort": ["Clove", "Myrrh", "Sage", "Calendula"]
         };
 
         // Medication interactions database (FEATURE 5)
@@ -4128,6 +4475,7 @@ const HERBAL_DATABASE = [
                 checkAuthStatus(); // Check if user is logged in
                 initFormulationBuilder(); // Initialize formulation builder
                 initHerbInteractions(); // Initialize herb interactions checker
+                renderResourceLibraries();
                 
                 // Load profile notes
                 const savedNotes = localStorage.getItem('rootwise_notes');
@@ -4175,6 +4523,157 @@ const HERBAL_DATABASE = [
                 renderCategories();
                 filterHerbs();
             }, 100);
+        }
+
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>'"]/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            })[char]);
+        }
+
+        function safeHttpUrl(value) {
+            try {
+                const url = new URL(value);
+                return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+            } catch (_) {
+                return '';
+            }
+        }
+
+        function getVideoEmbedUrl(value) {
+            const safeUrl = safeHttpUrl(value);
+            if (!safeUrl) return '';
+            const url = new URL(safeUrl);
+            if (url.hostname.includes('youtu.be')) return `https://www.youtube.com/embed/${url.pathname.slice(1).split('/')[0]}`;
+            if (url.hostname.includes('youtube.com')) {
+                const id = url.searchParams.get('v') || url.pathname.split('/').filter(Boolean).pop();
+                return id ? `https://www.youtube.com/embed/${id}` : '';
+            }
+            if (url.hostname.includes('vimeo.com')) {
+                const id = url.pathname.split('/').filter(Boolean).pop();
+                return /^\d+$/.test(id || '') ? `https://player.vimeo.com/video/${id}` : '';
+            }
+            return '';
+        }
+
+        function renderResourceLibraries() {
+            const libraryTab = document.getElementById('library-tab');
+            const learnTab = document.getElementById('learn-tab');
+            if (libraryTab) {
+                libraryTab.innerHTML = `
+                    <div class="card">
+                        <div class="workspace-toolbar">
+                            <div><h2 class="card-title">📚 My Herbal Resource Library</h2><p style="color:#666;">Save books, articles, monographs, and PDF links in one searchable collection.</p></div>
+                            <button class="btn-primary" onclick="toggleResourceForm('book-resource-form')">+ Add resource</button>
+                        </div>
+                        <div id="book-resource-form" class="resource-form">
+                            <div class="resource-form-grid">
+                                <div><label>Title</label><input id="book-title" placeholder="Book or monograph title"></div>
+                                <div><label>Author</label><input id="book-author" placeholder="Author or organization"></div>
+                                <div><label>Type</label><select id="book-type"><option>Book</option><option>Article</option><option>Monograph</option><option>PDF guide</option></select></div>
+                                <div><label>Web or PDF link</label><input id="book-url" type="url" placeholder="https://..."></div>
+                            </div>
+                            <div style="margin-top:1rem;"><label>Description</label><textarea id="book-description" rows="3" placeholder="What this resource covers"></textarea></div>
+                            <button class="btn-primary" style="margin-top:1rem;" onclick="addBookResource()">Save resource</button>
+                        </div>
+                        <div class="search-bar"><span class="search-icon">🔍</span><input id="book-search" class="search-input" placeholder="Search saved resources..." oninput="renderBookResources()"></div>
+                        <div id="book-resource-grid" class="resource-grid"></div>
+                        <div class="notice">Resources are saved in this browser. A database and real sign-in are required to sync them across devices.</div>
+                    </div>
+                    <div id="pdf-viewer-modal" class="modal" style="display:none;" onclick="closePDFViewer(event)">
+                        <div class="modal-content" style="max-width:90%;width:1200px;height:90vh;" onclick="event.stopPropagation()">
+                            <button class="close-modal" onclick="closePDFViewer()">×</button><h2 id="pdf-title" style="margin-bottom:1rem;">Resource</h2>
+                            <iframe id="pdf-iframe" title="Resource viewer" style="width:100%;height:calc(100% - 80px);border:none;border-radius:8px;"></iframe>
+                        </div>
+                    </div>`;
+            }
+            if (learnTab) {
+                learnTab.innerHTML = `
+                    <div class="card">
+                        <div class="workspace-toolbar">
+                            <div><h2 class="card-title">🎓 Learn Herbalism</h2><p style="color:#666;">Build your own learning shelf with videos and organize them by topic.</p></div>
+                            <button class="btn-primary" onclick="toggleResourceForm('video-resource-form')">+ Add video</button>
+                        </div>
+                        <div id="video-resource-form" class="resource-form">
+                            <div class="resource-form-grid">
+                                <div><label>Video title</label><input id="video-title" placeholder="Lesson title"></div>
+                                <div><label>Topic</label><select id="video-topic"><option>Foundations</option><option>Herb safety</option><option>Preparations</option><option>Materia medica</option><option>Formulation</option></select></div>
+                                <div><label>YouTube or Vimeo link</label><input id="video-url" type="url" placeholder="https://youtube.com/watch?v=..."></div>
+                            </div>
+                            <div style="margin-top:1rem;"><label>Notes</label><textarea id="video-description" rows="3" placeholder="What this lesson teaches"></textarea></div>
+                            <button class="btn-primary" style="margin-top:1rem;" onclick="addLearningResource()">Save video</button>
+                        </div>
+                        <div class="search-bar"><span class="search-icon">🔍</span><input id="video-search" class="search-input" placeholder="Search videos and topics..." oninput="renderLearningResources()"></div>
+                        <div id="video-resource-grid" class="resource-grid"></div>
+                        <div class="notice"><strong>Suggested learning path:</strong> Foundations → identification and safety → preparation methods → individual herbs → formulation. Saved videos remain editable by removing and re-adding them.</div>
+                    </div>`;
+            }
+            renderBookResources();
+            renderLearningResources();
+        }
+
+        function toggleResourceForm(id) {
+            document.getElementById(id)?.classList.toggle('active');
+        }
+
+        function addBookResource() {
+            const title = document.getElementById('book-title').value.trim();
+            const url = safeHttpUrl(document.getElementById('book-url').value.trim());
+            if (!title || !url) return alert('Enter a title and a valid web or PDF link.');
+            bookResources.unshift({ id: Date.now(), title, url, author: document.getElementById('book-author').value.trim(), type: document.getElementById('book-type').value, description: document.getElementById('book-description').value.trim() });
+            localStorage.setItem('rootwise_book_resources', JSON.stringify(bookResources));
+            ['book-title','book-author','book-url','book-description'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('book-resource-form').classList.remove('active');
+            renderBookResources();
+        }
+
+        function addLearningResource() {
+            const title = document.getElementById('video-title').value.trim();
+            const originalUrl = document.getElementById('video-url').value.trim();
+            const embedUrl = getVideoEmbedUrl(originalUrl);
+            if (!title || !embedUrl) return alert('Enter a title and a valid YouTube or Vimeo link.');
+            learningResources.unshift({ id: Date.now(), title, originalUrl: safeHttpUrl(originalUrl), embedUrl, topic: document.getElementById('video-topic').value, description: document.getElementById('video-description').value.trim() });
+            localStorage.setItem('rootwise_learning_resources', JSON.stringify(learningResources));
+            ['video-title','video-url','video-description'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('video-resource-form').classList.remove('active');
+            renderLearningResources();
+        }
+
+        function renderBookResources() {
+            const grid = document.getElementById('book-resource-grid');
+            if (!grid) return;
+            const query = (document.getElementById('book-search')?.value || '').toLowerCase();
+            const items = bookResources.filter(item => `${item.title} ${item.author} ${item.type} ${item.description}`.toLowerCase().includes(query));
+            grid.innerHTML = items.length ? items.map(item => `<article class="resource-card"><div style="font-size:2rem;">📖</div><h4>${escapeHTML(item.title)}</h4><p>${escapeHTML(item.author || item.type)}</p><p style="margin:.5rem 0 1rem;">${escapeHTML(item.description)}</p><div style="display:flex;gap:.5rem;flex-wrap:wrap;"><button class="btn-primary" onclick="openSavedResource(${item.id})">Open</button><button class="btn-secondary" onclick="removeResource('book',${item.id})">Remove</button></div></article>`).join('') : '<div class="empty-state"><strong>No resources saved yet.</strong><br>Add a book, article, monograph, or PDF link above.</div>';
+        }
+
+        function renderLearningResources() {
+            const grid = document.getElementById('video-resource-grid');
+            if (!grid) return;
+            const query = (document.getElementById('video-search')?.value || '').toLowerCase();
+            const items = learningResources.filter(item => `${item.title} ${item.topic} ${item.description}`.toLowerCase().includes(query));
+            grid.innerHTML = items.length ? items.map(item => `<article class="resource-card" style="padding:0;"><div style="position:relative;padding-bottom:56.25%;height:0;"><iframe title="${escapeHTML(item.title)}" src="${escapeHTML(item.embedUrl)}" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><div style="padding:1.25rem;"><span class="herb-category">${escapeHTML(item.topic)}</span><h4>${escapeHTML(item.title)}</h4><p>${escapeHTML(item.description)}</p><button class="btn-secondary" style="margin-top:1rem;" onclick="removeResource('video',${item.id})">Remove</button></div></article>`).join('') : '<div class="empty-state"><strong>No videos saved yet.</strong><br>Add a YouTube or Vimeo lesson to begin your learning shelf.</div>';
+        }
+
+        function openSavedResource(id) {
+            const resource = bookResources.find(item => item.id === id);
+            if (!resource) return;
+            document.getElementById('pdf-title').textContent = resource.title;
+            document.getElementById('pdf-iframe').src = resource.url;
+            document.getElementById('pdf-viewer-modal').style.display = 'flex';
+        }
+
+        function removeResource(kind, id) {
+            if (!confirm('Remove this saved resource?')) return;
+            if (kind === 'book') {
+                bookResources = bookResources.filter(item => item.id !== id);
+                localStorage.setItem('rootwise_book_resources', JSON.stringify(bookResources));
+                renderBookResources();
+            } else {
+                learningResources = learningResources.filter(item => item.id !== id);
+                localStorage.setItem('rootwise_learning_resources', JSON.stringify(learningResources));
+                renderLearningResources();
+            }
         }
 
         // PDF VIEWER FUNCTIONS FOR LIBRARY TAB
@@ -4227,7 +4726,60 @@ const HERBAL_DATABASE = [
                 selector.innerHTML = '<option value="">-- Choose an herb --</option>' +
                     HERBAL_DATABASE.map(herb => `<option value="${herb.name}">${herb.name}</option>`).join('');
             }
+            // Populate wellness goal dropdown from the real conditions database
+            const goalSelect = document.getElementById('formula-goal');
+            if (goalSelect) {
+                const conditions = Object.keys(CONDITIONS_MAP).sort((a, b) => a.localeCompare(b));
+                goalSelect.innerHTML = conditions.map(condition => `<option value="${escapeHTML(condition)}">${escapeHTML(condition)}</option>`).join('');
+            }
             renderSavedFormulas();
+        }
+
+        function generateFormulaDraft() {
+            const condition = document.getElementById('formula-goal').value;
+            const type = document.getElementById('formula-type').value;
+            const herbNames = (CONDITIONS_MAP[condition] || []).filter(name => HERBAL_DATABASE.some(herb => herb.name === name));
+            const available = herbNames.slice(0, 5);
+            if (!available.length) {
+                alert('A draft could not be created from the current herb library.');
+                return;
+            }
+            // Weight earlier (primary) herbs more heavily, decaying toward the end of the list
+            const weights = available.map((name, index) => available.length - index);
+            const weightTotal = weights.reduce((sum, w) => sum + w, 0);
+            const rawPercentages = weights.map(w => Math.round((w / weightTotal) * 100));
+            const roundingRemainder = 100 - rawPercentages.reduce((sum, p) => sum + p, 0);
+            rawPercentages[rawPercentages.length - 1] += roundingRemainder;
+            currentFormula = available.map((name, index) => ({ name, percentage: rawPercentages[index] }));
+            document.getElementById('formula-name').value = `${condition} ${type}`;
+            renderCurrentFormula();
+            document.getElementById('formula-name').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function applyContainerPreset() {
+            const preset = document.getElementById('formula-container').value;
+            const presets = {
+                'tea-jar': [4, 'oz'], 'large-jar': [8, 'oz'],
+                'tincture-1': [30, 'ml'], 'tincture-2': [60, 'ml'],
+                'capsules-60': [60, 'capsules'], 'capsules-120': [120, 'capsules']
+            };
+            if (!presets[preset]) return;
+            document.getElementById('formula-batch-size').value = presets[preset][0];
+            document.getElementById('formula-unit').value = presets[preset][1];
+        }
+
+        function getFormulaBatch() {
+            return {
+                amount: Math.max(0, parseFloat(document.getElementById('formula-batch-size')?.value) || 0),
+                unit: document.getElementById('formula-unit')?.value || 'g',
+                container: document.getElementById('formula-container')?.value || 'custom'
+            };
+        }
+
+        function formatMeasuredAmount(percentage, batch) {
+            const raw = batch.amount * percentage / 100;
+            const amount = batch.unit === 'capsules' ? Math.round(raw) : Math.round(raw * 100) / 100;
+            return `${amount} ${batch.unit}`;
         }
 
         // Add herb to current formula
@@ -4273,6 +4825,7 @@ const HERBAL_DATABASE = [
         function renderCurrentFormula() {
             const container = document.getElementById('formula-herbs-container');
             const emptyMessage = document.getElementById('empty-formula-message');
+            const batch = getFormulaBatch();
 
             if (currentFormula.length === 0) {
                 container.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;" id="empty-formula-message">Add herbs to your formula using the selector below</p>';
@@ -4285,7 +4838,7 @@ const HERBAL_DATABASE = [
             container.innerHTML = currentFormula.map((herb, index) => `
                 <div style="background: white; border: 2px solid var(--mint-light); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex: 1;">
-                        <h4 style="color: var(--forest-dark); margin: 0 0 0.25rem 0;">🌿 ${herb.name}</h4>
+                        <h4 style="color: var(--forest-dark); margin: 0 0 0.25rem 0;">🌿 ${herb.name} <span style="font-size:.85rem;color:var(--earth-brown);font-weight:600;">— ${formatMeasuredAmount(herb.percentage, batch)}</span></h4>
                         <div style="display: flex; align-items: center; gap: 1rem;">
                             <span style="color: #666; font-size: 0.9rem;">Percentage:</span>
                             <input 
@@ -4398,6 +4951,7 @@ const HERBAL_DATABASE = [
                 name: formulaName,
                 herbs: [...currentFormula],
                 total: total,
+                batch: getFormulaBatch(),
                 createdAt: new Date().toISOString()
             };
 
@@ -4441,10 +4995,11 @@ const HERBAL_DATABASE = [
                         </div>
                     </div>
                     <div style="background: white; border-radius: 8px; padding: 1rem;">
+                        <p style="color:#666;margin-bottom:.75rem;"><strong>Batch:</strong> ${formula.batch ? `${formula.batch.amount} ${formula.batch.unit}` : 'Not specified'}</p>
                         ${formula.herbs.map(herb => `
                             <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0;">
                                 <span style="color: var(--forest-dark);">🌿 ${herb.name}</span>
-                                <span style="font-weight: 700; color: var(--sage-green);">${herb.percentage}%</span>
+                                <span style="font-weight: 700; color: var(--sage-green);">${herb.percentage}%${formula.batch ? ` · ${formatMeasuredAmount(herb.percentage, formula.batch)}` : ''}</span>
                             </div>
                         `).join('')}
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0 0; font-weight: 700;">
@@ -4469,6 +5024,11 @@ const HERBAL_DATABASE = [
 
             currentFormula = [...formula.herbs];
             document.getElementById('formula-name').value = formula.name + ' (copy)';
+            if (formula.batch) {
+                document.getElementById('formula-batch-size').value = formula.batch.amount;
+                document.getElementById('formula-unit').value = formula.batch.unit;
+                document.getElementById('formula-container').value = formula.batch.container || 'custom';
+            }
             renderCurrentFormula();
             
             // Switch to formulation tab if not already there
@@ -5079,36 +5639,74 @@ const HERBAL_DATABASE = [
             filterHerbs();
         }
 
-        // FEATURE 2: Render conditions grid
+        // FEATURE 2: Populate condition dropdowns
         function renderConditions() {
-            const grid = document.getElementById('conditions-grid');
-            const icons = {
-                "Anxiety": "😰",
-                "Sleep Problems": "😴",
-                "Digestive Issues": "🫃",
-                "Inflammation": "🔥",
-                "Immune Support": "🛡️",
-                "Pain Relief": "💊",
-                "Headaches": "🤕",
-                "Cold & Flu": "🤧",
-                "High Blood Pressure": "❤️",
-                "Depression": "😔",
-                "Joint Pain": "🦴"
-            };
+            updateConditionDropdown();
+        }
 
-            grid.innerHTML = Object.keys(CONDITIONS_MAP).map(condition => `
-                <div class="condition-card" onclick="showHerbsForCondition('${condition}')">
-                    <div class="condition-icon">${icons[condition] || '🌿'}</div>
-                    <div class="condition-name">${condition}</div>
-                    <div class="condition-count">${CONDITIONS_MAP[condition].length} herbs</div>
-                </div>
-            `).join('');
+        function getConditionGroup(condition) {
+            const name = condition.toLowerCase();
+            const rules = {
+                digestive: ['digest', 'reflux', 'bloating', 'gas', 'constipation', 'nausea', 'appetite', 'liver'],
+                heart: ['cholesterol', 'blood pressure', 'blood sugar', 'heart', 'metabolic', 'antioxidant'],
+                respiratory: ['respiratory', 'immune', 'cold', 'flu', 'throat', 'cough', 'sinus', 'allerg', 'fever'],
+                women: ['menstrual', 'menopause', 'pms', 'hormonal', 'cycle', 'heavy menstrual'],
+                mind: ['anxiety', 'sleep', 'mood', 'memory', 'focus', 'fatigue', 'stress', 'nervous', 'cognitive'],
+                pain: ['pain', 'joint', 'muscle', 'headache', 'inflammation', 'bruise', 'sprain'],
+                skin: ['skin', 'wound', 'burn', 'eczema', 'vein', 'hemorrhoid', 'circulation', 'hair', 'scalp'],
+                urinary: ['urinary', 'fluid retention', 'prostate', 'kidney'],
+            };
+            return Object.keys(rules).find(group => rules[group].some(term => name.includes(term))) || 'general';
+        }
+
+        function updateConditionDropdown() {
+            const group = document.getElementById('condition-group')?.value || 'all';
+            const select = document.getElementById('condition-select');
+            if (!select) return;
+            const conditions = Object.keys(CONDITIONS_MAP)
+                .filter(condition => group === 'all' || getConditionGroup(condition) === group)
+                .sort((a, b) => a.localeCompare(b));
+            select.innerHTML = '<option value="">Choose a condition...</option>' +
+                conditions.map(condition => `<option value="${escapeHTML(condition)}">${escapeHTML(condition)} (${CONDITIONS_MAP[condition].length} herbs)</option>`).join('') +
+                '<option value="other">Other condition or wellness goal...</option>';
+            toggleOtherCondition();
+        }
+
+        function toggleOtherCondition() {
+            const isOther = document.getElementById('condition-select')?.value === 'other';
+            const wrap = document.getElementById('other-condition-wrap');
+            if (wrap) wrap.style.display = isOther ? 'block' : 'none';
+        }
+
+        function findSelectedCondition() {
+            const selected = document.getElementById('condition-select')?.value;
+            if (!selected) return alert('Choose a condition from the dropdown.');
+            if (selected === 'other') return findTypedCondition();
+            showHerbsForCondition(selected);
+        }
+
+        function findTypedCondition() {
+            const input = document.getElementById('condition-search');
+            const query = input.value.trim();
+            if (!query) return alert('Type or select a condition or wellness goal.');
+            const knownCondition = Object.keys(CONDITIONS_MAP).find(condition => condition.toLowerCase() === query.toLowerCase());
+            if (knownCondition) return showHerbsForCondition(knownCondition);
+
+            const words = query.toLowerCase().split(/\s+/).filter(word => word.length > 2);
+            const herbs = HERBAL_DATABASE.filter(herb => {
+                const text = `${herb.name} ${herb.uses} ${herb.category}`.toLowerCase();
+                return words.some(word => text.includes(word));
+            });
+            showConditionResults(query, herbs, true);
         }
 
         function showHerbsForCondition(condition) {
             const herbNames = CONDITIONS_MAP[condition];
             const herbs = HERBAL_DATABASE.filter(h => herbNames.includes(h.name));
-            
+            showConditionResults(condition, herbs, false);
+        }
+
+        function showConditionResults(condition, herbs, isCustom) {
             const modal = document.getElementById('herb-modal');
             const modalBody = document.getElementById('modal-body');
             
@@ -5117,17 +5715,20 @@ const HERBAL_DATABASE = [
                     Herbs for ${condition}
                 </h2>
                 <p style="color: #666; margin-bottom: 2rem;">
-                    ${herbs.length} herbs traditionally used for this condition.
+                    ${herbs.length ? `${herbs.length} educational ${isCustom ? 'keyword matches' : 'directory matches'}.` : 'No matching herbs were found in the current library.'}
                 </p>
-                <div style="display: grid; gap: 1rem;">
-                    ${herbs.map((herb, idx) => `
-                        <div style="background: var(--cream); padding: 1.5rem; border-radius: 12px; cursor: pointer;"
-                             onclick="showHerbDetailByName('${herb.name.replace(/'/g, "\\'")}')">
-                            <h4 style="color: var(--forest-dark); margin-bottom: 0.5rem;">🌿 ${herb.name}</h4>
-                            <p style="color: #666; font-size: 0.9rem;">${herb.uses}</p>
-                        </div>
-                    `).join('')}
-                </div>
+                ${isCustom ? '<div class="notice">This term is not in the condition directory. These are text matches only—not treatment recommendations.</div>' : ''}
+                ${herbs.length ? `
+                    <div class="resource-form" style="display:block;margin:0;">
+                        <label for="condition-herb-select">Select an herb to view its full information</label>
+                        <select id="condition-herb-select" onchange="openConditionHerbSelection()">
+                            <option value="">Choose from ${herbs.length} matching herb${herbs.length === 1 ? '' : 's'}...</option>
+                            ${herbs.sort((a, b) => a.name.localeCompare(b.name)).map(herb => `
+                                <option value="${escapeHTML(herb.name)}">${escapeHTML(herb.name)} — ${escapeHTML(herb.category)}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                ` : ''}
             `;
             
             modal.classList.add('active');
@@ -5136,6 +5737,11 @@ const HERBAL_DATABASE = [
         function showHerbDetailByName(name) {
             const herb = HERBAL_DATABASE.find(h => h.name === name);
             if (herb) showHerbDetail(herb);
+        }
+
+        function openConditionHerbSelection() {
+            const name = document.getElementById('condition-herb-select')?.value;
+            if (name) showHerbDetailByName(name);
         }
 
         // Render herbs grid
@@ -5422,8 +6028,12 @@ const HERBAL_DATABASE = [
             if (!medicineCabinet.includes(name)) {
                 medicineCabinet.push(name);
                 localStorage.setItem('rootwise_cabinet', JSON.stringify(medicineCabinet));
+                renderMedicineCabinet();
                 updateProfileStats();
                 alert(`✓ ${name} added to your medicine cabinet!`);
+            } else {
+                renderMedicineCabinet();
+                alert(`${name} is already in your medicine cabinet.`);
             }
         }
 
@@ -5689,35 +6299,56 @@ const HERBAL_DATABASE = [
 
         // FEATURE 5: Interactions Checker
         function renderInteractionHerbList() {
-            const container = document.getElementById('interaction-herbs');
-            container.innerHTML = HERBAL_DATABASE.slice(0, 20).map(herb => `
-                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: white; border: 2px solid var(--mint-light); border-radius: 20px; cursor: pointer;">
-                    <input type="checkbox" value="${herb.name}" onchange="updateSelectedInteractionHerbs()">
-                    <span>${herb.name}</span>
-                </label>
-            `).join('');
+            const options = document.getElementById('medication-herb-options');
+            if (options) options.innerHTML = HERBAL_DATABASE.map(herb => `<option value="${herb.name}">${herb.category}</option>`).join('');
+            renderMedicationHerbs();
         }
 
-        function updateSelectedInteractionHerbs() {
-            const checkboxes = document.querySelectorAll('#interaction-herbs input[type="checkbox"]:checked');
-            selectedInteractionHerbs = Array.from(checkboxes).map(cb => cb.value);
+        function addMedicationCheckHerb() {
+            const input = document.getElementById('medication-herb-input');
+            const herb = HERBAL_DATABASE.find(item => item.name.toLowerCase() === input.value.trim().toLowerCase());
+            if (!herb) return alert('Choose an herb from the 160-herb list.');
+            if (!selectedMedicationHerbs.includes(herb.name)) selectedMedicationHerbs.push(herb.name);
+            input.value = '';
+            renderMedicationHerbs();
+        }
+
+        function removeMedicationCheckHerb(index) {
+            selectedMedicationHerbs.splice(index, 1);
+            renderMedicationHerbs();
+        }
+
+        function renderMedicationHerbs() {
+            const container = document.getElementById('interaction-herbs');
+            if (!container) return;
+            container.innerHTML = selectedMedicationHerbs.length ? selectedMedicationHerbs.map((herb, index) => `
+                <span style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .8rem;background:white;border:2px solid var(--mint-light);border-radius:20px;">
+                    🌿 ${herb}<button aria-label="Remove ${herb}" onclick="removeMedicationCheckHerb(${index})" style="border:0;background:var(--healing-red);color:white;border-radius:50%;width:24px;height:24px;cursor:pointer;">×</button>
+                </span>`).join('') : '<span style="color:#777;">No herbs selected yet.</span>';
         }
 
         function checkInteractions() {
             const medication = document.getElementById('interaction-medication').value;
+            const otherMedication = document.getElementById('interaction-medication-other').value.trim();
             
             if (!medication) {
                 alert('Please select a medication type');
                 return;
             }
 
-            if (selectedInteractionHerbs.length === 0) {
+            if (medication === 'other') {
+                if (!otherMedication) return alert('Type the medication name.');
+                document.getElementById('interaction-results').innerHTML = `<div class="notice"><h4>Medication not in the offline interaction table</h4><p>Rootwise cannot reliably check ${escapeHTML(otherMedication)} against the selected herbs. Ask a pharmacist or prescribing clinician to review the exact medication, dose, and all supplements.</p></div>`;
+                return;
+            }
+
+            if (selectedMedicationHerbs.length === 0) {
                 alert('Please select at least one herb');
                 return;
             }
 
             const interactionData = INTERACTIONS_DATA[medication];
-            const problematicHerbs = selectedInteractionHerbs.filter(herb => 
+            const problematicHerbs = selectedMedicationHerbs.filter(herb =>
                 interactionData.herbs.includes(herb)
             );
 
@@ -5726,10 +6357,9 @@ const HERBAL_DATABASE = [
             if (problematicHerbs.length === 0) {
                 resultDiv.innerHTML = `
                     <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem;">
-                        <h4 style="color: #2e7d32; margin-bottom: 0.5rem;">✓ No Known Interactions</h4>
+                        <h4 style="color: #2e7d32; margin-bottom: 0.5rem;">No match in this limited interaction table</h4>
                         <p style="color: #555;">
-                            Based on available data, the selected herbs do not have known interactions with ${medication.replace('_', ' ')}.
-                            However, always inform your healthcare provider about all herbs you're taking.
+                            Rootwise did not find a listed warning for the selected herbs and ${medication.replace('_', ' ')}. This does not prove the combination is safe. Ask a pharmacist or clinician to review it.
                         </p>
                     </div>
                 `;
@@ -5769,12 +6399,11 @@ const HERBAL_DATABASE = [
 
             // Show loading state
             btn.disabled = true;
-            btn.textContent = '🔍 Researching...';
+            btn.textContent = '🔍 Matching...';
             resultDiv.innerHTML = `
                 <div class="card" style="background: var(--cream); margin-top: 2rem; text-align: center; padding: 3rem;">
                     <div style="font-size: 3rem; margin-bottom: 1rem; animation: spin 2s linear infinite;">⏳</div>
-                    <p style="color: #666;">Searching trusted herbal medicine sources...</p>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">This may take 30-60 seconds</p>
+                    <p style="color: #666;">Matching your words to the Rootwise library...</p>
                 </div>
             `;
 
@@ -5788,24 +6417,27 @@ const HERBAL_DATABASE = [
                     );
                 }).slice(0, 5);
 
-                // Simulate AI research (in production, this would call an actual API)
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 250));
+
+                if (!relevantHerbs.length) {
+                    resultDiv.innerHTML = `
+                        <div class="card" style="background: var(--cream); margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">No matches found</h3>
+                            <p style="color: #555;">Rootwise couldn't match those words to anything in the ${HERBAL_DATABASE.length}-herb library. Try different or more specific terms (a symptom, condition, or herb use), or browse by condition instead.</p>
+                        </div>
+                    `;
+                    return;
+                }
 
                 // Generate protocol based on matching herbs
                 const protocol = {
-                    herbs: relevantHerbs.length > 0 
-                        ? relevantHerbs.map(h => h.name)
-                        : ["Chamomile", "Lavender", "Lemon Balm"],
-                    instructions: relevantHerbs.length > 0
-                        ? `Based on your symptoms, these herbs may help. ${relevantHerbs[0].preparation} Consult our database for each herb's specific preparation method.`
-                        : "Combine calming herbs in equal parts. Steep 1-2 tsp in hot water for 10-15 minutes.",
+                    herbs: relevantHerbs.map(h => h.name),
+                    instructions: `Based on your symptoms, these herbs may help. ${relevantHerbs[0].preparation} Consult our database for each herb's specific preparation method.`,
                     duration: "7-14 days, then reassess",
                     sources: [
-                        "Rootwise Database",
-                        "Traditional Herbal Medicine",
-                        "Evidence-Based Herbalism"
+                        "Rootwise local herb database"
                     ],
-                    contraindications: relevantHerbs.length > 0 && relevantHerbs[0].contraindications.length > 0
+                    contraindications: relevantHerbs[0].contraindications.length > 0
                         ? relevantHerbs[0].contraindications
                         : []
                 };
@@ -5813,11 +6445,11 @@ const HERBAL_DATABASE = [
                 // Display results
                 resultDiv.innerHTML = `
                     <div class="card" style="background: var(--cream); margin-top: 2rem;">
-                        <h3 style="margin-bottom: 1rem;">Your Personalized Protocol</h3>
+                        <h3 style="margin-bottom: 1rem;">Educational Herb Matches</h3>
                         
                         <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
                             <p style="color: #e65100; font-weight: 600; margin: 0;">
-                                ⚠️ MEDICAL DISCLAIMER: This is for educational purposes only. Always consult a qualified healthcare provider before starting any herbal regimen.
+                                ⚠️ This is not a diagnosis, prescription, or personalized treatment plan. Check each herb's safety information and consult a qualified healthcare professional, especially if you take medication or have a medical condition.
                             </p>
                         </div>
 
@@ -5889,7 +6521,7 @@ const HERBAL_DATABASE = [
                 `;
             } finally {
                 btn.disabled = false;
-                btn.textContent = '🔍 Generate Protocol';
+            btn.textContent = '🔍 Find Suggestions';
             }
         }
 
