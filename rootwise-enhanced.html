@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#214D3A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Rootwise">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
     <title>🌿 Rootwise - Enhanced Herbal Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -653,6 +661,138 @@
             }
             .card { padding: 1.25rem; border-radius: 14px; }
             .resource-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <!-- ───────── Mobile-first / installable-app layer (Modern Botanical). Added as overrides; nothing above is removed. ───────── -->
+    <style id="rw-mobile">
+        /* Modern Botanical palette — remaps the existing variables so every section picks it up */
+        :root {
+            --forest-dark: #214D3A;
+            --forest-medium: #2F6048;
+            --sage-green: #667E5C;
+            --mint-light: #A8BDA3;
+            --cream: #F8F6EF;
+            --gold-accent: #C8A96B;
+            --rw-charcoal: #28352E;
+            --rw-nav-h: 64px;
+        }
+        body { color: var(--rw-charcoal); background: linear-gradient(160deg, #F8F6EF 0%, #EEF1E7 55%, #DDE6D7 100%); background-attachment: fixed; }
+        :focus-visible { outline: 3px solid #C8A96B; outline-offset: 2px; }
+
+        /* Hidden on desktop/tablet — the existing top tab bar stays there */
+        .rw-bottom, .rw-sheet, .rw-sheet-bg, .rw-subnav { display: none; }
+
+        .rw-offline { position: fixed; left: 0; right: 0; top: 0; z-index: 1200; background: #28352E; color: #F8F6EF; font-size: 0.85rem; text-align: center; padding: 0.4rem 0.75rem; }
+        .rw-offline[hidden] { display: none; }
+
+        @media (min-width: 768px) and (max-width: 1023.98px) {
+            .container { padding: 1.25rem; }
+            header { padding: 1.5rem 1rem; margin-bottom: 1.5rem; }
+        }
+
+        @media (max-width: 767.98px) {
+            body { padding-bottom: calc(var(--rw-nav-h) + 14px + env(safe-area-inset-bottom)); font-size: 16px; }
+            body.rw-kb { padding-bottom: 0; }
+            .container { padding: 0.5rem 0.75rem 1rem; padding-left: max(0.75rem, env(safe-area-inset-left)); padding-right: max(0.75rem, env(safe-area-inset-right)); }
+
+            /* Compact header (it was taking most of the first screen) */
+            header { padding: 0.6rem 0.25rem 0.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+            header::after { display: none; }
+            header .logo { font-size: 1.9rem; margin: 0; animation: none; }
+            header h1 { font-size: 1.9rem; margin: 0; }
+            header .tagline { flex-basis: 100%; text-align: center; font-size: 0.95rem; line-height: 1.35; }
+            body.rw-not-home header .tagline { display: none; }
+
+            /* The top tab strip is replaced by the bottom bar + More sheet (every tab is still reachable) */
+            #main-nav { display: none !important; }
+
+            /* Bottom navigation */
+            .rw-bottom { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+                background: rgba(248, 246, 239, 0.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+                border-top: 1px solid rgba(33, 77, 58, 0.18); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 18px rgba(33, 77, 58, 0.08); }
+            .rw-bottom button { min-height: 52px; min-width: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+                background: none; border: 0; border-radius: 12px; font: 600 0.72rem 'DM Sans', sans-serif; color: #28352E; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+            .rw-bottom button .ic { font-size: 1.35rem; line-height: 1; }
+            .rw-bottom button[aria-current="page"] { color: #214D3A; background: rgba(168, 189, 163, 0.4); }
+            body.rw-kb .rw-bottom { display: none; }
+
+            /* Herbs sub-navigation (Library / By Condition / Compare) */
+            body.rw-g-herbs .rw-subnav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; background: rgba(168, 189, 163, 0.28); padding: 0.3rem; border-radius: 14px; margin-bottom: 0.9rem; }
+            .rw-subnav button { min-height: 44px; border: 0; border-radius: 10px; background: transparent; font: 600 0.9rem 'DM Sans', sans-serif; color: #28352E; cursor: pointer; }
+            .rw-subnav button[aria-current="page"] { background: #214D3A; color: #fff; }
+
+            /* More sheet */
+            .rw-sheet-bg { display: block; position: fixed; inset: 0; z-index: 1090; background: rgba(40, 53, 46, 0.45); opacity: 0; pointer-events: none; transition: opacity .2s; }
+            .rw-sheet { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100; background: #F8F6EF; border-radius: 22px 22px 0 0; max-height: 85vh; overflow-y: auto;
+                padding: 0.5rem 0.9rem calc(1rem + env(safe-area-inset-bottom)); transform: translateY(105%); transition: transform .25s ease; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2); visibility: hidden; }
+            body.rw-more-open .rw-sheet-bg { opacity: 1; pointer-events: auto; }
+            body.rw-more-open .rw-sheet { transform: translateY(0); visibility: visible; }
+            .rw-sheet .grab { width: 44px; height: 5px; border-radius: 3px; background: #A8BDA3; margin: 0.3rem auto 0.6rem; }
+            .rw-sheet h2 { font-family: 'Crimson Pro', serif; font-size: 1.35rem; color: #214D3A; margin: 0 0.25rem 0.5rem; }
+            .rw-sheet button.item { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 52px; text-align: left; padding: 0.6rem 0.9rem; margin-bottom: 0.4rem;
+                background: #fff; border: 1.5px solid #A8BDA3; border-radius: 14px; font: 600 1rem 'DM Sans', sans-serif; color: #28352E; cursor: pointer; }
+            .rw-sheet button.item[aria-current="page"] { border-color: #214D3A; background: #EEF3EA; }
+            .rw-sheet button.item .ic { font-size: 1.4rem; }
+
+            /* Home */
+            #home-tab > div:nth-child(1) { padding: 1.5rem 1rem 1.25rem !important; margin-bottom: 1rem !important; }
+            #home-tab > div:nth-child(1) div[style*="5rem"] { font-size: 2.6rem !important; margin-bottom: 0.4rem !important; animation: none !important; }
+            #home-tab > div:nth-child(1) h2 { font-size: 2rem !important; line-height: 1.15 !important; margin-bottom: 0.5rem !important; }
+            #home-tab > div:nth-child(1) p { font-size: 1.05rem !important; margin-bottom: 0.25rem !important; }
+            #home-tab > div:nth-child(2) { padding: 0 !important; margin-bottom: 1rem !important; }
+            #home-tab > div:nth-child(2) > div { padding: 1.4rem 1.1rem !important; }
+            #home-tab > div:nth-child(2) p:first-of-type { font-size: 1.15rem !important; line-height: 1.6 !important; padding: 0 0.25rem !important; }
+            #home-tab > div:nth-child(3) { padding: 0 0 1rem !important; }
+            #home-tab > div:nth-child(3) > div:first-child { padding: 1.5rem 1.1rem !important; }
+            #home-tab > div:nth-child(3) h3 { font-size: 1.5rem !important; }
+            #home-tab > div:nth-child(3) p { font-size: 1rem !important; margin-bottom: 1.25rem !important; }
+            #home-tab > div:nth-child(3) .btn-primary { width: 100%; font-size: 1.1rem !important; padding: 0.9rem 1rem !important; }
+            #home-tab > div:nth-child(3) > div:last-child { grid-template-columns: 1fr !important; margin-top: 1rem !important; }
+            #home-tab > div:nth-child(3) > div:last-child button { padding: 0.9rem 1rem !important; }
+
+            /* Cards, headings, spacing */
+            .card { padding: 1rem !important; border-radius: 16px; margin-bottom: 1rem; }
+            .card-title { font-size: 1.5rem; line-height: 1.2; }
+            h2 { overflow-wrap: anywhere; }
+
+            /* Touch-friendly controls (16px text stops iOS zooming into fields) */
+            button, .btn-primary, .btn-secondary, select, textarea,
+            input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]) { min-height: 44px; }
+            button, .btn-primary, .btn-secondary { min-width: 44px; }
+            select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) { font-size: 16px !important; }
+            input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; }
+            label { min-height: 28px; }
+
+
+            /* Buttons wrap their text instead of squeezing it; button rows can wrap */
+            button, .btn-primary, .btn-secondary { height: auto; white-space: normal; line-height: 1.25; padding-top: 0.6rem; padding-bottom: 0.6rem; }
+            [style*="display: flex"][style*="gap"] { flex-wrap: wrap; }
+            /* Herb category chips: one swipeable row instead of a tall wall */
+            #category-filters { flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.4rem; scrollbar-width: thin; }
+            #category-filters button { flex: 0 0 auto; white-space: nowrap; }
+
+            /* Wide inline grids stack on phones */
+            .herbs-grid, .comparison-grid, .condition-grid, .resource-grid, .cabinet-grid { grid-template-columns: 1fr !important; }
+            [style*="grid-template-columns: repeat(2"], [style*="grid-template-columns:repeat(2"],
+            [style*="grid-template-columns: 1fr 1fr"], [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+
+            /* Modals fit the screen and scroll */
+            .modal > div, .modal-content { max-width: calc(100vw - 1rem) !important; max-height: 88vh; overflow-y: auto; }
+
+            img, video, iframe, table { max-width: 100%; }
+            pre, code { white-space: pre-wrap; overflow-wrap: anywhere; }
+            .rw-scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+
+        /* Touch sizing also for tablets (the top tab bar stays there, but fingers are the same size) */
+        @media (max-width: 1023.98px) {
+            button, .btn-primary, .btn-secondary, .category-badge, select, textarea,
+            input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]) { min-height: 44px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
 </head>
@@ -1657,6 +1797,22 @@
             </p>
             <div id="preparation-methods-content"></div>
         </div>
+    </div>
+
+    <!-- Mobile navigation: bottom bar, "More" sheet, offline notice. Every existing tab stays reachable. -->
+    <div class="rw-offline" id="rw-offline" role="status" hidden>You're offline — saved herbs, cabinet and tools still work. Videos and outside links need a connection.</div>
+    <nav class="rw-bottom" id="rw-bottom" aria-label="Main">
+        <button type="button" data-group="home"><span class="ic" aria-hidden="true">🏠</span><span>Home</span></button>
+        <button type="button" data-group="herbs"><span class="ic" aria-hidden="true">🌿</span><span>Herbs</span></button>
+        <button type="button" data-group="cabinet"><span class="ic" aria-hidden="true">💊</span><span>Cabinet</span></button>
+        <button type="button" data-group="formulas"><span class="ic" aria-hidden="true">🧪</span><span>Formulas</span></button>
+        <button type="button" data-group="more" aria-haspopup="dialog" aria-expanded="false"><span class="ic" aria-hidden="true">⋯</span><span>More</span></button>
+    </nav>
+    <div class="rw-sheet-bg" id="rw-sheet-bg"></div>
+    <div class="rw-sheet" id="rw-sheet" role="dialog" aria-modal="true" aria-labelledby="rw-sheet-title">
+        <div class="grab" aria-hidden="true"></div>
+        <h2 id="rw-sheet-title">More</h2>
+        <div id="rw-sheet-items"></div>
     </div>
 
     <script>
@@ -4469,6 +4625,7 @@ const HERBAL_DATABASE = [
             try {
                 renderConditions();
                 renderHerbsGrid(HERBAL_DATABASE);
+                renderCategories(); // category filter chips (were blank until another action drew them)
                 renderInteractionHerbList();
                 populateDosageHerbSelect();
                 updateProfileStats();
@@ -6757,6 +6914,104 @@ const HERBAL_DATABASE = [
             }
         }
 
+
+        // ── Mobile navigation layer ───────────────────────────────────────────
+        // Wraps the existing switchTab() — its own logic still runs first — and adds: bottom bar state, Herbs sub-tabs,
+        // the More sheet, browser Back / direct #links, per-tab scroll memory, and keyboard-aware hiding of the bar.
+        (function () {
+            const MORE = [
+                ['dosage', '📏', 'Dosage Calculator'],
+                ['interactions', '⚠️', 'Herb–Medication Interactions'],
+                ['herb-interactions', '🔄', 'Herb–Herb Interactions'],
+                ['healing', '✨', 'Guided Suggestions'],
+                ['profile', '👤', 'Profile & Journal'],
+                ['library', '📖', 'Resources'],
+                ['learn', '🎓', 'Learn Herbalism']
+            ];
+            const HERBS = [['remedies', 'Library'], ['conditions', 'By Condition'], ['compare', 'Compare']];
+            const groupOf = t => HERBS.some(h => h[0] === t) ? 'herbs' : t === 'cabinet' ? 'cabinet' : t === 'formulation' ? 'formulas' : t === 'home' ? 'home' : 'more';
+            const baseSwitch = window.switchTab;
+            const scrollMem = {};
+            let current = 'home', lastHerbs = 'remedies', popping = false, lastFocus = null;
+            const $ = id => document.getElementById(id);
+            const tabExists = t => !!(t && $(t + '-tab'));
+
+            // Herbs sub-navigation, placed above the tab content
+            const sub = document.createElement('div');
+            sub.className = 'rw-subnav'; sub.id = 'rw-subnav'; sub.setAttribute('role', 'group'); sub.setAttribute('aria-label', 'Herbs');
+            HERBS.forEach(([t, label]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.tab = t; b.textContent = label; b.onclick = () => window.switchTab(t); sub.appendChild(b); });
+            const nav = $('main-nav'); if (nav && nav.parentNode) nav.parentNode.insertBefore(sub, nav.nextSibling);
+
+            // More sheet items (built from the list above, so none can be orphaned)
+            const items = $('rw-sheet-items');
+            if (items) MORE.forEach(([t, ic, label]) => {
+                const b = document.createElement('button'); b.type = 'button'; b.className = 'item'; b.dataset.tab = t;
+                b.innerHTML = '<span class="ic" aria-hidden="true">' + ic + '</span><span></span>'; b.lastChild.textContent = label;
+                b.onclick = () => { closeMore(false); window.switchTab(t); };
+                items.appendChild(b);
+            });
+
+            function openMore() {
+                lastFocus = document.activeElement;
+                document.body.classList.add('rw-more-open');
+                const btn = document.querySelector('#rw-bottom [data-group="more"]'); if (btn) btn.setAttribute('aria-expanded', 'true');
+                const first = items && items.querySelector('button'); if (first) setTimeout(() => first.focus(), 30);
+            }
+            function closeMore(restore) {
+                document.body.classList.remove('rw-more-open');
+                const btn = document.querySelector('#rw-bottom [data-group="more"]'); if (btn) btn.setAttribute('aria-expanded', 'false');
+                if (restore !== false && lastFocus && lastFocus.focus) lastFocus.focus();
+            }
+
+            function sync(tab) {
+                const g = groupOf(tab);
+                if (g === 'herbs') lastHerbs = tab;
+                document.body.classList.toggle('rw-g-herbs', g === 'herbs');
+                document.body.classList.toggle('rw-not-home', tab !== 'home');
+                document.querySelectorAll('#rw-bottom button').forEach(b => { if (b.dataset.group === g) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+                document.querySelectorAll('#rw-subnav button, #rw-sheet-items button').forEach(b => { if (b.dataset.tab === tab) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+            }
+
+            window.switchTab = function (tabName) {
+                scrollMem[current] = window.scrollY;
+                baseSwitch(tabName);               // original behaviour first (throws if the tab doesn't exist, as before)
+                current = tabName;
+                sync(tabName);
+                try { if (!popping && location.hash !== '#' + tabName) history.pushState({ tab: tabName }, '', '#' + tabName); } catch (e) { /* file:// or sandboxed */ }
+                window.scrollTo(0, scrollMem[tabName] || 0);
+            };
+
+            document.querySelectorAll('#rw-bottom button').forEach(b => b.addEventListener('click', () => {
+                const g = b.dataset.group;
+                if (g === 'more') { document.body.classList.contains('rw-more-open') ? closeMore() : openMore(); return; }
+                closeMore(false);
+                window.switchTab(g === 'home' ? 'home' : g === 'herbs' ? lastHerbs : g === 'cabinet' ? 'cabinet' : 'formulation');
+            }));
+            const bg = $('rw-sheet-bg'); if (bg) bg.addEventListener('click', () => closeMore());
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('rw-more-open')) closeMore(); });
+
+            // Browser Back / Forward and direct links like …/rootwise-enhanced.html#cabinet
+            window.addEventListener('popstate', () => {
+                const t = (location.hash || '#home').slice(1);
+                if (tabExists(t)) { popping = true; try { window.switchTab(t); } finally { popping = false; } }
+            });
+            window.addEventListener('DOMContentLoaded', () => {
+                sync('home');
+                const t = (location.hash || '').slice(1);
+                if (t && t !== 'home' && tabExists(t)) setTimeout(() => { popping = true; try { window.switchTab(t); } finally { popping = false; } }, 0);
+            });
+
+            // Hide the bottom bar while the on-screen keyboard is up so it never covers the field or the action buttons
+            const isField = el => el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) && !/^(checkbox|radio|button|submit)$/.test(el.type || '');
+            document.addEventListener('focusin', e => { if (isField(e.target)) document.body.classList.add('rw-kb'); });
+            document.addEventListener('focusout', () => setTimeout(() => { if (!isField(document.activeElement)) document.body.classList.remove('rw-kb'); }, 120));
+
+            // Offline notice
+            const off = $('rw-offline');
+            const showNet = () => { if (off) off.hidden = navigator.onLine !== false; };
+            window.addEventListener('online', showNet); window.addEventListener('offline', showNet); showNet();
+        })();
+
         // Initialize
         window.onerror = function(msg, url, line, col, error) {
             console.error('Global error:', {msg, url, line, col, error});
@@ -6764,6 +7019,11 @@ const HERBAL_DATABASE = [
         };
         
         window.addEventListener('DOMContentLoaded', init);
+
+        // Installable / offline support (needs https or localhost; skipped for file://)
+        if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(e => console.warn('Service worker not registered:', e)));
+        }
     </script>
 </body>
 </html>
