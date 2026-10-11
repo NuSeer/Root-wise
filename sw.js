@@ -1,7 +1,7 @@
 // Rootwise service worker — installable app + offline use.
 // Bump CACHE_VERSION whenever rootwise-enhanced.html (or another cached file) changes, so installed copies refresh.
 // Paths are relative to this file, so it works under https://nuseer.github.io/Root-wise/ as well as locally.
-const CACHE_VERSION = 'rootwise-v3';
+const CACHE_VERSION = 'rootwise-v4';
 const CORE = [
   './',
   './rootwise-enhanced.html',
