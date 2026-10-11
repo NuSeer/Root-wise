@@ -29,6 +29,8 @@ Bump `CACHE_VERSION` in `sw.js` whenever the app file changes so installed copie
 ## Roll back
 Revert the merge commit, or restore `rootwise-enhanced.html` from `main` before this PR (commit `1188588`).
 
-## Known, not changed (outside this brief)
-- Sign-in / "Continue with Google/Apple" are not real accounts (saved in the browser only) and the copy says "across devices". Left as-is per the brief; worth a separate decision.
-- "Healing / Guided Suggestions" is a local keyword match, not AI.
+## Follow-up commit: honest sign-in wording + optional AI helper
+- Sign-in / account copy reworded: profiles are stored in this browser only (no sync, no cloud account). Google/Apple buttons labelled "(coming soon)" and their alerts reworded. No account behaviour changed.
+- Guided Suggestions: optional **AI helper** (bring-your-own Groq or Gemini key, saved only in the browser under `rootwise_ai`, never in the code). The AI picks herbs *from the library only* (names are validated against `HERBAL_DATABASE`, anything invented is dropped) and writes a short educational summary. With no key, or on any error, it falls back to the original word matching. New storage key: `rootwise_ai`.
+- Tested with a mocked provider (17/17): Groq and Gemini request shapes, invented herbs dropped, 401 / 429 / network fallbacks, key removal. **Not tested with a real key.**
+- Not changed: the results card still lists contraindications for the first matched herb only (existing behaviour; worth a separate review).

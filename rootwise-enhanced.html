@@ -1149,9 +1149,33 @@
 
                 <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
                     <p style="color: #1565c0; font-size: 0.9rem; margin: 0;">
-                        ℹ️ <strong>How it works:</strong> Rootwise matches words in your description to herb names, categories, and traditional uses in its local database. It does not search the internet or provide medical advice.
+                        ℹ️ <strong>How it works:</strong> By default Rootwise matches words in your description to herb names, categories, and traditional uses in its local library, without using the internet. If you turn on the optional AI helper below, it reads your description to pick better matches and writes a short summary. Every herb it suggests still comes from the Rootwise library. Neither mode gives medical advice.
                     </p>
                 </div>
+
+                <details id="rw-ai-box" style="background: white; border: 2px solid var(--mint-light); border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1.5rem;">
+                    <summary style="cursor: pointer; font-weight: 700; color: var(--forest-dark); min-height: 44px; display: flex; align-items: center; gap: 0.5rem;">
+                        ✨ AI helper (optional) <span id="rw-ai-status" style="font-weight: 500; font-size: 0.85rem; color: #666;"></span>
+                    </summary>
+                    <p style="color: #555; font-size: 0.9rem; margin: 0.5rem 0 1rem;">
+                        Use your own free AI key so Guided Suggestions can understand plain-language descriptions. The key is saved <strong>only in this browser</strong> and is sent only to the provider you pick. It is not part of this app's code. Your description is sent to that provider when you tap Find Suggestions. Don't include your name or other personal details.
+                    </p>
+                    <label for="rw-ai-provider" style="font-weight: 600; display: block; margin-bottom: 0.35rem;">Provider</label>
+                    <select id="rw-ai-provider" onchange="rwAiProviderChanged()" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 12px; margin-bottom: 0.75rem; font-family: 'DM Sans', sans-serif;">
+                        <option value="groq">Groq (console.groq.com/keys)</option>
+                        <option value="gemini">Google Gemini (aistudio.google.com/apikey)</option>
+                    </select>
+                    <label for="rw-ai-key" style="font-weight: 600; display: block; margin-bottom: 0.35rem;">API key</label>
+                    <input id="rw-ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your key" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 12px; margin-bottom: 0.75rem; font-family: 'DM Sans', sans-serif;">
+                    <label for="rw-ai-model" style="font-weight: 600; display: block; margin-bottom: 0.35rem;">Model <span style="font-weight: 400; color: #777;">(change only if the provider retires this one)</span></label>
+                    <input id="rw-ai-model" type="text" autocomplete="off" spellcheck="false" style="width: 100%; padding: 0.75rem; border: 2px solid var(--mint-light); border-radius: 12px; margin-bottom: 0.75rem; font-family: 'DM Sans', sans-serif;">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn-primary" type="button" onclick="rwAiSave()">Save</button>
+                        <button class="btn-secondary" type="button" onclick="rwAiTest()">Test</button>
+                        <button class="btn-secondary" type="button" onclick="rwAiClear()">Remove key</button>
+                    </div>
+                    <p id="rw-ai-msg" role="status" style="margin: 0.75rem 0 0; font-size: 0.9rem; color: #555;"></p>
+                </details>
 
                 <textarea 
                     style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid var(--mint-light); border-radius: 12px; font-family: 'DM Sans', sans-serif;"
@@ -1173,7 +1197,7 @@
             <div id="login-screen" class="card" style="display: none;">
                 <h2 class="card-title">👤 Sign In to Your Profile</h2>
                 <p style="color: #666; margin-bottom: 2rem;">
-                    Sign in to save your favorites, cabinet, and healing journal across devices.
+                    Sign in to keep your favorites, cabinet, and healing journal on this device. Your profile is stored in this browser only; it does not sync to other devices.
                 </p>
 
                 <div style="max-width: 400px; margin: 0 auto;">
@@ -1190,7 +1214,7 @@
                                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                             </svg>
-                            Continue with Google
+                            Continue with Google (coming soon)
                         </button>
 
                         <button 
@@ -1201,13 +1225,13 @@
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                             </svg>
-                            Continue with Apple
+                            Continue with Apple (coming soon)
                         </button>
                     </div>
 
                     <div style="position: relative; text-align: center; margin: 2rem 0;">
                         <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd;"></div>
-                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or sign in with email</span>
+                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or use an email profile on this device</span>
                     </div>
 
                     <!-- Email Sign-In Form -->
@@ -1246,7 +1270,7 @@
             <div id="register-screen" class="card" style="display: none;">
                 <h2 class="card-title">📝 Create Your Account</h2>
                 <p style="color: #666; margin-bottom: 2rem;">
-                    Create a free account to sync your data across devices.
+                    Create a profile for this device to keep your favorites, cabinet, and healing journal. It is stored in this browser only (no cloud account and no syncing), so use a password you don't use anywhere else.
                 </p>
 
                 <div style="max-width: 400px; margin: 0 auto;">
@@ -1263,7 +1287,7 @@
                                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                             </svg>
-                            Sign up with Google
+                            Sign up with Google (coming soon)
                         </button>
 
                         <button 
@@ -1274,13 +1298,13 @@
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                             </svg>
-                            Sign up with Apple
+                            Sign up with Apple (coming soon)
                         </button>
                     </div>
 
                     <div style="position: relative; text-align: center; margin: 2rem 0;">
                         <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd;"></div>
-                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or sign up with email</span>
+                        <span style="position: relative; background: white; padding: 0 1rem; color: #999; font-size: 0.9rem;">or create an email profile on this device</span>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
@@ -4626,6 +4650,7 @@ const HERBAL_DATABASE = [
                 renderConditions();
                 renderHerbsGrid(HERBAL_DATABASE);
                 renderCategories(); // category filter chips (were blank until another action drew them)
+                rwAiRefreshUI();
                 renderInteractionHerbList();
                 populateDosageHerbSelect();
                 updateProfileStats();
@@ -6544,6 +6569,105 @@ const HERBAL_DATABASE = [
 
         // AI Protocol Generator (kept from original)
         // AI Protocol Generation with Web Search
+        // ── Optional AI helper for Guided Suggestions ─────────────────────────
+        // Bring-your-own-key: the key lives only in this browser's localStorage ('rootwise_ai') and goes only to the chosen provider.
+        // Nothing secret is in this file (the site is public). Herbs come from HERBAL_DATABASE only; the AI just picks and explains.
+        const RW_AI_PROVIDERS = {
+            groq: { label: 'Groq', model: 'openai/gpt-oss-120b' },
+            gemini: { label: 'Google Gemini', model: 'gemini-3.6-flash' }
+        };
+        function rwAiConfig() {
+            try { const c = JSON.parse(localStorage.getItem('rootwise_ai') || 'null'); return c && typeof c === 'object' ? c : null; } catch (e) { return null; }
+        }
+        function rwAiConfigured() { const c = rwAiConfig(); return !!(c && c.key && RW_AI_PROVIDERS[c.provider]); }
+        function rwAiMsg(text, bad) { const el = document.getElementById('rw-ai-msg'); if (el) { el.textContent = text || ''; el.style.color = bad ? '#c62828' : '#2e7d32'; } }
+        function rwAiRefreshUI() {
+            const c = rwAiConfig();
+            const prov = document.getElementById('rw-ai-provider'), key = document.getElementById('rw-ai-key'), model = document.getElementById('rw-ai-model'), st = document.getElementById('rw-ai-status');
+            if (!prov) return;
+            if (c && RW_AI_PROVIDERS[c.provider]) { prov.value = c.provider; model.value = c.model || RW_AI_PROVIDERS[c.provider].model; key.value = ''; key.placeholder = c.key ? 'Key saved on this device (hidden). Paste a new one to replace it.' : 'Paste your key'; }
+            else { model.value = RW_AI_PROVIDERS[prov.value].model; }
+            if (st) st.textContent = rwAiConfigured() ? '• on (' + RW_AI_PROVIDERS[rwAiConfig().provider].label + ')' : '• off';
+        }
+        function rwAiProviderChanged() {
+            const prov = document.getElementById('rw-ai-provider').value;
+            document.getElementById('rw-ai-model').value = RW_AI_PROVIDERS[prov].model;
+        }
+        function rwAiSave() {
+            const provider = document.getElementById('rw-ai-provider').value;
+            const typed = document.getElementById('rw-ai-key').value.trim();
+            const old = rwAiConfig();
+            const key = typed || (old && old.provider === provider ? old.key : '');
+            const model = document.getElementById('rw-ai-model').value.trim() || RW_AI_PROVIDERS[provider].model;
+            if (!key) { rwAiMsg('Paste your API key first.', true); return false; }
+            localStorage.setItem('rootwise_ai', JSON.stringify({ provider, key, model }));
+            rwAiRefreshUI();
+            rwAiMsg('Saved on this device. Tap Test to check it works.');
+            return true;
+        }
+        function rwAiClear() {
+            localStorage.removeItem('rootwise_ai');
+            document.getElementById('rw-ai-key').value = '';
+            rwAiRefreshUI();
+            rwAiMsg('Key removed. Guided Suggestions is back to word matching.');
+        }
+        async function rwAiTest() {
+            if (document.getElementById('rw-ai-key').value.trim() && !rwAiSave()) return;
+            if (!rwAiConfigured()) { rwAiMsg('Paste your API key and tap Save first.', true); return; }
+            rwAiMsg('Testing...');
+            try { await rwAiRequest('Reply with the single word OK.', 'Say OK.', 20); rwAiMsg('✓ Working. The AI helper is on.'); }
+            catch (e) { rwAiMsg('Not working: ' + e.message, true); }
+        }
+        // One request to the chosen provider; returns the reply text. Errors have short, readable messages.
+        async function rwAiRequest(system, user, maxTokens) {
+            const c = rwAiConfig();
+            if (!c || !c.key) throw new Error('no key saved');
+            const model = c.model || RW_AI_PROVIDERS[c.provider].model;
+            let url, init;
+            if (c.provider === 'gemini') {
+                url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
+                init = { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': c.key },
+                    body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: [{ text: user }] }],
+                        generationConfig: { temperature: 0.3, maxOutputTokens: maxTokens || 1200 } }) };
+            } else {
+                url = 'https://api.groq.com/openai/v1/chat/completions';
+                const body = { model, messages: [{ role: 'system', content: system }, { role: 'user', content: user }], temperature: 0.3, max_tokens: maxTokens || 1200 };
+                if (/gpt-oss/.test(model)) body.reasoning_effort = 'low';
+                init = { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + c.key }, body: JSON.stringify(body) };
+            }
+            let res;
+            try { res = await fetch(url, init); } catch (e) { throw new Error(navigator.onLine === false ? 'you are offline' : 'could not reach ' + RW_AI_PROVIDERS[c.provider].label); }
+            if (!res.ok) {
+                if (res.status === 401 || res.status === 403) throw new Error('the key was rejected');
+                if (res.status === 429) throw new Error('rate limit reached, try again in a minute');
+                if (res.status === 404 || res.status === 400) throw new Error('the model name "' + model + '" was not accepted. Update the Model box');
+                throw new Error('provider error ' + res.status);
+            }
+            const data = await res.json();
+            const text = c.provider === 'gemini'
+                ? ((data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || []).map(p => p.text || '').join('')
+                : (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+            if (!text.trim()) throw new Error('empty reply');
+            return text;
+        }
+        // Ask the AI to choose herbs from the library for a plain-language description. Returns {herbs:[library entries], summary}.
+        async function rwAiMatch(description) {
+            const library = HERBAL_DATABASE.map(h => h.name + ' | ' + h.category + ' | ' + h.uses).join('\n');
+            const system = 'You help someone browse an educational herb library. You may ONLY suggest herbs that appear in the LIBRARY list, and you must copy each herb name exactly as written there. ' +
+                'You are not a doctor: do not diagnose, do not give doses, do not say anything cures or treats a disease. Base every statement on the "uses" text in the library. ' +
+                'Reply with ONLY a JSON object, no markdown: {"herbs":["Exact Name", ...up to 5], "summary":"3 to 5 plain sentences on why these herbs relate to what the person described, based on the library\'s traditional uses, ending with a reminder to check each herb\'s safety details, consider medications and pregnancy, and talk to a qualified healthcare professional."}. ' +
+                'If nothing in the library fits, reply {"herbs":[],"summary":"..."} explaining that briefly. If the description sounds urgent or serious (chest pain, trouble breathing, suicidal thoughts, severe bleeding, etc.), say to seek urgent medical care instead of suggesting herbs.';
+            const text = await rwAiRequest(system, 'LIBRARY:\n' + library + '\n\nPERSON\'S DESCRIPTION:\n' + description.slice(0, 1500), 1500);
+            let obj = null;
+            const clean = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+            try { obj = JSON.parse(clean); } catch (e) { const m = clean.match(/\{[\s\S]*\}/); if (m) { try { obj = JSON.parse(m[0]); } catch (e2) { /* fall through */ } } }
+            if (!obj || typeof obj !== 'object') throw new Error('the reply was not readable');
+            const byName = new Map(HERBAL_DATABASE.map(h => [h.name.toLowerCase(), h]));
+            const herbs = [];
+            (Array.isArray(obj.herbs) ? obj.herbs : []).forEach(n => { const h = byName.get(String(n).trim().toLowerCase()); if (h && !herbs.includes(h)) herbs.push(h); });
+            return { herbs: herbs.slice(0, 5), summary: String(obj.summary || '').trim().slice(0, 1200) };
+        }
+
         async function generateProtocol() {
             const input = document.getElementById('healing-input').value.trim();
             const btn = document.getElementById('generate-btn');
@@ -6567,12 +6691,26 @@ const HERBAL_DATABASE = [
             try {
                 // Search for relevant herbs from our database
                 const keywords = input.toLowerCase();
-                const relevantHerbs = HERBAL_DATABASE.filter(herb => {
+                let relevantHerbs = HERBAL_DATABASE.filter(herb => {
                     const searchText = `${herb.uses} ${herb.category} ${herb.name}`.toLowerCase();
                     return keywords.split(' ').some(word => 
                         word.length > 3 && searchText.includes(word)
                     );
                 }).slice(0, 5);
+
+                // Optional AI helper: reads the description, picks herbs FROM THE LIBRARY, writes a short summary.
+                // Any failure falls back to the word-matching above, so this never makes the tab worse than before.
+                let aiSummary = '', aiNote = '';
+                if (rwAiConfigured()) {
+                    btn.textContent = '✨ Asking the AI helper...';
+                    try {
+                        const ai = await rwAiMatch(input);
+                        aiSummary = ai.summary;
+                        if (ai.herbs.length) relevantHerbs = ai.herbs;
+                    } catch (aiError) {
+                        aiNote = 'The AI helper could not be used (' + aiError.message + '), so these are plain word matches from the library.';
+                    }
+                }
 
                 await new Promise(resolve => setTimeout(resolve, 250));
 
@@ -6599,6 +6737,14 @@ const HERBAL_DATABASE = [
                         : []
                 };
 
+                if (aiSummary) protocol.sources.push('AI helper (' + rwAiConfig().provider + ') chose the matches and wrote the summary; every herb listed comes from the Rootwise library');
+                const aiHtml = aiSummary
+                    ? `<div style="background: white; border-left: 4px solid var(--sage-green); padding: 1.25rem; border-radius: 12px; margin-bottom: 1rem;">
+                           <strong style="color: var(--forest-dark);">✨ AI summary (educational)</strong>
+                           <p style="margin-top: 0.5rem; color: #555; white-space: pre-line;">${escapeHTML(aiSummary)}</p>
+                       </div>`
+                    : (aiNote ? `<p style="color: #8a5a00; font-size: 0.9rem; margin-bottom: 1rem;">${escapeHTML(aiNote)}</p>` : '');
+
                 // Display results
                 resultDiv.innerHTML = `
                     <div class="card" style="background: var(--cream); margin-top: 2rem;">
@@ -6609,6 +6755,8 @@ const HERBAL_DATABASE = [
                                 ⚠️ This is not a diagnosis, prescription, or personalized treatment plan. Check each herb's safety information and consult a qualified healthcare professional, especially if you take medication or have a medical condition.
                             </p>
                         </div>
+
+                        ${aiHtml}
 
                         <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
                             <strong style="color: var(--forest-dark);">Recommended Herbs:</strong>
@@ -6713,7 +6861,7 @@ const HERBAL_DATABASE = [
 
         // Google Sign-In
         async function signInWithGoogle() {
-            alert('Google Sign-In will be available in the next update. For now, please use email sign-in.');
+            alert('Google sign-in is not available yet. Please use an email profile on this device.');
             // In production, this would integrate with Google OAuth:
             // 1. Load Google Identity Services SDK
             // 2. Initialize with client ID
@@ -6723,7 +6871,7 @@ const HERBAL_DATABASE = [
 
         // Apple Sign-In
         async function signInWithApple() {
-            alert('Apple Sign-In will be available in the next update. For now, please use email sign-in.');
+            alert('Apple sign-in is not available yet. Please use an email profile on this device.');
             // In production, this would integrate with Apple Sign In:
             // 1. Load AppleID.auth.init()
             // 2. Configure with clientId and redirectURI
