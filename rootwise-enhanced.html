@@ -6732,9 +6732,8 @@ const HERBAL_DATABASE = [
                     sources: [
                         "Rootwise local herb database"
                     ],
-                    contraindications: relevantHerbs[0].contraindications.length > 0
-                        ? relevantHerbs[0].contraindications
-                        : []
+                    // One entry per matched herb (not just the first), so every herb's warnings are shown.
+                    contraindications: relevantHerbs.map(h => ({ name: h.name, list: h.contraindications || [] }))
                 };
 
                 if (aiSummary) protocol.sources.push('AI helper (' + rwAiConfig().provider + ') chose the matches and wrote the summary; every herb listed comes from the Rootwise library');
@@ -6783,14 +6782,18 @@ const HERBAL_DATABASE = [
                             <p style="margin-top: 0.5rem; color: #555;">${protocol.duration}</p>
                         </div>
 
-                        ${protocol.contraindications.length > 0 ? `
-                            <div style="background: #ffebee; border: 2px solid #ef5350; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
-                                <strong style="color: #c62828;">⚠️ Contraindications:</strong>
-                                <ul style="margin: 0.5rem 0 0 1.5rem; color: #555;">
-                                    ${protocol.contraindications.map(c => `<li>Avoid if you have ${c.replace('_', ' ')}</li>`).join('')}
-                                </ul>
-                            </div>
-                        ` : ''}
+                        <div style="background: #ffebee; border: 2px solid #ef5350; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                            <strong style="color: #c62828;">⚠️ Contraindications (for each herb above):</strong>
+                            ${protocol.contraindications.map(p => `
+                                <div style="margin-top: 0.75rem;">
+                                    <strong style="color: #333;">🌿 ${p.name}</strong>
+                                    ${p.list.length > 0
+                                        ? `<ul style="margin: 0.25rem 0 0 1.5rem; color: #555;">${p.list.map(c => `<li>Avoid if you have ${String(c).replace(/_/g, ' ')}</li>`).join('')}</ul>`
+                                        : `<p style="margin: 0.25rem 0 0 0; color: #555;">No specific contraindications are listed in the library for this herb. Still check with a healthcare professional, especially with medications or pregnancy.</p>`}
+                                </div>
+                            `).join('')}
+                        </div>
+
 
                         <div style="background: #e3f2fd; border-radius: 12px; padding: 1rem;">
                             <strong style="color: #1565c0;">📚 Sources Consulted:</strong>
