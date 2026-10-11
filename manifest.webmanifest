@@ -1,0 +1,37 @@
+{
+  "id": "./",
+  "name": "Rootwise Herbal Knowledge",
+  "short_name": "Rootwise",
+  "description": "Herbal knowledge, traditional remedies, dosage and interaction references, and a formulation builder.",
+  "start_url": "./rootwise-enhanced.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#214D3A",
+  "background_color": "#F8F6EF",
+  "categories": [
+    "health",
+    "education",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
